@@ -5,8 +5,8 @@
 - put .env for frontend inside ers_frontend folder
 
 
-cd ers_frontend
+cd ers_frontend\
 npm run dev
 
-open another terminal
+open another terminal\
 flask run
