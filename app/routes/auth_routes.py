@@ -2,7 +2,8 @@
 from flask import Blueprint, jsonify, request
 from ..extensions import db
 from ..database.models import User
-import logging, traceback 
+import logging, traceback
+from datetime import datetime
 
 auth_bp = Blueprint('auth_bp',__name__)
 
@@ -16,7 +17,10 @@ def signup():
             or User.query.filter_by(username=data.get('username')).first():
             return jsonify({"error":"Username already exists"}), 409
         
-        new_user = User(data.get('username'), data.get('password'), data.get('email'), data.get('birthday'))
+        raw_bday = data.get('bday')
+        birthday = datetime.strptime(raw_bday, '%Y-%m-%d') if raw_bday else None
+
+        new_user = User(data.get('username'), data.get('password'), data.get('email'), birthday)
         db.session.add(new_user)
         db.session.commit()
         return jsonify({"response":"user successfully created",
@@ -24,10 +28,10 @@ def signup():
                         "email":new_user.email,"birthday":new_user.birthday}), 201
     except Exception as e:
         logging.error(traceback.format_exc())
-        db.rollback()
-        return jsonify({"error","something went wrong"}), 500
+        db.session.rollback()
+        return jsonify({"error":"something went wrong"}), 500
     
-@auth_bp.route('/signin',methods=['POST'])
+@auth_bp.route('/sign-in',methods=['POST'])
 #signin
 def signin():
     try:
