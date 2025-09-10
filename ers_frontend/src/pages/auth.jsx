@@ -1,5 +1,5 @@
 import { useState } from "react"
-import axios from "../api/axios"
+import backend from "../api/axios"
 
 
 export default function Auth() {
@@ -16,24 +16,24 @@ export default function Auth() {
     const toggle = (key) => { 
         setState(prev => ({
             ...prev, [key] : !prev[key],
-        }));
+        }))
     }
 
 
     //Create account function
     const create_acc = async() =>{
         try {
-            const res = await axios.post('/auth/sign-up',{
+            const res = await backend.post('/auth/sign-up',{
                 email,
                 password,
                 username,
                 bday
             })
             
-            if (res.status === 201) window.alert("account created");// redirect logic dito
+            if (res.status === 201) window.alert("account created")// redirect logic dito
         } catch (error) {
-            const msg = error?.response?.data?.error;
-            alert(msg);
+            const msg = error?.response?.data?.error
+            alert(msg)
         }
         
         setBday('')
@@ -47,15 +47,15 @@ export default function Auth() {
     //Login function
     const login_acc = async() =>{
         try {
-            const res = await axios.post('/auth/sign-in',{
+            const res = await backend.post('/auth/sign-in',{
                 email,
                 password,
             })
 
-            if (res.status === 200) window.alert("login succ"); // redirect logic dito
+            if (res.status === 200) window.alert("login succ") // redirect logic dito
         } catch (error) {
             const msg = error?.response?.data?.error;
-            alert(msg);
+            alert(msg)
         }
 
         setBday('')

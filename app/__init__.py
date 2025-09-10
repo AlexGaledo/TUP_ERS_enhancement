@@ -1,7 +1,8 @@
 from flask import Flask
 from flask_cors import CORS
 from .config import Config
-from .extensions import db, migrate, bcrypt
+from .extensions import db, migrate, bcrypt, mail, serializer
+
 
 
 #initialize app
@@ -12,10 +13,11 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app,db)
     bcrypt.init_app(app)
+    mail.init_app(app)
     from .database import models
     from .routes import register_routes
     register_routes(app)
-
+    
     #initializedsqlite
     with app.app_context():
         db.create_all()
