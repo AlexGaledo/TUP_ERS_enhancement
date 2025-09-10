@@ -2,5 +2,5 @@
  flask-cors 
  flask-migrate 
  flask-jwt-extended 
- flask-bcrypt 
- flask-sqlalchemy 
+ flask-sqlalchemy
+ flask-bcrypt
