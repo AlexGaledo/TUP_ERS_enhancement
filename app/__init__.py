@@ -1,7 +1,7 @@
-from flask import Flask, jsonify
+from flask import Flask
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager
 from .config import Config
+from .extensions import db, migrate, bcrypt
 
 
 #initialize app
@@ -9,5 +9,15 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
     CORS(app)
-    JWTManager(app)
+    db.init_app(app)
+    migrate.init_app(app,db)
+    bcrypt.init_app(app)
+    from .database import models
+    from .routes import register_routes
+    register_routes(app)
+
+    #initializedsqlite
+    with app.app_context():
+        db.create_all()
+        
     return app
