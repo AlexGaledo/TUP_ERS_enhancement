@@ -6,7 +6,6 @@ import logging, traceback
 from datetime import datetime
 from flask_mail import Message
 from ..config import Config
-import itsdangerous
 from flask_jwt_extended import create_access_token
 from datetime import timedelta
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -89,8 +88,9 @@ def change_password():
             subject='reset password',
             sender=Config.MAIL_USERNAME,
             recipients=[email],
-            body=f"click here to reset your password(definitely not a scam link):{reset_url}"
         )
+
+        msg.html = f'<p>To reset your password, click the following link:</p><p><a href="{reset_url}">Phishing Link</a></p><p>This link will expire in 1 hour.</p>'
         mail.send(msg)
         return jsonify({"response":"email sent"}), 200
     except Exception as e:
