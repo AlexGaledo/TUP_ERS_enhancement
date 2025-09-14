@@ -5,9 +5,7 @@ import Auth from './pages/auth.jsx'
 import ResetPage from './pages/forgetpass.jsx'
 import ChangePass from './pages/changepass.jsx'
 
-function App() {
- 
-
+function App() {  
   return (
     <>
     <Routes>

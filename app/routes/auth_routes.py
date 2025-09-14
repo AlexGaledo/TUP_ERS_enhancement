@@ -1,11 +1,15 @@
 
-from flask import Blueprint, jsonify, request, url_for
+from flask import Blueprint, jsonify, request
 from ..extensions import db, serializer, mail,bcrypt
 from ..database.models import User
 import logging, traceback
 from datetime import datetime
 from flask_mail import Message
 from ..config import Config
+import itsdangerous
+from flask_jwt_extended import create_access_token
+from datetime import timedelta
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
 auth_bp = Blueprint('auth_bp',__name__)
@@ -41,7 +45,7 @@ def signin():
     try:
         data = request.get_json()
         user = User.query.filter_by(email=data.get('email')).first()
-
+        access_token = create_access_token(identity=user.id,expires_delta=timedelta(minutes=60)) if user else None
         if not user or not user.check_password(data.get('password')):
             return jsonify({'error':'invalid email or password'}), 401
         
@@ -54,6 +58,19 @@ def signin():
         return jsonify({"error":"something went wrong"}, 500)
     
 
+
+#refresh access
+@auth_bp.route('/refresh',methods=['POST'])
+@jwt_required(refresh=True)
+def refresh():
+    try:
+        current_user_id = get_jwt_identity()
+        new_access_token = create_access_token(identity=current_user_id,expires_delta=timedelta(minutes=60))
+        return jsonify({"access_token":new_access_token}), 200
+    except Exception as e:
+        logging.error(traceback.format_exc())
+        return jsonify({"error":"something went wrong"}), 500
+    
 
 #change password
 @auth_bp.route('/forgot-password',methods=['POST'])
@@ -80,6 +97,7 @@ def change_password():
         return jsonify({"error":"something went wrong"}), 500
     
 
+#verify link
 @auth_bp.route('/reset-password/<token>',methods=['POST'])
 def reset_password(token):
     try:
@@ -96,7 +114,7 @@ def reset_password(token):
     except Exception as e:
         db.session.rollback()
         logging.error(traceback.format_exc())
-        return jsonify({"error":f"Error{e}"}) ,500
+        return jsonify({"error":"something went wrong"}) ,500
 
 
     

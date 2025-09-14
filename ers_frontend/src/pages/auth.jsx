@@ -70,7 +70,7 @@ export default function Auth() {
       <div className="auth-container">
         <form className='auth-form' action="submit" onSubmit={(e)=>{e.preventDefault();state.signup?create_acc():login_acc()}}>
 
-        <button className="auth-box" onClick={(e)=>{e.preventDefault();toggle('signup')}}>{state.signup?"Go to Sign in":"Go to Sign un"}</button>
+        <button className="auth-box" onClick={(e)=>{e.preventDefault();toggle('signup')}}>{state.signup?"Go to Sign in":"Go to Sign up"}</button>
         <input type="text" className="auth-box" placeholder="email" value={email} onChange={(e)=>{setEmail(e.target.value)}} required/>
         {/*optional render pag ganto, basically if true ung value saka lng magrerender*/ }
         {state.signup && <input type="text"placeholder="username"value={username} onChange={(e)=>setUsername(e.target.value)} required/>}

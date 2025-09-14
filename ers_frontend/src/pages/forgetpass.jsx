@@ -1,9 +1,11 @@
-import { useState } from "react";
+import {  useState } from "react";
 import backend from "../api/axios";
+import { useNavigate } from "react-router-dom";
 
 export default function ResetPage() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
+
 
   const get_reset_link = async (e) => {
     e.preventDefault()
@@ -12,12 +14,16 @@ export default function ResetPage() {
     try {
       const res = await backend.post('/auth/forgot-password', { email });
       if (res.status === 200) alert('reset link sent');
-    } catch (err) {
-      alert(err?.response?.data?.error || 'Something went wrong');
-    }
 
+      
+    } catch (err) {
+      alert(err.response?.data?.error || 'Something went wrong');
+      
+    }finally{
     setLoading(false)
+    }
   }
+
 
   return (
     <div className="reset-container">

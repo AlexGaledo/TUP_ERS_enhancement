@@ -1,7 +1,8 @@
 from flask import Flask
 from flask_cors import CORS
 from .config import Config
-from .extensions import db, migrate, bcrypt, mail, serializer
+from .extensions import db, migrate, bcrypt, mail
+from flask_jwt_extended import JWTManager
 
 
 
@@ -17,9 +18,11 @@ def create_app():
     from .database import models
     from .routes import register_routes
     register_routes(app)
-    
-    #initializedsqlite
-    with app.app_context():
-        db.create_all()
+    JWTManager(app)
+    from .extensions import serializer
+
+    # #initializedsqlite
+    # with app.app_context():
+    #     db.create_all()
         
     return app

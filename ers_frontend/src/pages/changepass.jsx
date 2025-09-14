@@ -1,6 +1,7 @@
 import { useState } from "react"
 import backend from "../api/axios"
 import { useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -9,6 +10,7 @@ export default function ChangePass(){
     const [password, setNewPassword] = useState('')
     const [loading, setLoading] = useState(false)
     const { token } = useParams()
+    const navigate = useNavigate()
 
     const verify_token = async(e) =>{
         e.preventDefault()
@@ -19,11 +21,11 @@ export default function ChangePass(){
             else alert(res.data?.response)
         } catch (error) {
            const msg = error?.response?.data?.error;
-            alert(msg)
+           navigate('/auth');  
+           alert(msg)
         }
     
     }
-
 
     return(
         <>
