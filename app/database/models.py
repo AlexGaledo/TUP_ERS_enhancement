@@ -3,6 +3,7 @@ from ..extensions import db,bcrypt
 import uuid
 
 
+
 class User(db.Model):
     __tablename__='users'
 
@@ -23,5 +24,16 @@ class User(db.Model):
 
     def check_password(self,password):
         return bcrypt.check_password_hash(self.password,password)
+    
+
+class Otp(db.Model):
+    __tablename__ = 'otps'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    email = db.Column(db.String(255), nullable=False, unique=True)
+    code = db.Column(db.String(6), nullable=False)
+    expires_at = db.Column(db.DateTime, nullable=False)
+
+   
 
 

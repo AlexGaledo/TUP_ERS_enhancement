@@ -13,5 +13,6 @@ class Config():
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.getenv('support_email')
     MAIL_PASSWORD = os.getenv('support_email_password')
+    sexpress = os.getenv('express_url')
 
 

@@ -9,6 +9,7 @@ from ..config import Config
 from flask_jwt_extended import create_access_token
 from datetime import timedelta
 from flask_jwt_extended import jwt_required, get_jwt_identity
+import requests
 
 
 auth_bp = Blueprint('auth_bp',__name__)
@@ -56,6 +57,42 @@ def signin():
         logging.error(traceback.format_exc())
         return jsonify({"error":"something went wrong"}, 500)
     
+
+#2 factor authentitcation(otp)
+def getotp(email):
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return jsonify({"error":"user not found"}), 401
+    
+
+    payload = jsonify({
+        "email":email,
+    })
+    res = requests.post(f"{Config.sexpress}/send-otp",json=payload)
+    if res.ok:
+        return jsonify({
+            "response":"otp sent"
+        }), 200
+    
+    return jsonify({"error":"something went wrong"}), 500
+
+
+@auth_bp.route('/verify-2fa',methods=['POST'])    
+def getotpverify(email,otp):
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return jsonify({"error":"user not found"}), 401
+    
+    res = requests.post(f"{Config.sexpress}/verify-otp",json={
+        "email":email,
+        "otp":otp
+    })
+
+    if res.ok:
+        return jsonify({"response":"otp verified"}), 200
+    
+    return jsonify({"error":"invalid otp"}), 401
+
 
 
 #refresh access
