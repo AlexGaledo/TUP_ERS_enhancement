@@ -1,5 +1,6 @@
 import { useState } from "react"
 import backend from "../api/axios"
+import { useNavigate } from "react-router-dom"
 
 
 export default function Auth() {
@@ -7,6 +8,7 @@ export default function Auth() {
     const [password, setPassword] = useState('')
     const [bday, setBday] = useState('')
     const [username, setUsername] = useState('')
+    const navigate = useNavigate()
     
     //multi state toggle function
     const [state, setState] = useState({
@@ -39,9 +41,7 @@ export default function Auth() {
         setBday('')
         setEmail('')
         setPassword('')
-        setUsername('')
-        
-        
+        setUsername('')   
     }
 
     //Login function
@@ -52,7 +52,9 @@ export default function Auth() {
                 password,
             })
 
-            if (res.status === 200) window.alert("login succ") // redirect logic dito
+            if (res.status === 200) window.alert("login succ") 
+            localStorage.setItem('email_for_verification', email)
+            navigate('/otp')
         } catch (error) {
             const msg = error?.response?.data?.error;
             alert(msg)
@@ -72,9 +74,10 @@ export default function Auth() {
 
         <button className="auth-box" onClick={(e)=>{e.preventDefault();toggle('signup')}}>{state.signup?"Go to Sign in":"Go to Sign up"}</button>
         <input type="text" className="auth-box" placeholder="email" value={email} onChange={(e)=>{setEmail(e.target.value)}} required/>
-        {/*optional render pag ganto, basically if true ung value saka lng magrerender*/ }
+
         {state.signup && <input type="text"placeholder="username"value={username} onChange={(e)=>setUsername(e.target.value)} required/>}
         {state.signup && <input type="date" className="auth-box" placeholder="birthday" value={bday }onChange={(e)=>{setBday(e.target.value)}} required/>}
+        
         <input type="password" className="auth-box" placeholder="password" value={password} onChange={(e)=>{setPassword(e.target.value)}} required/>
         <button className="auth-box"type="submit">{state.signup?"Create account":"Log in"}</button>
         </form>
