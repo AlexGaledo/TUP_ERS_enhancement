@@ -12,12 +12,14 @@ class User(db.Model):
     password = db.Column(db.String(255))
     email = db.Column(db.String(80), unique=True, nullable=False)
     birthday = db.Column(db.DateTime, nullable=False)
+    tup_id = db.Column(db.String(36), unique=True, nullable=False)
 
-    def __init__(self,username,password,email,birthday):
+    def __init__(self,username,password,email,birthday,tup_id):
         self.username = username
         self.password = password
         self.email = email
         self.birthday = birthday
+        self.tup_id = tup_id
 
     def set_password(self,password):
         self.password = bcrypt.generate_password_hash(password).decode('utf-8')

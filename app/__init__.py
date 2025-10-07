@@ -5,7 +5,6 @@ from .extensions import db, migrate, bcrypt, mail
 from flask_jwt_extended import JWTManager
 
 
-
 #initialize app
 def create_app():
     app = Flask(__name__)

@@ -1,0 +1,10 @@
+body, :root{
+    font-family: "Product Sans", "Google Sans", "Roboto", Arial, sans-serif;
+    width: 100%;
+    background: linear-gradient(180deg, #F3CFCE 20%, #97051D 100%); 
+    min-height: 100vh;
+    margin: 0;  
+    padding: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}

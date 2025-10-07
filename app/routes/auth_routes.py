@@ -27,7 +27,7 @@ def signup():
         raw_bday = data.get('bday')
         birthday = datetime.strptime(raw_bday, '%Y-%m-%d') if raw_bday else None
 
-        new_user = User(data.get('username'), data.get('password'), data.get('email'), birthday)
+        new_user = User(data.get('username'), data.get('password'), data.get('email'), birthday, data.get('tup_id'))
         db.session.add(new_user)
         db.session.commit()
         return jsonify({"response":"user successfully created",
@@ -44,14 +44,16 @@ def signup():
 def signin():
     try:
         data = request.get_json()
-        user = User.query.filter_by(email=data.get('email')).first()
-        access_token = create_access_token(identity=user.id,expires_delta=timedelta(minutes=60)) if user else None
+        user = User.query.filter_by(tup_id=data.get('tup_Id')).first()
+        access_token = create_access_token(identity=user.id,expires_delta=timedelta(minutes=60)) if user else None 
+        
         if not user or not user.check_password(data.get('password')):
             return jsonify({'error':'invalid email or password'}), 401
         
         return jsonify({"response":"logged in successfully",
                         "id":user.id,"username":user.username,
-                        "email":user.email,"birthday":user.birthday}), 200
+                        "email":user.email,"birthday":user.birthday,
+                        "tup_id":user.tup_id}), 200
     
     except Exception as e:
         logging.error(traceback.format_exc())

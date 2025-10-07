@@ -1,10 +1,12 @@
 import { useState } from "react"
 import backend from "../api/axios"
 import { useNavigate } from "react-router-dom"
+import tup_artisan from '../assets/tup_artisan.png'
+import logo from '../assets/logo-rectangles.png'
 
 
 export default function Auth() {
-    const [email,setEmail] = useState('')
+    const [tup_Id,setTupId] = useState('')
     const [password, setPassword] = useState('')
     const [bday, setBday] = useState('')
     const [username, setUsername] = useState('')
@@ -45,23 +47,25 @@ export default function Auth() {
     }
 
     //Login function
-    const login_acc = async() =>{
+    const login_acc = async(e) =>{
+        e.preventDefault();
         try {
             const res = await backend.post('/auth/sign-in',{
-                email,
+                tup_Id,
                 password,
             })
 
-            if (res.status === 200) window.alert("login succ") 
-            localStorage.setItem('email_for_verification', email)
-            navigate('/otp')
+            if (res.status === 200) {
+                window.alert("login succ") 
+                localStorage.setItem('tup_Id', tup_Id)
+                navigate('/otp')
+            }
         } catch (error) {
             const msg = error?.response?.data?.error;
             alert(msg)
         }
 
-        setBday('')
-        setEmail('')
+        setTupId('')
         setPassword('')
         setUsername('')
         
@@ -69,20 +73,26 @@ export default function Auth() {
 
     return (
     <>
-      <div className="auth-container">
-        <form className='auth-form' action="submit" onSubmit={(e)=>{e.preventDefault();state.signup?create_acc():login_acc()}}>
-
-        <button className="auth-box" onClick={(e)=>{e.preventDefault();toggle('signup')}}>{state.signup?"Go to Sign in":"Go to Sign up"}</button>
-        <input type="text" className="auth-box" placeholder="email" value={email} onChange={(e)=>{setEmail(e.target.value)}} required/>
-
-        {state.signup && <input type="text"placeholder="username"value={username} onChange={(e)=>setUsername(e.target.value)} required/>}
-        {state.signup && <input type="date" className="auth-box" placeholder="birthday" value={bday }onChange={(e)=>{setBday(e.target.value)}} required/>}
-        
-        <input type="password" className="auth-box" placeholder="password" value={password} onChange={(e)=>{setPassword(e.target.value)}} required/>
-        <button className="auth-box"type="submit">{state.signup?"Create account":"Log in"}</button>
-        </form>
-     </div>
-
+        <div className="login-container">
+            <div className="login-form-container">
+                <form action='submit' onSubmit={login_acc}  className="login-form" >
+                    <div className="left-box">
+                        <h1>Student Access Module</h1>
+                        <img src={logo} alt="logo" className="logo" width={350}/>
+                    </div>
+                    
+                    <div className="right-box">
+                        <h1>Student Login</h1>
+                        <input type="username" placeholder="TUP Student ID (TUPM-XX-XXXX)" value={tup_Id} 
+                        onChange={(e)=>setTupId(e.target.value)} required/>
+                        <input type="password" placeholder="Password" value={password} 
+                        onChange={(e)=>setPassword(e.target.value)} required/>
+                        <a>Forgot password?</a>
+                        <button type="submit">Log In</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </>
     )
 }

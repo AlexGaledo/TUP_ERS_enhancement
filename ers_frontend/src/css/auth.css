@@ -1,0 +1,154 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 1rem; /* add padding for mobile */
+    box-sizing: border-box;
+}
+
+.login-form{
+    display: flex;
+    gap: 1rem;
+    background: linear-gradient(180deg,  #DC625E 0%,  #E8B4B3 40%);
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    align-items: stretch; /* make both boxes same height */
+    width: 100%;
+    max-width: 900px; /* limit max width */
+}
+
+.login-form .left-box{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2rem;
+    color: white;
+    width: 50%;
+    text-align: center; /* center text content */
+}
+
+/* FIXED: removed -container from selector */
+.login-form .right-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* center form vertically */
+    background: linear-gradient(0deg, #DC625E 0%, #8A1C23DE 69%);
+    padding: 3rem;
+    border-radius: 1rem;
+    width: 50%;
+    gap: 1rem; /* space between form elements */
+}
+
+.login-form .right-box h1{
+    color: white;
+    margin-bottom: 2rem; /* reduced from 5rem */
+    text-align: center;
+    margin-top: 0; /* remove default top margin */
+}
+
+.login-form .right-box input{
+    width: 100%;
+    min-width: 300px;
+    padding: 1rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    background: #e0e7ff;
+    color: #231f20;
+    font-family: inherit;
+    box-shadow: 0 2px 8px rgba(108, 99, 255, 0.06);
+    transition: box-shadow 0.2s;
+    box-sizing: border-box; /* include padding in width calculation */
+}
+
+.login-form .right-box button{
+    width: 100%;
+    padding: 0.9rem 1.1rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    background: #DC3B44;
+    color: white;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.login-form .right-box button:hover{
+    background: #6D1419;
+}
+
+.login-form .right-box a{
+    color: white;
+    text-align: left;
+    font-size: 0.9rem;
+    text-decoration: none;
+    margin-bottom: 1rem; /* space between link and button */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .login-form {
+        flex-direction: column;
+        gap: 0;
+        padding: 0.5rem;
+    }
+    
+    .login-form .left-box,
+    .login-form .right-box {
+        width: 100%;
+        padding: 1.5rem;
+    }
+    
+    .login-form .right-box input {
+        min-width: unset;
+        padding: 0.8rem;
+        font-size: 1rem;
+    }
+    
+    .login-form .right-box button {
+        padding: 0.8rem;
+        font-size: 1rem;
+    }
+    
+    .login-form .right-box h1 {
+        font-size: 1.3rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 0.5rem;
+    }
+    
+    .login-form {
+        border-radius: 0.75rem;
+        padding: 0.25rem;
+    }
+    
+    .login-form .left-box,
+    .login-form .right-box {
+        padding: 1rem;
+    }
+    
+    .login-form .right-box input,
+    .login-form .right-box button {
+        padding: 0.7rem;
+        font-size: 0.95rem;
+        border-radius: 8px;
+    }
+    
+    .login-form .right-box h1 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .login-form .right-box a {
+        font-size: 0.85rem;
+    }
+}
+
