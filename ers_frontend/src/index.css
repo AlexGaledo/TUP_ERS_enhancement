@@ -4,3 +4,8 @@
     color: white;
 }
 
+body {
+    min-width: 300px;
+    max-width: 2000px;
+}
+
