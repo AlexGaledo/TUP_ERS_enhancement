@@ -12,6 +12,7 @@
 
     background: linear-gradient(to right, #610a10, #8A1C23);
     transition: height .2s ease, padding .2s ease;
+    z-index: 1000;
 }
 
 .header-left-section {
