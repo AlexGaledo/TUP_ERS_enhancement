@@ -8,7 +8,7 @@ import ChangePass from './pages/changepass.jsx'
 import Otp from './pages/otp.jsx'
 
 import Home from './pages/Home.jsx';
-
+import HomeAnnouncement from './pages/HomeAnnouncement.jsx';
 import { useNavigate } from 'react-router-dom'
 
 function App() {  
@@ -16,11 +16,12 @@ function App() {
   return (
     <>
     <Routes>
-      <Route path='/' element={<Home/>}/>
       <Route path='/auth' element={<Auth/>}/>
       <Route path='/forget-password' element={<ResetPage/>}/>
       <Route path='/reset-password/:token' element={<ChangePass/>}/>
       <Route path='/otp'element={<Otp/>}/>
+      <Route path='/home/' element={<Home/>}/>
+      <Route path='/home/announcement/' element={<HomeAnnouncement/>}/>
     </Routes>
     </>
   )

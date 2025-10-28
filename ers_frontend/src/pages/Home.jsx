@@ -1,54 +1,27 @@
 import { useState, useEffect } from "react";
 import "../css/Home.css";
+
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import HomeNavigation from "../components/HomeNavigation";
 
 import studentImage from "../assets/studentImage.png";
 import tupUSGLogo from "../assets/tup_usg_logo.png";
-
-import announcementIcon from "../assets/announcementIcon.svg";
-import scheduleIcon from "../assets/scheduleIcon.svg";
-import gradesIcon from "../assets/gradesIcon.svg";
-import calendarIcon from "../assets/calendarIcon.svg";
-import curriculumIcon from "../assets/curriculumIcon.svg";
 
 import announcement1 from "../assets/announcement1.jpg";
 import announcement2 from "../assets/announcement2.jpg";
 import announcement3 from "../assets/announcement3.jpg";
 
 export default function Home() {
+
     const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-    const [currentSlide, setCurrentSlide] = useState(0);
-    // Initialize from localStorage lazily to avoid wiping on first render
-    const [goals, setGoals] = useState(() => {
-        try {
-            const raw = localStorage.getItem('semesterGoals');
-            return raw ? JSON.parse(raw) : [];
-        } catch {
-            return [];
-        }
-    }); 
-    const [newGoal, setNewGoal] = useState("");
-
-    // Save goals to localStorage whenever they change
-    useEffect(() => {
-        try {
-            localStorage.setItem('semesterGoals', JSON.stringify(goals));
-        } catch {}
-    }, [goals]);
-
-    const announcementImages = [announcement1, announcement2, announcement3];
-    
-    // Gradient backgrounds based on dominant colors of each image
-    const imageGradients = [
-        'linear-gradient(135deg, #8B3A3A, #C76865)', // announcement1 - darker red tones
-        'linear-gradient(135deg, #8B3A3A, #C76865)', // announcement2 - darker red tones
-        'linear-gradient(135deg, #8B3A3A, #C76865)'  // announcement3 - darker red tones
-    ];
 
     const toggleSidebar = () => {
         setIsSidebarVisible(prev => !prev);
     };
+    
+
+    const [currentSlide, setCurrentSlide] = useState(0);
 
     const nextSlide = () => {
         setCurrentSlide((prev) => (prev + 1) % announcementImages.length);
@@ -57,6 +30,16 @@ export default function Home() {
     const prevSlide = () => {
         setCurrentSlide((prev) => (prev - 1 + announcementImages.length) % announcementImages.length);
     };
+
+
+    const [goals, setGoals] = useState(() => {
+        try {
+            const raw = localStorage.getItem('semesterGoals');
+            return raw ? JSON.parse(raw) : [];
+        } catch {
+            return [];
+        }
+    }); 
 
     // Goals management functions
     const addGoal = () => {
@@ -75,6 +58,23 @@ export default function Home() {
             addGoal();
         }
     };
+
+    const [newGoal, setNewGoal] = useState("");
+
+    // Save goals to localStorage
+    useEffect(() => {
+        try {
+            localStorage.setItem('semesterGoals', JSON.stringify(goals));
+        } catch {}
+    }, [goals]);
+
+    const announcementImages = [announcement1, announcement2, announcement3];
+    
+    const imageGradients = [
+        'linear-gradient(135deg, #8B3A3A, #C76865)', 
+        'linear-gradient(135deg, #8B3A3A, #C76865)', 
+        'linear-gradient(135deg, #8B3A3A, #C76865)'  
+    ];
 
     const currentDate = new Date();
 
@@ -108,32 +108,7 @@ export default function Home() {
                 </div>
             </div>
 
-            <div className="home-navigation-tabs">
-                <div className="home-tab-container">
-                    <img src={announcementIcon} alt="Announcement" />
-                    <p>Announcement</p>
-                </div>
-
-                <div className="home-tab-container">
-                    <img src={scheduleIcon} alt="Schedule" />
-                    <p>Schedule</p>
-                </div>
-
-                <div className="home-tab-container">
-                    <img src={gradesIcon} alt="Grades" />
-                    <p>Grades</p>
-                </div>
-
-                <div className="home-tab-container">
-                    <img src={calendarIcon} alt="Calendar" />
-                    <p>Calendar</p>
-                </div>
-
-                <div className="home-tab-container">
-                    <img src={curriculumIcon} alt="Curriculum" />
-                    <p>Curriculum</p>
-                </div>
-            </div>
+            <HomeNavigation />
 
             <div className="home-widgets">
                 <div className="home-widget-container"> 
