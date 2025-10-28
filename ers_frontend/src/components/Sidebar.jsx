@@ -9,35 +9,35 @@ import evaluationIcon from "../assets/evaluationIcon.svg";
 export default function Sidebar({ isSidebarVisible }) {
     return (
         <div className={`sidebar-container ${isSidebarVisible ? 'sidebar-visible' : ''}`}>
-            <div className="sidebar-link">
+            <a href="/home" className="sidebar-link">
                 <img src={homeIcon} alt="Home" />
                 <p>Home</p>
-            </div>
+            </a>
 
-            <div className="sidebar-link">
+            <a href="/home" className="sidebar-link">
                 <img src={messageIcon} alt="Message" />
                 <p>Message</p>
-            </div>
+            </a>
 
-            <div className="sidebar-link">
+            <a href="/home" className="sidebar-link">
                 <img src={profileIcon} alt="Profile" />
                 <p>Profile</p>
-            </div>
+            </a>
 
-            <div className="sidebar-link">
+            <a href="/home" className="sidebar-link">
                 <img src={enrollmentIcon} alt="Enrollment" />
                 <p>Enrollment</p>
-            </div>
+            </a>
 
-            <div className="sidebar-link">
+            <a href="/home" className="sidebar-link">
                 <img src={graduationIcon} alt="Graduation" />
                 <p>Application for Graduation</p>
-            </div>
+            </a>
 
-            <div className="sidebar-link">
+            <a href="/home" className="sidebar-link">
                 <img src={evaluationIcon} alt="Evaluation" />
                 <p>Faculty Evaluation</p>
-            </div>
+            </a>
         </div>
     )
 }
