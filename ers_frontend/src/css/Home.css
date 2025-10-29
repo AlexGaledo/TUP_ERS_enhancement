@@ -143,7 +143,7 @@
 
 .home-widget-container {
     flex: 1 1 300px;
-    min-width: 300px;
+    min-width: 200px;
 
     background: linear-gradient(to bottom, #DC625E, #E8B4B3);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -295,6 +295,7 @@
     background-color: white;
     color: #C76865;
     font-size: .8rem;
+    text-wrap: nowrap;
 }
 
 .schedule-today-table td:first-child {
@@ -579,5 +580,165 @@
     .goal-input {
         padding: .5rem .8rem;
     }
+
+    .goal-add-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+    }
 }
 
+@media (max-width: 400px) {
+
+    .home-welcome-container {
+        flex-direction: column;
+        padding: 2rem 1.5rem;
+        margin-bottom: 2rem;
+        gap: 1.3rem;
+        text-align: center;
+    }
+
+    .home-welcome-text {
+        align-items: center;
+        width: 100%;
+    }
+
+    #home-welcome-date {
+        font-size: .8rem;
+    }
+
+    #home-welcome-greeting {
+        font-size: 1.7rem;
+    }
+
+    #home-welcome-message {
+        font-size: .7rem;
+    }
+
+    .home-welcome-image {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .home-welcome-image img {
+        max-width: 250px;
+    }
+
+    .home-navigation-tabs {
+        column-gap: 2rem;
+    }
+
+    .home-tab-container {
+        padding: 0.6rem 1.5rem;
+    }
+    .home-tab-container img {
+        width: 30px;
+        aspect-ratio: calc(1/1);
+    }
+    .home-tab-container p {
+        font-size: 0.8rem;
+    }
+
+    .home-widgets {
+        margin-top: 2rem;
+    }
+
+    .home-widget-container {
+        padding: 1rem;
+    }
+
+    .home-widget-announcement-author-container img {
+        width: 40px;
+    }
+    .home-widget-announcement-author-text h1 {
+        font-size: .8rem;
+    }
+    .home-widget-announcement-author-text h2 {
+        font-size: .6rem;
+        margin-top: 0;
+    }
+    #home-widget-announcement-caption {
+        font-size: .6rem;
+    }
+
+    .home-widget-announcement-carousel-container {
+        border-radius: 20px;
+    }
+
+    .carousel-button {
+        width: 22px;
+        height: 22px;
+    }
+
+    .schedule-today-table-container {
+        margin-top: .7rem;
+    }
+
+    .schedule-today h1 {
+        font-size: 1.5rem;
+    }
+
+    .schedule-today h2 {
+        font-size: .9rem;
+    }
+    .schedule-today-table th {
+        font-size: .8rem;
+    }
+    .schedule-today-table td {
+        font-size: .7rem;
+        padding: 1rem;
+    }
+
+    .goals-header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .goals-header h1 {
+        font-size: 1.2rem;
+    }
+    .goals-header h2 {
+        font-size: .9rem;
+    }
+
+    .home-widget-goals-list-container {
+        padding: 1rem;
+    }
+
+    .goals-list {
+        gap: 0.5rem;
+    }
+
+    .goal-item {
+        padding: .5rem .8rem;
+        border-radius: 20px;
+    }
+    .goal-item span {
+        font-size: .8rem;
+    }
+
+    .goal-delete-btn {
+        width: 20px;
+        height: 20px;
+        font-size: 1rem;
+    }
+
+    .goal-input-container {
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .goal-input {
+        padding: .5rem .8rem;
+        font-size: 0.7rem;
+        max-width: 66%;
+    }
+
+    .goal-add-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 1.5rem;
+    }
+}

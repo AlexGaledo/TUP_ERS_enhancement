@@ -5,4 +5,29 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+}
+
+.home-announcement-page-content {
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+
+    width: 100%;
+    gap: 3rem;
+
+}
+
+.home-announcement-page-content-list {
+    flex: 1;
+    background-color: red;
+
+    background: linear-gradient(to bottom, #DC625E, #E8B4B3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 30px;
+
+    padding: 2rem;
+    overflow: hidden;
 }

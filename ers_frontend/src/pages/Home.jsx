@@ -20,6 +20,17 @@ export default function Home() {
         setIsSidebarVisible(prev => !prev);
     };
     
+    const announcementImages = [announcement1, announcement2, announcement3];
+    const announcementCaptions = [
+        "TUP US conducts a survey on TUP students regarding the rise of flu-like cases.",
+        "Revised Storage Quotas: Students exceeding the new quotas for Google Drive and One Drive (0 GB) must migrate their data to personal storage solutions before October 22, 2025",
+        "TUP Manila Resumes Face-To-Face Classes Starting October 15, Wednesday",
+    ]
+    const imageGradients = [
+        'linear-gradient(135deg, #8B3A3A, #C76865)', 
+        'linear-gradient(135deg, #8B3A3A, #C76865)', 
+        'linear-gradient(135deg, #8B3A3A, #C76865)'  
+    ];
 
     const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -68,13 +79,6 @@ export default function Home() {
         } catch {}
     }, [goals]);
 
-    const announcementImages = [announcement1, announcement2, announcement3];
-    
-    const imageGradients = [
-        'linear-gradient(135deg, #8B3A3A, #C76865)', 
-        'linear-gradient(135deg, #8B3A3A, #C76865)', 
-        'linear-gradient(135deg, #8B3A3A, #C76865)'  
-    ];
 
     const currentDate = new Date();
 
@@ -116,10 +120,10 @@ export default function Home() {
                         <img src={tupUSGLogo} alt="TUP USG" />
                         <div className="home-widget-announcement-author-text">
                             <h1>TUPM University of Student Government</h1>
-                            <h2>1h</h2>
+                            <h2>{currentSlide+1}h</h2>
                         </div>
                     </div>
-                    <p id="home-widget-announcement-caption">ANNOUNCEMENT: TUP Manila Shifts to Remote Synchronous Learning (RSL)</p>
+                    <p id="home-widget-announcement-caption">ANNOUNCEMENT: {announcementCaptions[currentSlide]}</p>
                     <div className="home-widget-announcement-carousel-container">
                         <div 
                             className="carousel-slide"
