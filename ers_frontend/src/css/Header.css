@@ -184,3 +184,25 @@
         width: 24px;
     }
 }
+
+@media (max-width: 400px) {
+
+    .header-container {
+        height: 50px;
+    }
+
+    #toggle-sidebar {
+        width: 20px;
+    }
+
+    #header-school-logo {
+        width: 30px;
+    }
+    .header-right-profile-group img {
+        width: 25px;
+    }
+
+    .header-right-section > img {
+        width: 20px;
+    }
+}
