@@ -48,11 +48,52 @@ export default function HomeAnnouncement() {
             <HomeNavigation />
 
             <div className="home-announcement-page-content">
-                <div className="home-announcement-page-content-list">
-                    LIST LIST LIST
-                </div>
+                <ul className="home-announcement-page-content-list">
+                    <li>
+                        <img src={tupUSGLogo} alt="TUP USG"/>
+                        <div>
+                            <h1>TUPM University of Student Government</h1>
+                            <p>{announcementCaptions[0]}</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src={tupUSGLogo} alt="TUP USG"/>
+                        <div>
+                            <h1>TUPM University of Student Government</h1>
+                            <p>{announcementCaptions[0]}</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src={tupUSGLogo} alt="TUP USG"/>
+                        <div>
+                            <h1>TUPM University of Student Government</h1>
+                            <p>{announcementCaptions[0]}</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src={tupUSGLogo} alt="TUP USG"/>
+                        <div>
+                            <h1>TUPM University of Student Government</h1>
+                            <p>{announcementCaptions[0]}</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src={tupUSGLogo} alt="TUP USG"/>
+                        <div>
+                            <h1>TUPM University of Student Government</h1>
+                            <p>{announcementCaptions[0]}</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src={tupUSGLogo} alt="TUP USG"/>
+                        <div>
+                            <h1>TUPM University of Student Government</h1>
+                            <p>{announcementCaptions[0]}</p>
+                        </div>
+                    </li>
+                </ul>
 
-                <div className="home-widget-container"> 
+                <div className="home-announcement-page-content-details"> 
                     <div className="home-widget-announcement-author-container">
                         <img src={tupUSGLogo} alt="TUP USG" />
                         <div className="home-widget-announcement-author-text">
@@ -61,21 +102,21 @@ export default function HomeAnnouncement() {
                         </div>
                     </div>
                     <p id="home-widget-announcement-caption">ANNOUNCEMENT: {announcementCaptions[currentSlide]}</p>
-                    <div className="home-widget-announcement-carousel-container">
+                    <div className="home-announcement-page-carousel-container">
                         <div 
-                            className="carousel-slide"
+                            className="home-announcement-page-carousel-slide"
                             style={{ background: imageGradients[currentSlide] }}
                         >
                             <img src={announcementImages[currentSlide]} alt={`Announcement ${currentSlide + 1}`} />
                         </div>
                         
-                        <button className="carousel-button carousel-prev" onClick={prevSlide} aria-label="Previous">
+                        <button className="home-announcement-page-carousel-button carousel-prev" onClick={prevSlide} aria-label="Previous">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                                 <path d="M15 18L9 12L15 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                         </button>
                         
-                        <button className="carousel-button carousel-next" onClick={nextSlide} aria-label="Next">
+                        <button className="home-announcement-page-carousel-button carousel-next" onClick={nextSlide} aria-label="Next">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                                 <path d="M9 18L15 12L9 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
