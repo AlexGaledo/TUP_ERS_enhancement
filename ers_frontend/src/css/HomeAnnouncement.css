@@ -13,7 +13,8 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: stretch;
+    align-items: stretch; /* ensure children stretch to same height */
+    flex-wrap: wrap;
 
     width: 100%;
     gap: 3rem;
@@ -21,13 +22,267 @@
 }
 
 .home-announcement-page-content-list {
-    flex: 1;
+    flex: 2 1 0;
     background-color: red;
 
-    background: linear-gradient(to bottom, #DC625E, #E8B4B3);
+    background: linear-gradient(to top, #DC625E, #E8B4B3);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border-radius: 30px;
 
     padding: 2rem;
+    max-height: 70vh;
+    overflow-y: auto; /* make the list scrollable when content exceeds the sibling height */
+    -webkit-overflow-scrolling: touch; /* smooth scrolling on mobile */
+}
+
+.home-announcement-page-content-list li {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    background-color: #DC625E40;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: none;
+    border-radius: 20px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.home-announcement-page-content-list li img {
+    width: 80px;
+    height: 80px;;
+}
+
+.home-announcement-page-content-list li div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.3rem;
+}
+.home-announcement-page-content-list li div h1 {
+    font-size: 1.2rem;
+}
+
+.home-announcement-page-content-list li div p {
+    font-size: .9rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+
+.home-announcement-page-content-details {
+    flex: 3 1 0;
+    min-width: 200px;
+    max-height: 70vh;
+
+    background: linear-gradient(to top, #DC625E, #E8B4B3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 30px;
+
+    padding: 2rem;
+    display: flex;
+    flex-direction: column; /* ensure internal content flows and defines the column height */
+}
+
+.home-announcement-page-content-feed-details {
+    background-color: #DC625E;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 30px;
+
+    padding: 1rem;
+    display: flex;
+    flex-direction: column; /* ensure internal content flows and defines the column height */
+}
+
+/* Announcement Carousel */
+.home-announcement-page-carousel-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    border-radius: 50px;
     overflow: hidden;
+    margin-top: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+}
+
+.home-announcement-page-carousel-slide {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+
+    background-color: #DC625E40;
+}
+
+.home-announcement-page-carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.home-announcement-page-carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.home-announcement-page-carousel-button:hover {
+    background: rgba(0, 0, 0, 0.7);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.home-announcement-page-carousel-button:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.carousel-prev {
+    left: 12px;
+}
+
+.carousel-next {
+    right: 12px;
+}
+
+.home-announcement-page-carousel-button svg {
+    width: 24px;
+    height: 24px;
+}
+
+
+.home-announcement-page-content-feed {
+    display: none;
+}
+@media (max-width: 1700px) {
+    .home-announcement-page-content-list li {
+        border-radius: 20px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .home-announcement-page-content-list li img {
+        width: 60px;
+        height: 60px;;
+    }
+
+    .home-announcement-page-content-list li div {
+        gap: 0.1rem;
+    }
+    .home-announcement-page-content-list li div h1 {
+        font-size: 1rem;
+    }
+
+    .home-announcement-page-content-list li div p {
+        font-size: .8rem;
+    }
+}
+
+@media (max-width: 1450px) {
+    .home-announcement-page-content-list li {
+        border-radius: 20px;
+        padding: .8rem;
+        margin-bottom: 1rem;
+    }
+
+    .home-announcement-page-content-list li img {
+        width: 60px;
+        height: 60px;;
+    }
+
+    .home-announcement-page-content-list li div {
+        gap: 0.1rem;
+    }
+    .home-announcement-page-content-list li div h1 {
+        font-size: .8rem;
+    }
+
+    .home-announcement-page-content-list li div p {
+        font-size: .7rem;
+    }
+}
+
+@media (max-width: 1200px) {
+    .home-announcement-page-content-list,
+    .home-announcement-page-content-details {
+        display: none;
+    }
+
+    .home-announcement-page-content-feed {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 750px) {
+    .home-announcement-page-content {
+        margin-top: 1rem;
+    }
+    .home-widget-announcement-author-container img {
+        width: 50px;
+    }
+    .home-widget-announcement-author-text h1 {
+        font-size: 1rem;
+    }
+    .home-widget-announcement-author-text h2 {
+        font-size: 0.8rem;
+    }
+    #home-widget-announcement-caption {
+        font-size: .8rem;
+    }
+
+    .home-announcement-page-carousel-container {
+        border-radius: 20px;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .home-announcement-page-container {
+        padding-right: 1rem;
+        padding-left: 1rem;
+    }
+    .home-announcement-page-content-details {
+        padding: 1rem;
+    }
+
+    .home-widget-announcement-author-container img {
+        width: 40px;
+    }
+    .home-widget-announcement-author-text h1 {
+        font-size: .8rem;
+    }
+    .home-widget-announcement-author-text h2 {
+        font-size: .6rem;
+        margin-top: 0;
+    }
+    #home-widget-announcement-caption {
+        font-size: .6rem;
+    }
+
+    .home-announcement-page-carousel-container {
+        border-radius: 20px;
+    }
+
+    .home-announcement-page-carousel-button {
+        width: 22px;
+        height: 22px;
+    }
 }
