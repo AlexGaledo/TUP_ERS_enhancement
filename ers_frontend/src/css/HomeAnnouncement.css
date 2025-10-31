@@ -13,7 +13,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: stretch;
+    align-items: stretch; /* ensure children stretch to same height */
     flex-wrap: wrap;
 
     width: 100%;
@@ -21,10 +21,8 @@
 
 }
 
-
-
 .home-announcement-page-content-list {
-    flex: 1 1 0;
+    flex: 2 1 0;
     background-color: red;
 
     background: linear-gradient(to top, #DC625E, #E8B4B3);
@@ -32,6 +30,9 @@
     border-radius: 30px;
 
     padding: 2rem;
+    max-height: 70vh;
+    overflow-y: auto; /* make the list scrollable when content exceeds the sibling height */
+    -webkit-overflow-scrolling: touch; /* smooth scrolling on mobile */
 }
 
 .home-announcement-page-content-list li {
@@ -72,24 +73,39 @@
 
 
 .home-announcement-page-content-details {
-    flex: 2 1 0;
+    flex: 3 1 0;
     min-width: 200px;
+    max-height: 70vh;
 
     background: linear-gradient(to top, #DC625E, #E8B4B3);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border-radius: 30px;
 
     padding: 2rem;
+    display: flex;
+    flex-direction: column; /* ensure internal content flows and defines the column height */
+}
+
+.home-announcement-page-content-feed-details {
+    background-color: #DC625E;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 30px;
+
+    padding: 1rem;
+    display: flex;
+    flex-direction: column; /* ensure internal content flows and defines the column height */
 }
 
 /* Announcement Carousel */
 .home-announcement-page-carousel-container {
     position: relative;
     width: 100%;
-    aspect-ratio: calc(16/9);
+    height: auto;
     border-radius: 50px;
     overflow: hidden;
     margin-top: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
 }
 
 .home-announcement-page-carousel-slide {
@@ -99,6 +115,8 @@
     justify-content: center;
     align-items: center;
     transition: all 0.3s ease;
+
+    background-color: #DC625E40;
 }
 
 .home-announcement-page-carousel-slide img {
@@ -146,6 +164,10 @@
     height: 24px;
 }
 
+
+.home-announcement-page-content-feed {
+    display: none;
+}
 @media (max-width: 1700px) {
     .home-announcement-page-content-list li {
         border-radius: 20px;
@@ -195,16 +217,24 @@
 }
 
 @media (max-width: 1200px) {
-   .home-announcement-page-content {
-        flex-direction: column;
-   }
-}
-
-@media (max-width: 750px) {
-    .home-announcement-page-content-list {
+    .home-announcement-page-content-list,
+    .home-announcement-page-content-details {
         display: none;
     }
 
+    .home-announcement-page-content-feed {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 750px) {
+    .home-announcement-page-content {
+        margin-top: 1rem;
+    }
     .home-widget-announcement-author-container img {
         width: 50px;
     }
