@@ -1,40 +1,22 @@
 import { useState } from "react";
-import "../css/HomeAnnouncement.css";
+import '../../css/home/Announcement.css';
 
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
+import tupUSGLogo from "../../assets/tup_usg_logo.png";
 
-import HomeNavigation from "../components/HomeNavigation";
+import announcement1 from "../../assets/announcement1.jpg";
+import announcement2 from "../../assets/announcement2.jpg";
+import announcement3 from "../../assets/announcement3.jpg";
+import announcement4 from "../../assets/announcement4.jpg";
+import announcement5 from "../../assets/announcement5.jpg";
+import announcement6 from "../../assets/announcement6.jpg";
+import announcement7 from "../../assets/announcement7.jpg";
+import announcement8 from "../../assets/announcement8.jpg";
+import announcement9 from "../../assets/announcement9.jpg";
+import announcement10 from "../../assets/announcement10.jpg";
 
-import tupUSGLogo from "../assets/tup_usg_logo.png";
-
-import announcement1 from "../assets/announcement1.jpg";
-import announcement2 from "../assets/announcement2.jpg";
-import announcement3 from "../assets/announcement3.jpg";
-import announcement4 from "../assets/announcement4.jpg";
-import announcement5 from "../assets/announcement5.jpg";
-import announcement6 from "../assets/announcement6.jpg";
-import announcement7 from "../assets/announcement7.jpg";
-import announcement8 from "../assets/announcement8.jpg";
-import announcement9 from "../assets/announcement9.jpg";
-import announcement10 from "../assets/announcement10.jpg";
-
-export default function HomeAnnouncement() {
-
-    const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-    const toggleSidebar = () => {
-        setIsSidebarVisible(prev => !prev);
-    };
+export default function Announcement() {
 
     const [currentSlide, setCurrentSlide] = useState(0);
-
-    const nextSlide = () => {
-        setCurrentSlide((prev) => (prev + 1) % announcements.length);
-    };
-
-    const prevSlide = () => {
-        setCurrentSlide((prev) => (prev - 1 + announcements.length) % announcements.length);
-    };
 
     const announcements = [
         {
@@ -107,14 +89,18 @@ export default function HomeAnnouncement() {
             image: announcement10,
             time: "5mo"
         }
-    ]
+    ];
+
+    const nextSlide = () => {
+        setCurrentSlide((prev) => (prev + 1) % announcements.length);
+    };
+
+    const prevSlide = () => {
+        setCurrentSlide((prev) => (prev - 1 + announcements.length) % announcements.length);
+    };
 
     return (
         <div className="home-announcement-page-container">
-            <Header toggleSidebar={toggleSidebar} />
-            <Sidebar isSidebarVisible={isSidebarVisible} />
-            <HomeNavigation />
-
             <div className="home-announcement-page-content">
                 <ul className="home-announcement-page-content-list">
                     { announcements.map((announcement, i) => (
@@ -145,13 +131,13 @@ export default function HomeAnnouncement() {
                         </div>
                         
                         <button className="home-announcement-page-carousel-button carousel-prev" onClick={prevSlide} aria-label="Previous">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <svg width="24" height="24" viewBox="0 0 24" fill="none">
                                 <path d="M15 18L9 12L15 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                         </button>
                         
                         <button className="home-announcement-page-carousel-button carousel-next" onClick={nextSlide} aria-label="Next">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <svg width="24" height="24" viewBox="0 0 24" fill="none">
                                 <path d="M9 18L15 12L9 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                         </button>
