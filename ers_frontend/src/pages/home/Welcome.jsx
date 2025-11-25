@@ -1,24 +1,15 @@
 import { useState, useEffect } from "react";
-import "../css/Home.css";
+import '../../css/home/Welcome.css';
 
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
-import HomeNavigation from "../components/HomeNavigation";
+import studentImage from "../../assets/studentImage.png";
+import tupUSGLogo from "../../assets/tup_usg_logo.png";
 
-import studentImage from "../assets/studentImage.png";
-import tupUSGLogo from "../assets/tup_usg_logo.png";
+import announcement1 from "../../assets/announcement1.jpg";
+import announcement2 from "../../assets/announcement2.jpg";
+import announcement3 from "../../assets/announcement3.jpg";
+import HomeNavigation from "../../components/HomeNavigation";
 
-import announcement1 from "../assets/announcement1.jpg";
-import announcement2 from "../assets/announcement2.jpg";
-import announcement3 from "../assets/announcement3.jpg";
-
-export default function Home() {
-
-    const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-
-    const toggleSidebar = () => {
-        setIsSidebarVisible(prev => !prev);
-    };
+export default function Welcome() {
     
     const announcementImages = [announcement1, announcement2, announcement3];
     const announcementCaptions = [
@@ -96,10 +87,7 @@ export default function Home() {
     const dayOfWeek = currentDate.toLocaleDateString('en-GB', { weekday: 'long' }); // "Thursday"
 
     return (
-        <div className="home-container">
-            <Header toggleSidebar={toggleSidebar} />
-            <Sidebar isSidebarVisible={isSidebarVisible} />
-            
+        <div className="home-welcome-outer-container">
             <div className="home-welcome-container">
                 <div className="home-welcome-text">
                     <p id="home-welcome-date">{formattedDate}</p>
