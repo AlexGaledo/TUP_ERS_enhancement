@@ -4,7 +4,7 @@ export default function Calendar() {
     return (
         <div className="home-calendar-page-container">
             <div className="home-calendar-page-content">
-                {/* Add your content here */}
+                <h1>CALENDAR</h1>
             </div>
         </div>
     );

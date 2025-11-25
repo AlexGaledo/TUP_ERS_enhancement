@@ -4,7 +4,7 @@ export default function Grades() {
     return (
         <div className="home-grades-page-container">
             <div className="home-grades-page-content">
-                {/* Add your content here */}
+                <h1>GRADES</h1>
             </div>
         </div>
     );
