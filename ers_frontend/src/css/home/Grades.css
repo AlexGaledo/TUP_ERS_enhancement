@@ -1,19 +1,205 @@
-.home-grades-page-container {
-    padding: 4rem 2rem 5rem 2rem;
+/* Grades Page Styling */
+.grades-page-container {
+    padding: 4rem 1rem 5rem 1rem;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 2rem;
+    margin: 0;
+    width: 100%;
 }
 
-.home-grades-page-content {
+.grades-content {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: stretch; /* ensure children stretch to same height */
-    flex-wrap: wrap;
-
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
     width: 100%;
-    gap: 3rem;
+    margin-bottom: 4rem;
+}
+
+.grades-header {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: left;
+    font-size: 1rem;
+    padding: 1.5rem;
+
+    background: linear-gradient(to top,#E8B4B3, #DC625E);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 30px;
+}
+
+.grades-header p {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.grades-header strong {
+    font-weight: 700;
+}
+
+.grades-table-wrapper {
+    flex: 3;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.grades-desktop-view {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.grades-desktop-view thead {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+.grades-desktop-view th,
+.grades-desktop-view td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.grades-desktop-view th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+}
+
+.grades-desktop-view td {
+    color: rgb(199, 104, 101);
+}
+
+.grades-desktop-view tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.grades-desktop-view tr:hover {
+    background-color: #e8b4b3;
+}
+
+.grades-mobile-view {
+    display: none;
+}
+
+.grades-card {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.grades-card-header {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1rem;
+}
+
+.grades-card-body {
+    padding: 1rem;
+    color: var(--text-dark);
+}
+
+.grades-card-body p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.grades-card-body .column-name {
+    color: gray;
+    font-size: 0.8rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    
+}
+
+.grades-card-body .column-value {
+    color: rgb(199, 104, 101);
+    font-size: 1.15rem;
+    font-weight: bold;
+    display: block;
+}
+
+.grades-card-body hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 0.5rem 0;
+    width: 100%;
+}
+
+.grades-rating-slip-btn {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.grades-rating-slip-btn:hover {
+    background-color: rgb(121, 40, 45);
+}
+
+@media screen and (max-width: 1300px) {
+    .grades-content {
+        flex-direction: column;
+    }
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+    .grades-desktop-view {
+        display: none;
+    }
+
+    .grades-mobile-view {
+        display: block;
+    }
+
+    .grades-content {
+        flex-direction: column;
+    }
+
+    .grades-header {
+        text-align: center;
+        font-size: 0.9rem;
+    }
+
+    .grades-card-header {
+        font-size: 0.9rem;
+    }
+
+    .grades-card-body p, .grades-card-body p strong {
+        font-size: 0.8rem;
+        color: black;
+    }
+
+    .grades-rating-slip-btn {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+    }
 }
