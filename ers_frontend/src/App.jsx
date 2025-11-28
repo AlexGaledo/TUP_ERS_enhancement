@@ -16,6 +16,8 @@ import Grades from './pages/home/Grades.jsx';
 import Calendar from './pages/home/Calendar.jsx';
 import Curriculum from './pages/home/Curriculum.jsx';
 
+import Message from './pages/message/Message.jsx';
+
 function App() {
   return (
     <Routes>
@@ -34,6 +36,7 @@ function App() {
           <Route path="calendar" element={<Calendar />} />
           <Route path="curriculum" element={<Curriculum />} />
         </Route>
+        <Route path="message" element={<Message />} />
       </Route>
     </Routes>
   );
