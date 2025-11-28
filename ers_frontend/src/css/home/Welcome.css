@@ -1,3 +1,12 @@
+
+.home-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .home-container {
     padding: 100px 2rem 5rem 2rem;
 
@@ -9,6 +18,7 @@
 
 .home-welcome-outer-container {
     margin-top: 0rem;
+    max-width: 100%;
 }
 .home-welcome-container {
     display: flex;
@@ -370,6 +380,9 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    padding: 1rem 0 0 0;
+    margin: 0 auto;
+    width: 100%;
 }
 
 .schedule-today h1 {
@@ -384,47 +397,67 @@
     font-weight: normal;
 }
 
-.schedule-today-table-container {
-    width: 100%;
-    overflow-x: auto;
-    margin-top: 1.5rem;
+.schedule-today .schedule-day-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 90%; /* Adjusted to ensure proper centering */
+    padding: 1rem;
 }
 
-.schedule-today-table {
-    width: 100%;
-    overflow: hidden;
-    border-collapse: separate;
-    border-spacing: 0 0.75rem;
+/* Updated class names to match Welcome.jsx */
+.schedule-today .schedule-class-pill {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.87);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.schedule-today-table th {
-    text-align: left;
-    font-weight: lighter;
-    color: rgba(255, 255, 255, 0.8);
-    padding-bottom: 0.5rem;
-    padding-left: 1rem;
+.schedule-today .schedule-pill-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
 }
 
-.schedule-today tbody tr {
-    background-color: transparent;
+.schedule-today .schedule-pill-code {
+    color: #751319;
 }
 
-.schedule-today-table td {
-    padding: 1.2rem 1.2rem;
-    background-color: white;
-    color: #C76865;
-    font-size: .8rem;
-    text-wrap: nowrap;
+.schedule-today .schedule-pill-modality {
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    color: #fff;
 }
 
-.schedule-today-table td:first-child {
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px;
+.schedule-today .schedule-pill-modality.online {
+    background-color: #e3f2fd;
+    color: #1976d2;
 }
 
-.schedule-today-table td:last-child {
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;
+.schedule-today .schedule-pill-modality.f2f {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.schedule-today .schedule-pill-desc {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: rgb(199, 104, 101);
+}
+
+.schedule-today .schedule-pill-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+}
+
+.schedule-today .schedule-pill-footer span {
+    color: black;
 }
 
 /* Goals Widget */
@@ -828,8 +861,9 @@
         font-size: .6rem;
         margin-top: 0;
     }
+
     #home-widget-announcement-caption {
-        font-size: .6rem;
+        font-size: .7rem;
     }
 
     .home-widget-announcement-carousel-container {
@@ -841,23 +875,12 @@
         height: 22px;
     }
 
-    .schedule-today-table-container {
-        margin-top: .7rem;
-    }
-
     .schedule-today h1 {
         font-size: 1.5rem;
     }
 
     .schedule-today h2 {
         font-size: .9rem;
-    }
-    .schedule-today-table th {
-        font-size: .8rem;
-    }
-    .schedule-today-table td {
-        font-size: .7rem;
-        padding: 1rem;
     }
 
     .goals-header {
