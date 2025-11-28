@@ -25,7 +25,7 @@ export default function Sidebar({ isSidebarVisible }) {
                 <p>Profile</p>
             </Link>
 
-            <Link to="/home" className="sidebar-link">
+            <Link to="/enrollment" className="sidebar-link">
                 <img src={enrollmentIcon} alt="Enrollment" />
                 <p>Enrollment</p>
             </Link>
