@@ -22,7 +22,6 @@
 
 .home-announcement-page-content-list {
     flex: 2 1 0;
-    background-color: red;
 
     background: linear-gradient(to top, #DC625E, #E8B4B3);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);

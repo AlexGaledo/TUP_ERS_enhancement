@@ -86,6 +86,12 @@ export default function Welcome() {
     const year = currentDate.getFullYear(); // 2025
     const dayOfWeek = currentDate.toLocaleDateString('en-GB', { weekday: 'long' }); // "Thursday"
 
+    const scheduleData = [
+        { code: "CC312", desc: "Web Development (Lec)", schedule: "Tue 3:00pm - 5:00pm", room: "326", modality: "ONLINE" },
+        { code: "CS351L", desc: "Software Engineering 1 (Lab)", schedule: "Wed 5:00pm - 8:00pm", room: "324", modality: "F2F" },
+        { code: "CS333", desc: "Data Analytics", schedule: "Fri 9:00pm - 12:00pm", room: "326", modality: "F2F" },
+    ];
+
     return (
         <div className="home-welcome-outer-container">
             <div className="home-welcome-container">
@@ -135,40 +141,22 @@ export default function Welcome() {
                 </div>
                 <div className="home-widget-container schedule-today">
                     <h1>Today's Schedule</h1>
-                    <h2>{dayOfWeek}, {month} {day}</h2>
-                    <div className="schedule-today-table-container">
-                        <table className="schedule-today-table">
-                            <thead>
-                                <tr>
-                                    <th>Subject</th>
-                                    <th>Time</th>
-                                    <th>Room</th>
-                                    <th>Modality</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Web Development</td>
-                                    <td>9:00am - 12:00pm</td>
-                                    <td>322</td>
-                                    <td>F2F</td>
-                                </tr>
-                                <tr>
-                                    <td>Parallel and Distributed Computing</td>
-                                    <td>1:00pm - 3:00pm</td>
-                                    <td>324</td>
-                                    <td>F2F</td>
-                                </tr>
-                                <tr>
-                                    <td>Information Assurance and Security</td>
-                                    <td>5:00pm - 8:00pm</td>
-                                    <td>326</td>
-                                    <td>F2F</td>
-                                </tr>
-                            </tbody>
-                        </table>   
+                    <h2>{dayOfWeek}, {month} {day}, {year}</h2>
+                    <div className="schedule-day-content">
+                        {scheduleData.map((item, index) => (
+                            <div key={index} className="schedule-class-pill">
+                                <div className="schedule-pill-header">
+                                    <span className="schedule-pill-code">{item.code}</span>
+                                    <span className={`schedule-pill-modality ${item.modality.toLowerCase()}`}>{item.modality}</span>
+                                </div>
+                                <p className="schedule-pill-desc">{item.desc}</p>
+                                <div className="schedule-pill-footer">
+                                    <span>⏰ {item.schedule}</span>
+                                    <span>📍 {item.room}</span>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                 
                 </div>
 
                 <div className="home-widget-container goals">
