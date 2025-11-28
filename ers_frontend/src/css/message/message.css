@@ -4,7 +4,8 @@
     --primary-color: hsl(2, 47%, 59%);
     --white-bg-color: hsl(220, 60%, 97%);
     --text-white-color: hsl(0, 4%, 96%);
-
+    --text-white-color-light: hsl(0, 4%, 100%);
+    
     /* Message text color */
     --secondary-color: hsl(2, 47%, 59%);
 
@@ -28,9 +29,12 @@
     justify-content: space-between;
     align-items: center;
     text-align: center;
+    color: var(--text-white-color);
+}
+
+.main-header h2{
     font-size: 1.2rem;
     font-weight: 600;
-    color: var(--text-white-color);
 }
 
 .sub-header{
@@ -102,7 +106,10 @@
     font-size: 0.6rem;
 }
 
-.message-item * {
+
+/* Color Inherit to not use the color defined in the index.css */
+.message-item *,
+.msg-body *{
     color: inherit;
 }
 
@@ -119,6 +126,267 @@
 }
 
 .message-item:hover{
-    opacity: 0.9;
+    background-color: var(--text-white-color-light);
     cursor: pointer;
+}
+
+
+
+/* --- Modal Overlay (Background) --- */
+.compose-message-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* --- Modal Content Box --- */
+.compose-message-content {
+    background-color: var(--white-bg-color);
+    width: 90%;
+    max-width: 500px;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    animation: fadeIn 0.3s ease-out;
+}
+
+
+.compose-message-content > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0,0,0, 0.05);
+    padding-bottom: 0.8rem;
+}
+
+.compose-message-content h2 {
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+
+.compose-message-content > div:first-child button {
+    background: transparent;
+    border: none;
+    color: #999;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.compose-message-content > div:first-child button:hover {
+    color: var(--primary-color);
+}
+
+
+.compose-message-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.compose-input, 
+.compose-textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fff;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: hsl(0, 0%, 5%);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box; 
+}
+
+.compose-textarea {
+    resize: none;
+    height: 150px;
+}
+
+/* Input Focus States using your Primary Color */
+.compose-input:focus, 
+.compose-textarea:focus {
+    border-color: var(--tertiary-color);
+    box-shadow: 0 0 0 3px rgba(220, 100, 96, 0.1); 
+}
+
+/* --- Send Button --- */
+.send-button {
+    background: var(--primary-color);
+    color: var(--text-white-color-light);
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    align-self: flex-end;
+    transition: transform 0.1s, opacity 0.2s;
+}
+
+.send-button:hover {
+    opacity: 0.9;
+}
+
+.send-button:active {
+    transform: scale(0.98);
+}
+
+/* Optional: Animation for opening the modal */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* --- Modal Overlay --- */
+.message-content-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* --- Modal Content Box --- */
+.message-content {
+    background-color: var(--white-bg-color);
+    width: 90%;
+    max-width: 600px; /* Slightly wider than compose for reading comfort */
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    animation: zoomIn 0.2s ease-out;
+    max-height: 80vh; /* Prevents it from being too tall on small screens */
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Header Section --- */
+.msg-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.msg-header h2 {
+    color: var(--secondary-color);
+    font-size: 1.4rem;
+    margin: 0;
+    line-height: 1.2;
+    flex: 1; /* Allow title to take up space */
+}
+
+.close-icon-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    color: #999;
+    cursor: pointer;
+    padding: 0 0 0 1rem;
+    transition: color 0.2s;
+}
+
+.close-icon-btn:hover {
+    color: var(--primary-color);
+}
+
+/* --- Metadata Section (Sender info) --- */
+.msg-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.msg-sender-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.sender-name {
+    font-weight: 700;
+    color: var(--secondary-color);
+}
+
+.sender-email {
+    color: #888;
+    font-size: 0.8rem;
+}
+
+.msg-time {
+    color: var(--tertiary-color);
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+/* --- Body Text --- */
+.msg-body {
+    flex-grow: 1;
+    overflow-y: auto; /* Scroll if message is long */
+    color: #444; 
+    line-height: 1.6;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+}
+
+/* --- Footer / Reply Button --- */
+.msg-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.reply-button {
+    background-color: var(--primary-color);
+    color: var(--text-white-color-light);
+    border: none;
+    padding: 10px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.reply-button:hover {
+    opacity: 0.9;
+}
+
+.reply-button:active {
+    transform: scale(0.98);
+}
+
+/* Animation */
+@keyframes zoomIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
