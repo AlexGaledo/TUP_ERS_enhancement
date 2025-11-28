@@ -1,25 +1,9 @@
 
-
-:root{
-    --primary-color: hsl(2, 47%, 59%);
-    --white-bg-color: hsl(220, 60%, 97%);
-    --text-white-color: hsl(0, 4%, 96%);
-    --text-white-color-light: hsl(0, 4%, 100%);
-    
-    /* Message text color */
-    --secondary-color: hsl(2, 47%, 59%);
-
-    /* Button Text color */
-    --tertiary-color: hsl(2, 70%, 70%); 
-    --gradient-linear-bg: linear-gradient(90deg,rgba(220, 100, 96, 1) 0%, rgba(233, 181, 180, 1) 100%);
-}
-
 .message-page{
     margin: 5rem 1rem 2rem 1rem;
     background: var(--gradient-linear-bg);
     height: 85vh;
     padding: 20px 1rem 3rem 1rem;
-    border-radius: 15px;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }

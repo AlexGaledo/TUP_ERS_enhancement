@@ -1,0 +1,349 @@
+.sub-header-contents{
+    margin: 5rem 1rem 1rem 1rem;
+    background: var(--gradient-linear-bg);
+    height: 30vh;
+    padding: 20px 1rem 3rem 1rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+/* --- Page Layout (Matches Message Page) --- */
+.enrollment-page {
+    margin: 5rem 1rem 2rem 1rem;
+    background: var(--gradient-linear-bg);
+    min-height: 85vh;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* --- Header Card --- */
+.enrollment-header-card {
+    background-color: var(--white-bg-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Student Info Grid */
+.student-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding-bottom: 1.5rem;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info-item h3 {
+    font-size: 0.75rem;
+    color: #888; 
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.info-item span {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+/* Status Tag Styling */
+.status-tag {
+    display: inline-block;
+    background-color: rgba(220, 100, 96, 0.1);
+    color: var(--primary-color) !important;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.85rem !important;
+    width: fit-content;
+}
+
+/* --- Action Bar (Selects & Buttons) --- */
+.enrollment-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.select-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.select-group select {
+    padding: 8px 12px;
+    border: 1px solid var(--tertiary-color);
+    border-radius: 6px;
+    background-color: #fff;
+    color: var(--secondary-color);
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+}
+
+.select-group option {
+    color: var(--primary-color);
+    background-color: var(--white-bg-color);
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
+/* Button Variants */
+.button-group button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+}
+
+.primary-btn {
+    background-color: var(--primary-color);
+    color: var(--text-white-color-light);
+}
+.primary-btn:hover { background-color: hsl(2, 47%, 50%); }
+
+.secondary-btn {
+    background-color: white;
+    border: 1px solid var(--primary-color) !important;
+    color: var(--primary-color);
+}
+
+.secondary-btn:hover { background-color: rgba(220, 100, 96, 0.05); }
+
+.tertiary-btn {
+    background-color: transparent;
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+/* --- Subject Containers --- */
+.subject-containers {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.registered-sub-container,
+.drop-sub-container {
+    background-color: var(--white-bg-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.section-title {
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    border-left: 4px solid var(--tertiary-color);
+    padding-left: 10px;
+}
+
+/* --- Table Styles --- */
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+thead th {
+    text-align: left;
+    padding: 12px;
+    background-color: rgba(220, 100, 96, 0.05);
+    color: var(--secondary-color);
+    font-weight: 600;
+}
+
+tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    color: #444;
+}
+
+.sub-code {
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Empty State */
+.empty-state {
+    padding: 2rem;
+    text-align: center;
+    font-style: italic;
+    border-radius: 8px;
+    border: 1px dashed #ddd;
+}
+
+.empty-state p {
+    margin: 0;
+    font-style: italic;
+    font-size: 1rem;
+    color: #999;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .enrollment-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .select-group, .button-group {
+        flex-direction: column;
+    }
+    .enrollment-page {
+        margin: 4rem 0.5rem 1rem 0.5rem;
+        padding: 1rem;
+    }
+}
+
+
+
+/* --- Modal Overlay (Background) --- */
+.reminder-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    backdrop-filter: blur(4px); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    animation: fadeIn 0.2s ease-out;
+}
+
+/* --- Modal Content Box --- */
+.reminder-modal-content {
+    background-color: #fff;
+    width: 90%;
+    max-width: 400px;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-top: 5px solid var(--primary-color); 
+    transform: translateY(0);
+    animation: slideUp 0.3s ease-out;
+}
+
+/* --- Header --- */
+.reminder-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.8rem;
+}
+
+.reminder-header h2 {
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.1rem;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0;
+}
+
+.close-btn:hover {
+    color: var(--primary-color);
+}
+
+/* --- Body Text --- */
+.reminder-body {
+    padding: 0.5rem 0;
+}
+
+.reminder-body p {
+    color: #555;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* Force stronger styling for bold text inside the reminder */
+.reminder-body strong {
+    color: var(--secondary-color);
+    font-weight: 700;
+}
+
+/* --- Footer / Button --- */
+.reminder-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+}
+
+.confirm-btn {
+    background-color: var(--primary-color);
+    color: var(--text-white-color-light);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.confirm-btn:hover {
+    opacity: 0.9;
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}

@@ -18,6 +18,9 @@ import Curriculum from './pages/home/Curriculum.jsx';
 
 import Message from './pages/message/Message.jsx';
 
+import Enrollment from './pages/enrollment/enrollment.jsx';
+import Assessment from './pages/enrollment/enrollmentAssessment.jsx';
+
 function App() {
   return (
     <Routes>
@@ -36,7 +39,13 @@ function App() {
           <Route path="calendar" element={<Calendar />} />
           <Route path="curriculum" element={<Curriculum />} />
         </Route>
+
         <Route path="message" element={<Message />} />
+
+        <Route path="enrollment" element={<Enrollment />}>
+          <Route path="assessment" element={<Assessment />} />  
+        </Route>
+        
       </Route>
     </Routes>
   );

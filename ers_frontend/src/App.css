@@ -9,3 +9,18 @@ body, :root{
     overflow-x: hidden;
 }
 
+:root{
+    --primary-color: hsl(2, 47%, 59%);
+    --white-bg-color: hsl(220, 60%, 97%);
+    --text-white-color: hsl(0, 4%, 96%);
+    --text-white-color-light: hsl(0, 4%, 100%);
+    
+    /* Message text color */
+    --secondary-color: hsl(2, 47%, 59%);
+
+    /* Button Text color */
+    --tertiary-color: hsl(2, 70%, 70%); 
+    --gradient-linear-bg: linear-gradient(90deg,rgba(220, 100, 96, 1) 0%, rgba(233, 181, 180, 1) 100%);
+}
+
+
