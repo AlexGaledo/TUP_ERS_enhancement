@@ -347,3 +347,192 @@ tbody tr:hover {
     from { transform: translateY(20px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
+
+
+/* --- Drop Button Styling --- */
+.delete-btn {
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+    background-color: var(--primary-color);
+    color: var(--text-white-color-light);
+    transform: scale(1.05); /* Slight pop effect */
+    box-shadow: 0 2px 5px rgba(220, 100, 96, 0.3);
+}
+
+.delete-btn:active {
+    transform: scale(0.95);
+}
+
+/* --- Dropped Subject List Styling --- */
+.dropped-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dropped-sub-item {
+    background-color: #fff;
+    border: 1px solid #eee;
+    color:  #444;;
+    border-left: 4px solid var(--primary-color); 
+    border-radius: 6px;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.dropped-content {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.sub-desc {
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.dropped-badge {
+    background-color: #f1f1f1;
+    color: #888;
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+
+/* --- Drop Modal Overlay --- */
+.dropping-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Slightly darker than normal modal */
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000; /* Highest priority */
+    animation: fadeIn 0.2s ease-out;
+}
+
+/* --- Drop Modal Content --- */
+.dropping-modal-content {
+    background-color: #fff;
+    width: 90%;
+    max-width: 420px;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center everything */
+    text-align: center;
+    gap: 1.5rem;
+    transform: scale(0.9);
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* --- Header & Icon --- */
+.warning-icon {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(220, 100, 96, 0.1); /* Very light red */
+    color: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 auto 1rem auto; /* Center it */
+}
+
+.dropping-header h2 {
+    color: var(--secondary-color);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* --- Body Text --- */
+.dropping-body p {
+    color: #444;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.dropping-body .sub-text {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+/* --- Footer / Buttons --- */
+.dropping-footer {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.dropping-footer button {
+    flex: 1; /* Make buttons equal width */
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+/* Cancel Button (Secondary) */
+.cancel-btn {
+    background-color: transparent;
+    border: 1px solid #ddd;
+    color: #666;
+}
+
+.cancel-btn:hover {
+    background-color: #f5f5f5;
+    border-color: #ccc;
+    color: #333;
+}
+
+/* Confirm Drop Button (Primary / Danger) */
+.drop-confirm-btn {
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    color: var(--text-white-color-light);
+    box-shadow: 0 4px 10px rgba(220, 100, 96, 0.3);
+}
+
+.drop-confirm-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.drop-confirm-btn:active {
+    transform: translateY(0);
+}
+
+/* --- Animation --- */
+@keyframes popIn {
+    to { transform: scale(1); }
+}
