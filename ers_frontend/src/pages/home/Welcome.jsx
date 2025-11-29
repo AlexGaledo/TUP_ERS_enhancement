@@ -9,6 +9,8 @@ import announcement2 from "../../assets/announcement2.jpg";
 import announcement3 from "../../assets/announcement3.jpg";
 import HomeNavigation from "../../components/HomeNavigation";
 
+import { scheduleData } from "./Schedule";
+
 export default function Welcome() {
     
     const announcementImages = [announcement1, announcement2, announcement3];
@@ -86,11 +88,7 @@ export default function Welcome() {
     const year = currentDate.getFullYear(); // 2025
     const dayOfWeek = currentDate.toLocaleDateString('en-GB', { weekday: 'long' }); // "Thursday"
 
-    const scheduleData = [
-        { code: "CC312", desc: "Web Development (Lec)", schedule: "Tue 3:00pm - 5:00pm", room: "326", modality: "ONLINE" },
-        { code: "CS351L", desc: "Software Engineering 1 (Lab)", schedule: "Wed 5:00pm - 8:00pm", room: "324", modality: "F2F" },
-        { code: "CS333", desc: "Data Analytics", schedule: "Fri 9:00pm - 12:00pm", room: "326", modality: "F2F" },
-    ];
+    const todaySchedule = scheduleData.filter(item => item.day === dayOfWeek);
 
     return (
         <div className="home-welcome-outer-container">
@@ -143,19 +141,23 @@ export default function Welcome() {
                     <h1>Today's Schedule</h1>
                     <h2>{dayOfWeek}, {month} {day}, {year}</h2>
                     <div className="schedule-day-content">
-                        {scheduleData.map((item, index) => (
-                            <div key={index} className="schedule-class-pill">
-                                <div className="schedule-pill-header">
-                                    <span className="schedule-pill-code">{item.code}</span>
-                                    <span className={`schedule-pill-modality ${item.modality.toLowerCase()}`}>{item.modality}</span>
+                        {todaySchedule.length > 0 ? (
+                            todaySchedule.map((item, index) => (
+                                <div key={index} className="schedule-class-pill">
+                                    <div className="schedule-pill-header">
+                                        <span className="schedule-pill-code">{item.code}</span>
+                                        <span className={`schedule-pill-modality ${item.modality.toLowerCase()}`}>{item.modality}</span>
+                                    </div>
+                                    <p className="schedule-pill-desc">{item.desc}</p>
+                                    <div className="schedule-pill-footer">
+                                        <span>⏰ {item.schedule}</span>
+                                        <span>📍 {item.room}</span>
+                                    </div>
                                 </div>
-                                <p className="schedule-pill-desc">{item.desc}</p>
-                                <div className="schedule-pill-footer">
-                                    <span>⏰ {item.schedule}</span>
-                                    <span>📍 {item.room}</span>
-                                </div>
-                            </div>
-                        ))}
+                            ))
+                        ) : (
+                            <p>No classes scheduled for today.</p>
+                        )}
                     </div>
                 </div>
 

@@ -108,13 +108,13 @@
 }
 
 .badge.online {
-  background-color: #e3f2fd;
-  color: #1976d2;
+  background-color: #1976d2;
+  color: #e3f2fd;
 }
 
 .badge.f2f {
-  background-color: #e8f5e9;
-  color: #2e7d32;
+  background-color: #2e7d32;
+  color: #e8f5e9;
 }
 
 /* --- MOBILE RESPONSIVENESS --- */
@@ -273,8 +273,8 @@
   font-weight: bold;
   text-transform: uppercase;
 }
-.pill-modality.online { background: #e3f2fd; color: #1976d2; }
-.pill-modality.f2f { background: #e8f5e9; color: #2e7d32; }
+.pill-modality.online { background:#1976d2; color: #e3f2fd;}
+.pill-modality.f2f { background: #2e7d32; color: #e8f5e9;}
 
 .pill-desc {
   margin: 0 0 0.5rem 0;
