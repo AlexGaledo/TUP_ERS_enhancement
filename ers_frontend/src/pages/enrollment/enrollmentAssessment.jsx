@@ -1,9 +1,12 @@
 // TUP_ERS_enhancement\ers_frontend
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import "../../css/enrollment/assessment.css";
 
 function Assessment() {
+    const navigate = useNavigate();
+    
     const enrolledSubjects = [
         {   code: 'CS101', 
             unit: 1, 
@@ -64,6 +67,10 @@ function Assessment() {
                         <h3>School Year:</h3><span>2025-2026</span>
                     </div>
                 </div>
+                <button className='backBtn' onClick={() => navigate('/enrollment')}>
+                    <span className='back-arrow'>←</span>
+                    Back To Enrollment
+                </button>
             </header>
             
             {/* --- SUBJECTS TABLE --- */}
