@@ -1,15 +1,18 @@
 import "../../css/home/Schedule.css";
 
-export default function Schedule() {
-    const scheduleData = [
-        { code: "CC311", units: 1, desc: "Web Development (Lab)", faculty: "Edward Cruz", schedule: "Thu 9:00am - 12:00pm", room: "N/A", modality: "ONLINE" },
-        { code: "CC312", units: 2, desc: "Web Development (Lec)", faculty: "Edward Cruz", schedule: "Tue 3:00pm - 5:00pm", room: "326", modality: "ONLINE" },
-        { code: "CS352", units: 2, desc: "Software Engineering 1 (Lec)", faculty: "Dolores Montesines", schedule: "Tue 7:00pm - 8:00pm", room: "N/A", modality: "ONLINE" },
-        { code: "CS351L", units: 1, desc: "Software Engineering 1 (Lab)", faculty: "Dolores Montesines", schedule: "Wed 5:00pm - 8:00pm", room: "324", modality: "F2F" },
-        { code: "CS333", units: 3, desc: "Data Analytics", faculty: "Jan Eilbert Lee", schedule: "Fri 9:00pm - 12:00pm", room: "326", modality: "F2F" },
-        { code: "CC313", units: 3, desc: "Info Assurance", faculty: "Michael Narisma", schedule: "Thu 5:00pm - 8:00pm", room: "N/A", modality: "ONLINE" },
-    ];
+export const scheduleData = [
+    { code: "CS373-M", units: 3, desc: "Parallel and Distributed Computing", faculty: "AUSTRIA, RONN KEVIN J.", schedule: "Wed 11:00PM - 02:00PM", room: "ONLINE", modality: "ONLINE", day: "Wednesday" },
+    { code: "CS351L-M", units: 1, desc: "Software Engineering 1, Laboratory", faculty: "MONTESINES, DOLORES L.", schedule: "Wed 05:00PM - 08:00PM", room: "TBA", modality: "F2F", day: "Wednesday" },
+    { code: "CS352-M", units: 2, desc: "Software Engineering 1, Lecture", faculty: "MONTESINES, DOLORES L.", schedule: "Tue 07:00PM - 08:00PM", room: "324", modality: "F2F", day: "Tuesday" },
+    { code: "CC311L-M", units: 1, desc: "Web Development, Laboratory", faculty: "CRUZ, EDWARD N.", schedule: "Tue 03:00PM - 05:00PM", room: "326", modality: "F2F", day: "Tuesday" },
+    { code: "CC312-M", units: 2, desc: "Web Development, Lecture", faculty: "CRUZ, EDWARD N.", schedule: "Fri 01:00PM - 04:00PM", room: "326", modality: "F2F", day: "Friday" },
+    { code: "CSE1-M", units: 3, desc: "CS Professional Elective 1", faculty: "FABREGAS, VAL PATRICK F.", schedule: "Sat 12:00PM - 03:00PM", room: "324", modality: "F2F", day: "Saturday" },
+    { code: "CSE2-M", units: 3, desc: "CS Professional Elective 2", faculty: "ONGCO, GIRALYN R.", schedule: "Fri 09:00AM - 12:00PM", room: "TBA", modality: "F2F", day: "Friday" },
+    { code: "CS333-M", units: 3, desc: "Data Analytics", faculty: "LEE, JAN EILBERT LIM", schedule: "Thu 05:00PM - 08:00PM", room: "ONLINE", modality: "ONLINE", day: "Thursday" },
+    { code: "CS313-M", units: 3, desc: "Information Assurance and Security", faculty: "NARISMA, MICHAEL L.", schedule: "Thu 05:00PM - 08:00PM", room: "ONLINE", modality: "ONLINE", day: "Thursday" },
+];
 
+export default function Schedule() {
     // Map full day names to the short codes usually found in schedule strings
     const daysOfWeek = [
     { full: 'Monday', short: 'Mon' },
@@ -23,7 +26,7 @@ export default function Schedule() {
 
     // Helper to find classes for a specific day
     const getClassesForDay = (shortDay) => {
-    return scheduleData.filter(item => item.schedule.includes(shortDay));
+        return scheduleData.filter(item => item.schedule.includes(shortDay));
     };
 
     return (
