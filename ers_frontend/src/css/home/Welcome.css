@@ -435,13 +435,13 @@
 }
 
 .schedule-today .schedule-pill-modality.online {
-    background-color: #e3f2fd;
-    color: #1976d2;
+    background-color: #1976d2;
+    color: #e3f2fd; 
 }
 
 .schedule-today .schedule-pill-modality.f2f {
-    background: #e8f5e9;
-    color: #2e7d32;
+    background: #2e7d32;
+    color: #e8f5e9;
 }
 
 .schedule-today .schedule-pill-desc {

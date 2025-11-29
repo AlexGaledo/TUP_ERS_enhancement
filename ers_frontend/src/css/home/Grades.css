@@ -98,6 +98,18 @@
     display: none;
 }
 
+.grade-status-pill {
+    font-size: 0.75rem;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background:#2e7d32;
+    color: #e8f5e9;
+    text-align: center;
+    width: fit-content;
+}
+
 .grades-card {
     background: var(--white);
     border-radius: 12px;
@@ -202,4 +214,57 @@
         font-size: 0.9rem;
         padding: 0.5rem 1rem;
     }
+
+    .grades-card-body .column-value.grade-pill {
+        font-size: 0.8rem;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-align: center;
+        width: fit-content;
+    }
+
+    .grades-card-body .column-value.grade-status-pill {
+        font-size: 0.8rem;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-align: center;
+        width: fit-content;
+    }
+}
+
+
+.grade-status-pill.failed {
+    background: #d32f2f;
+    color: #ffebee;
+}
+
+.grade-status-pill.please-evaluate-first {
+    background: #fbc02d;
+    color: #fff8e1;
+}
+
+.grade-status-pill.passed {
+    background: #2e7d32;
+    color: #e8f5e9;
+}
+
+.grade-pill {
+    color: rgb(199, 104, 101);
+    font-weight: bold;
+}
+
+.grade-pill.please-evaluate-first {
+    background: #fbc02d;
+    color: #fff8e1;
+    font-size: 0.75rem;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    width: fit-content;
 }

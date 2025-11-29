@@ -29,8 +29,8 @@ export default function Grades() {
             courseCode: "BSCS",
             courseDescription: "Bachelor of Science in Computer Science",
             grades: [
-                { code: "CC201L-M", units: 1, desc: "Information Management, Laboratory", faculty: "DELA CRUZ, FRANCIS LUANGCO", section: "BSCS-2A-M", grade: "2.00", status: "Passed" },
-                { code: "CC202-M", units: 2, desc: "Information Management, Lecture", faculty: "DELA CRUZ, FRANCIS LUANGCO", section: "BSCS-2A-M", grade: "2.00", status: "Passed" },
+                { code: "CC201L-M", units: 1, desc: "Information Management, Laboratory", faculty: "DELA CRUZ, FRANCIS LUANGCO", section: "BSCS-2A-M", grade: "5.00", status: "Failed" },
+                { code: "CC202-M", units: 2, desc: "Information Management, Lecture", faculty: "DELA CRUZ, FRANCIS LUANGCO", section: "BSCS-2A-M", grade: "5.00", status: "Failed" },
                 { code: "CC223-M", units: 3, desc: "Applications Development and Emerging Technologies", faculty: "VIÑAS, MARY JOY DANIEL", section: "BSCS-2A-M", grade: "1.50", status: "Passed" },
                 { code: "CS201L-M", units: 1, desc: "Operating Systems, Laboratory", faculty: "PARAGAS, MHONA LIZA", section: "BSCS-2A-M", grade: "1.25", status: "Passed" },
                 { code: "CS202-M", units: 2, desc: "Operating Systems, Lecture", faculty: "PARAGAS, MHONA LIZA", section: "BSCS-2A-M", grade: "1.25", status: "Passed" },
@@ -57,8 +57,8 @@ export default function Grades() {
                 { code: "CS233-M", units: 3, desc: "Combinatorics and Graph Theory", faculty: "LEE, JAN EILBERT LIM", section: "BSCS-2A-M", grade: "1.50", status: "Passed" },
                 { code: "CS251L-M", units: 1, desc: "Object Oriented Programming, Laboratory", faculty: "CRUZ, EDWARD N", section: "BSCS-2A-M", grade: "1.50", status: "Passed" },
                 { code: "CS252-M", units: 2, desc: "Object Oriented Programming, Lecture", faculty: "CRUZ, EDWARD N", section: "BSCS-2A-M", grade: "1.50", status: "Passed" },
-                { code: "CS271L-M", units: 1, desc: "Computer Architecture and Organization, Lab", faculty: "VIÑAS, MARY JOY DANIEL", section: "BSCS-2A-M", grade: "1.50", status: "Passed" },
-                { code: "CS272-M", units: 2, desc: "Computer Architecture and Organization, Lec", faculty: "PARAGAS, MHONA LIZA", section: "BSCS-2A-M", grade: "1.25", status: "Passed" },
+                { code: "CS271L-M", units: 1, desc: "Computer Architecture and Organization, Lab", faculty: "VIÑAS, MARY JOY DANIEL", section: "BSCS-2A-M", grade: "5.00", status: "Failed" },
+                { code: "CS272-M", units: 2, desc: "Computer Architecture and Organization, Lec", faculty: "PARAGAS, MHONA LIZA", section: "BSCS-2A-M", grade: "5.00", status: "Failed" },
                 { code: "GEC6-M", units: 3, desc: "Art Appreciation", faculty: "TENGCO, ALMINA TRINIDAD", section: "BSCS-2A-M", grade: "1.25", status: "Passed" },
                 { code: "GEC8-M", units: 3, desc: "Ethics", faculty: "GADAINGAN, HAROLD C", section: "BSCS-2A-M", grade: "1.50", status: "Passed" },
                 { code: "PATHFIT3-M", units: 2, desc: "Physical Activity Towards Health and Fitness 3", faculty: "TULIAO, JOSHUA A", section: "BSCS-2A-M", grade: "1.00", status: "Passed" },
@@ -120,8 +120,8 @@ export default function Grades() {
                                         <td>{item.desc}</td>
                                         <td>{item.faculty}</td>
                                         <td>{item.section}</td>
-                                        <td>{item.grade}</td>
-                                        <td>{item.status}</td>
+                                        <td><p className={`grade-pill ${isNaN(item.grade) ? item.grade.toLowerCase().replace(/\s+/g, '-') : ''}`}>{item.grade}</p></td>
+                                        <td><p className={`grade-status-pill ${item.status.toLowerCase().replace(/\s+/g, '-')}`}>{item.status}</p></td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -140,9 +140,9 @@ export default function Grades() {
                                         <hr />
                                         <p><span className="column-name">Section:</span> <span className="column-value">{item.section}</span></p>
                                         <hr />
-                                        <p><span className="column-name">Grade:</span> <span className="column-value">{item.grade}</span></p>
+                                        <p><span className={`column-value grade-pill ${isNaN(item.grade) ? item.grade.toLowerCase().replace(/\s+/g, '-') : ''}`}>{item.grade}</span></p>
                                         <hr />
-                                        <p><span className="column-name">Grade Status:</span> <span className="column-value">{item.status}</span></p>
+                                        <p><span className="column-name">Grade Status:</span> <span className={`column-value grade-status-pill ${item.status.toLowerCase().replace(/\s+/g, '-')}`}>{item.status}</span></p>
                                     </div>
                                 </div>
                             ))}
