@@ -90,7 +90,7 @@
     background-color: #f2f2f2;
 }
 
-.grades-desktop-view tr:hover {
+.grades-desktop-view tbody tr:hover {
     background-color: #e8b4b3;
 }
 

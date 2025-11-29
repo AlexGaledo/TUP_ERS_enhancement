@@ -72,7 +72,7 @@
   background-color: #f2f2f2;
 }
 
-.responsive-table tr:hover {
+.responsive-table tbody tr:hover {
     background-color: #e8b4b3;
 }
 
