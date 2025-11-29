@@ -3,19 +3,46 @@ import "../../css/enrollment/enrollment.css";
 import { useNavigate } from 'react-router-dom';
 
 function Enrollment() {
-    const enrolledSubjects = [
+    const [enrolledSubjects, setEnrolledSubjects] = useState([
         { code: "CS 311", description: "Software Engineering 1", units: 3, section: "BSCS-3A-M", schedule: "M/Th 10:00-11:30" },
         { code: "CS 312", description: "Operating Systems", units: 3, section: "BSCS-3A-M", schedule: "T/F 13:00-14:30" },
         { code: "CS 313", description: "Automata Theory", units: 3, section: "BSCS-3A-M", schedule: "Wed 08:00-11:00" },
         { code: "CS 314", description: "Web Development", units: 3, section: "BSCS-3A-M", schedule: "M/Th 13:00-14:30" },
         { code: "GE 009", description: "Life and Works of Rizal", units: 3, section: "BSCS-3A-M", schedule: "Sat 09:00-12:00" },
-    ];
+    ]);
     const [showReminder, setShowReminder] = useState(false);
+    const [droppedSubjects, setDroppedSubjects] = useState([]); 
+    const [isDropping, setIsDropping] = useState(false);
+    const [indexSubjectToDrop, setIndexSubjectToDrop] = useState(null);
+    
 
     const navigate = useNavigate();
 
     function handleReminderClick() {
         setShowReminder(true);
+    }
+
+    function handleDeleteSubject(index) {
+        const subjectToDrop = enrolledSubjects[index];
+        setDroppedSubjects([...droppedSubjects, subjectToDrop]);
+        setEnrolledSubjects(enrolledSubjects.filter((_, i) => i !== index));
+    }
+
+    function isDroppingSubject(index) {
+        setIsDropping(true);
+        setIndexSubjectToDrop(index);
+        return;
+    }
+
+    function confirmDropping(index) {
+        handleDeleteSubject(index);
+        setIsDropping(false);
+        return;
+    }
+
+    function cancelDropping() {
+        setIsDropping(false);
+        return;
     }
 
     return (
@@ -107,6 +134,7 @@ function Enrollment() {
                                     <th>Units</th>
                                     <th>Section</th>
                                     <th>Schedule</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -117,6 +145,10 @@ function Enrollment() {
                                         <td>{sub.units}</td>
                                         <td>{sub.section}</td>
                                         <td>{sub.schedule}</td>
+                                        <td><button className="delete-btn" 
+                                                onClick={() => isDroppingSubject(index)}> Drop
+                                            </button>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -127,9 +159,15 @@ function Enrollment() {
                 {/* Dropped Subjects (Placeholder) */}
                 <div className='drop-sub-container'>
                     <h2 className='section-title'>Dropped Subjects</h2>
-                    <div className='empty-state'>
-                        <p>No dropped subjects for this term.</p>
-                    </div>
+                    { droppedSubjects.length === 0 ? (
+                        <div className='empty-state'>
+                            <p>No dropped subjects for this term.</p>
+                        </div>
+                    ) : (droppedSubjects.map((sub, index) => (
+                        <div key={index} className='dropped-sub-item'>
+                            <span className='sub-code'>{sub.code}</span> - {sub.description}
+                        </div>
+                    )))}
                 </div>
             </div>
             
@@ -162,6 +200,34 @@ function Enrollment() {
                     </div>
                 </div>
             )} 
+
+            {isDropping && (
+                <div className="dropping-modal-overlay">
+                    <div className="dropping-modal-content">
+                        
+                        <div className="dropping-header">
+                            {/* Large Warning Icon */}
+                            <div className="warning-icon">!</div>
+                            <h2>Are you sure you want to drop this subject?</h2>
+                        </div>
+
+                        <div className="dropping-body">
+                            <p>You will no longer be able to attend this subject once dropped.</p>
+                            <p className="sub-text">Please proceed to the Registrar Office for the student queries.</p>
+                        </div>
+
+                        <div className="dropping-footer">
+                            <button onClick={() => cancelDropping()} className="cancel-btn">
+                                Cancel
+                            </button>
+                            <button onClick={() => confirmDropping(indexSubjectToDrop)} className="drop-confirm-btn">
+                                Yes, Drop Subject
+                            </button>
+                        </div>
+                        
+                    </div>
+                </div>
+            )}
             
         </div>
     );
