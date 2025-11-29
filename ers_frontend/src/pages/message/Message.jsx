@@ -1,32 +1,20 @@
-// TUP_ERS_enhancement\ers_frontend
-
 import React, { useState } from 'react';
 import "../../css/message/message.css";
 
 // Message Assets
 import select from "../../assets/message/selectAll.svg";
-// import selectMessage from "../../assets/message/selectmessage.svg"; // Not used in this version
-// import dropdown from "../../assets/message/dropdown.svg";
-// import line from "../../assets/message/line.svg";
-// import check from "../../assets/message/check.svg";
 import refresh from "../../assets/message/refresh.svg";
 import more from "../../assets/message/moreButton.svg";
 import compose from "../../assets/message/compose.svg";   
-// import inboxdropdown from "../../assets/message/inbox-dropdown.svg";
 
 function Message() {
     const [messageContentPage, setMessageContentPage] = useState('Inbox');
     const [composeMessageVisible, setComposeMessageVisible] = useState(false);
     const [selectedMessage, setSelectedMessage] = useState(null);
     const [showMessageContent, setShowMessageContent] = useState(false);
-    
-    // State for Selection
     const [selectedIds, setSelectedIds] = useState([]);
-
-    // State for "More" dropdown visibility
     const [showMoreOptions, setShowMoreOptions] = useState(false);
 
-    // --- DATA (Note: I made IDs unique to prevent selection bugs across folders) ---
     const inboxMessageContent = [
         { id: 1, sender: "Clifford Torion", subject: "Meeting Reminder", snippet: "Don't forget about our meeting...", time: "9:30 AM" },
         { id: 2, sender: "Marc Justin Jadaone", subject: "Project Update", snippet: "The latest update on the project...", time: "Yesterday" },
@@ -49,7 +37,7 @@ function Message() {
         { id: 10, sender: "Clifford Torion", subject: "Deleted", snippet: "Deleted Sample Message", time: "9:30 AM" },
     ];
 
-    // --- HELPER: Get the current array based on the dropdown ---
+
     const getCurrentList = () => {
         switch (messageContentPage) {
             case 'Inbox': return inboxMessageContent;
@@ -60,12 +48,11 @@ function Message() {
         }
     };
 
-    // --- EVENT HANDLERS ---
 
     const handleSelectChange = (event) => {
         setMessageContentPage(event.target.value);
-        setSelectedIds([]); // Clear selection when changing folders
-        setShowMoreOptions(false); // Close 'more' menu if open
+        setSelectedIds([]); 
+        setShowMoreOptions(false); 
     };
 
     const handleMessageClick = (message) => {
@@ -73,29 +60,22 @@ function Message() {
         setShowMessageContent(true); 
     };
 
-    // 1. SELECT ALL LOGIC
+
     const handleSelectAll = () => {
         const currentList = getCurrentList();
-        
-        // If everything currently visible is selected, deselect all
-        // We check if every ID in the current list is already in the selectedIds array
         const allSelected = currentList.every(msg => selectedIds.includes(msg.id));
 
         if (allSelected) {
-            // Remove current list items from selection (keep items from other folders if any)
             const currentIds = currentList.map(msg => msg.id);
             setSelectedIds(prev => prev.filter(id => !currentIds.includes(id)));
         } else {
-            // Add all current list IDs to selection
             const currentIds = currentList.map(msg => msg.id);
-            // Combine unique IDs
             setSelectedIds(prev => [...new Set([...prev, ...currentIds])]);
         }
     };
 
-    // 2. INDIVIDUAL SELECT LOGIC
     const toggleSelectMessage = (e, id) => {
-        e.stopPropagation(); // Stop the row click event
+        e.stopPropagation(); 
         if (selectedIds.includes(id)) {
             setSelectedIds(prev => prev.filter(item => item !== id));
         } else {
@@ -103,11 +83,8 @@ function Message() {
         }
     };
 
-    // 3. REFRESH LOGIC
     const handleRefresh = () => {
-        // Since data is hardcoded, we will just simulate a visual refresh
-        setSelectedIds([]); // Clear selections
-        // alert("Refreshed!"); // Optional: Feedback
+        setSelectedIds([]);
     };
 
     // 4. MORE BUTTON LOGIC
@@ -132,22 +109,20 @@ function Message() {
 
             <div className='sub-header'>
                 <div className='sub-header-options'>
-                    {/* Select All Button */}
                     <img 
                         src={select} 
                         alt="select all" 
                         role='button' 
                         onClick={handleSelectAll}
-                        style={{ cursor: 'pointer', opacity: selectedIds.length > 0 ? 1 : 0.6 }}
+                        title="Select All"
                     />
                     
-                    {/* Refresh Button */}
                     <img 
                         src={refresh} 
                         alt="refresh" 
                         role='button' 
                         onClick={handleRefresh}
-                        style={{ cursor: 'pointer' }}
+                        title="Refresh"
                     />    
                     
                     {/* More Button */}
@@ -160,24 +135,12 @@ function Message() {
                                 e.stopPropagation();
                                 toggleMoreOptions();
                             }}
-                            style={{ cursor: 'pointer' }}
                         />
                         {/* Simple "More" Dropdown */}
                         {showMoreOptions && (
-                            <div className="more-options-dropdown" style={{
-                                position: 'absolute',
-                                top: '100%',
-                                left: '0',
-                                background: 'white',
-                                border: '1px solid #ddd',
-                                borderRadius: '5px',
-                                padding: '5px',
-                                boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
-                                zIndex: 10,
-                                width: '120px'
-                            }}>
-                                <div onClick={handleMarkAsRead} style={{ padding: '8px', cursor: 'pointer', fontSize: '0.8rem', color: '#555' }}>Mark as Read</div>
-                                <div style={{ padding: '8px', cursor: 'pointer', fontSize: '0.8rem', color: '#555' }}>Delete</div>
+                            <div className="more-options-dropdown">
+                                <div className="dropdown-item" onClick={handleMarkAsRead}>Mark as Read</div>
+                                <div className="dropdown-item">Delete</div>
                             </div>
                         )}
                     </div>

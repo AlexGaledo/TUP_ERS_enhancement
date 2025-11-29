@@ -1,0 +1,259 @@
+/* --- Page Layout --- */
+.enrollment-assessment-page {
+    margin: 5rem 1rem 2rem 1rem;
+    background: var(--gradient-linear-bg);
+    min-height: 85vh;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* --- Header Card (Reused from Enrollment) --- */
+.enrollment-header-card {
+    background-color: var(--white-bg-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.student-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info-item h3 {
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.info-item span {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.status-tag {
+    display: inline-block;
+    background-color: rgba(220, 100, 96, 0.1);
+    color: var(--primary-color) !important;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.85rem !important;
+    width: fit-content;
+}
+
+/* --- Subjects Card --- */
+.enrollment-assessment-subjects-card {
+    background-color: var(--white-bg-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.card-header h2 {
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    border-left: 4px solid var(--tertiary-color);
+    padding-left: 10px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.subjects-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.subjects-table thead th {
+    text-align: left;
+    padding: 12px;
+    background-color: rgba(220, 100, 96, 0.05);
+    color: var(--secondary-color);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.subjects-table tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    color: #444;
+}
+
+.code-col {
+    font-weight: 700;
+    color: var(--primary-color) !important;
+}
+
+.center-col {
+    text-align: center;
+}
+
+/* Modality Badges */
+.modality-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.modality-badge.ONLINE {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.modality-badge.F2F {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+/* --- Fees Section --- */
+.fees-section {
+    background-color: var(--white-bg-color);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Fee Rows Layout */
+.fee-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+}
+
+/* Tuition Header */
+.fee-row.highlight {
+    border-bottom: 2px solid #eee;
+    padding-bottom: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.fee-row.highlight h2 {
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    margin: 0;
+}
+
+.fee-row.highlight .price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+}
+
+/* Other Fees Group */
+.group-label {
+    font-size: 0.9rem;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.fee-list {
+    background-color: #fafafa;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+}
+
+.fee-list h4 {
+    margin: 0;
+    font-weight: 500;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.fee-list span {
+    font-weight: 600;
+    color: #444;
+}
+
+.total-sub {
+    border-top: 1px dashed #ccc;
+    margin-top: 0.5rem;
+    padding-top: 0.8rem;
+}
+
+.total-sub h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--secondary-color);
+}
+
+/* --- Grand Totals Footer --- */
+.fee-summary-footer {
+    background-color: var(--primary-color); /* Red background */
+    border-radius: 8px;
+    padding: 1.5rem;
+    color: white;
+    margin-top: 1rem;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+    text-align: center;
+}
+
+.summary-item h3 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    opacity: 0.9;
+    margin: 0 0 5px 0;
+    font-weight: 400;
+}
+
+.summary-item p {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Grand Total Specifics */
+.summary-item.grand-total p {
+    font-size: 1.5rem;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.summary-item.payment-mode p {
+    font-style: italic;
+    font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .summary-grid {
+        grid-template-columns: 1fr 1fr;
+        text-align: left;
+    }
+    
+    .summary-item.grand-total {
+        grid-column: span 2;
+        text-align: center;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255,255,255,0.2);
+    }
+}

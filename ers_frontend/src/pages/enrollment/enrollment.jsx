@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "../../css/enrollment/enrollment.css";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 
 function Enrollment() {
     const [enrolledSubjects, setEnrolledSubjects] = useState([
@@ -15,8 +15,9 @@ function Enrollment() {
     const [isDropping, setIsDropping] = useState(false);
     const [indexSubjectToDrop, setIndexSubjectToDrop] = useState(null);
     
-
+    const location = useLocation();
     const navigate = useNavigate();
+    const isAssessmentPage = location.pathname.includes('/assessment');
 
     function handleReminderClick() {
         setShowReminder(true);
@@ -43,6 +44,11 @@ function Enrollment() {
     function cancelDropping() {
         setIsDropping(false);
         return;
+    }
+
+    // If on assessment page, render the Assessment component via Outlet
+    if (isAssessmentPage) {
+        return <Outlet />;
     }
 
     return (
