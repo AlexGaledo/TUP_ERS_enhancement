@@ -65,15 +65,15 @@ export default function Schedule() {
         </div>
         </div>
 
-        {/* --- SECTION 2: Weekly Schedule (Grid) --- */}
         
         <header className="page-header">
         <h1>Enrolled Subjects</h1>
         <span className="unit-count">Total Units: 21</span>
         </header>
 
-        <div className="table-wrapper">
-        <table className="responsive-table">
+        <div className="schedule-list-container">
+        {/* Desktop View */}
+        <table className="schedule-desktop-view">
             <thead>
             <tr>
                 <th>Subject Code</th>
@@ -88,13 +88,13 @@ export default function Schedule() {
             <tbody>
             {scheduleData.map((item, index) => (
                 <tr key={index}>
-                <td data-label="Subject Code" className="fw-bold">{item.code}</td>
-                <td data-label="Units">{item.units}</td>
-                <td data-label="Description" className="desc-col">{item.desc}</td>
-                <td data-label="Faculty">{item.faculty}</td>
-                <td data-label="Schedule">{item.schedule}</td>
-                <td data-label="Room">{item.room}</td>
-                <td data-label="Modality">
+                <td className="fw-bold">{item.code}</td>
+                <td>{item.units}</td>
+                <td className="desc-col">{item.desc}</td>
+                <td>{item.faculty}</td>
+                <td>{item.schedule}</td>
+                <td>{item.room}</td>
+                <td>
                     <span className={`badge ${item.modality.toLowerCase()}`}>
                     {item.modality}
                     </span>
@@ -103,6 +103,36 @@ export default function Schedule() {
             ))}
             </tbody>
         </table>
+
+        {/* Mobile View */}
+        <div className="schedule-mobile-view">
+            {scheduleData.map((item, index) => (
+            <div key={index} className="schedule-card">
+                <div className="schedule-card-header"> {item.code}</div>
+                <div className="schedule-card-body">
+                    <span className="column-name">Description</span>
+                    <span className="column-value">{item.desc}</span>
+                    <hr />
+                    <span className="column-name">Units</span>
+                    <span className="column-value">{item.units}</span>
+                    <hr />
+                    <span className="column-name">Faculty</span>
+                    <span className="column-value">{item.faculty}</span>
+                    <hr />
+                    <span className="column-name">Schedule</span>
+                    <span className="column-value">{item.schedule}</span>
+                    <hr />
+                    <span className="column-name">Room</span>
+                    <span className="column-value">{item.room}</span>
+                    <hr />
+                    <span className="column-name">Modality</span>
+                    <span className={`badge ${item.modality.toLowerCase()}`}>
+                        {item.modality}
+                    </span>
+                </div>
+            </div>
+            ))}
+        </div>
         </div>
 
         

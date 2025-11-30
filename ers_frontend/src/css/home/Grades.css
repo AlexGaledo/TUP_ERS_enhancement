@@ -91,7 +91,7 @@
 }
 
 .grades-desktop-view tbody tr:hover {
-    background-color: #e8b4b3;
+    background-color: #ddd;
 }
 
 .grades-mobile-view {
@@ -189,7 +189,20 @@
     }
 
     .grades-mobile-view {
-        display: block;
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 1rem;
+        padding-bottom: 1rem;
+        width: 100%;
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    }
+
+    .grades-card {
+        min-width: 85%; /* Show most of the card, peek the next one */
+        scroll-snap-align: center;
+        flex-shrink: 0;
+        margin-bottom: 0;
     }
 
     .grades-content {

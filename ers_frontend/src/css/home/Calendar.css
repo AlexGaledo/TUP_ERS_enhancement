@@ -51,7 +51,7 @@
 
 .calendar-day:hover {
     transform: translateY(-5px);
-    background-color: rgb(194, 194, 194);
+    background-color: #ddd;
 }
 
 .calendar-day span {

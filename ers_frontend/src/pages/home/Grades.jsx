@@ -90,12 +90,13 @@ export default function Grades() {
             {termsData.map((termData, termIndex) => (
                 <div key={termIndex} className="grades-content">
                     <div className="grades-header">
+                        <p>School Year: <strong>{termData.schoolYear}</strong></p>
+                        <p>Semester: <strong>{termData.term}</strong></p>
                         <p>GPA (excludes NSTP and subjects with non-numeric ratings): <strong>{termData.gpa}</strong></p>
                         <p>Course Code: <strong>{termData.courseCode}</strong></p>
-                        <p>School Year: <strong>{termData.schoolYear}</strong></p>
                         <p>Course Description: <strong>{termData.courseDescription}</strong></p>
                         <p>Scholastic Status: <strong>{termData.scholasticStatus}</strong></p>
-                        <p>Term: <strong>{termData.term}</strong></p>
+                        
                         <button className="grades-rating-slip-btn">Student's Rating Slip</button>
                     </div>
 
