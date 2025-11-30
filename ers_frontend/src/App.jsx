@@ -25,6 +25,7 @@ function App() {
       <Route path="/otp" element={<Otp />} />
 
       <Route path="/" element={<MainLayout />}>
+        <Route index element={<Navigate to="home" replace />}/>
         <Route path="home" element={<HomeLayout />}>
           <Route index element={<Navigate to="welcome" replace />} />
           <Route path="welcome" element={<Welcome />} />
