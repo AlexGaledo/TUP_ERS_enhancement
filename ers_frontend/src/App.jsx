@@ -48,6 +48,7 @@ function App() {
           <Route path="calendar" element={<Calendar />} />
           <Route path="curriculum" element={<Curriculum />} />
         </Route>
+        
         <Route path="graduation-application" element={<GraduationApplication />} />
         <Route path="faculty-evaluation" element={<FacultyEvaluation />} />
         <Route path="message" element={<Message />} />
@@ -55,7 +56,6 @@ function App() {
         <Route path="enrollment" element={<Enrollment />}>
           <Route path="assessment" element={<Assessment />} />  
         </Route>
-
 
         
       </Route>

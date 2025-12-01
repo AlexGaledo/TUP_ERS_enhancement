@@ -2,6 +2,7 @@ import { useState } from 'react';
 import backend from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
 import '../../css/authPages.css';
+import logo from '../../assets/logo-rectangles.png';
 import { useMessageModal } from '../../context/MessageModal';
 
 export default function ResetPage() {
@@ -28,25 +29,34 @@ export default function ResetPage() {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <h1>Reset Password</h1>
-        <form className="auth-form" onSubmit={get_reset_link}>
-          <div className="form-group">
-            <label>Email address</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder="Enter your email"
-            />
+    <div className="auth-content">
+      <div className="auth-page">
+        <div className="auth-card two-col">
+          <div className="auth-left">
+            <h2>Password Recovery</h2>
+            <img src={logo} alt="logo" className="auth-logo" />
           </div>
 
-          <button type="submit" className="auth-btn">
-            {loading ? 'Loading...' : 'Send Reset Link'}
-          </button>
-        </form>
+          <div className="auth-right">
+            <h1>Reset Password</h1>
+            <form className="auth-form" onSubmit={get_reset_link}>
+              <div className="form-group">
+                <label>Email address</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="Enter your email"
+                />
+              </div>
+
+              <button type="submit" className="auth-btn">
+                {loading ? 'Loading...' : 'Send Reset Link'}
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   );

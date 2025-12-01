@@ -62,9 +62,10 @@
 }
 
 .auth-card {
+    display: grid;
     background: linear-gradient(180deg, rgba(232,180,179,0.95), rgba(220,98,94,0.95));
     border-radius: 16px;
-    padding: 0; /* handled by inner columns */
+    padding: 0; 
     box-shadow: 0 12px 40px rgba(0,0,0,0.15);
     overflow: hidden;
     display: grid;
@@ -92,17 +93,19 @@
 }
 
 .form-group label {
-    color: #333;
+    /* color: #333; */
     font-weight: 500;
     font-size: 0.95rem;
 }
 
 .form-group input {
     padding: 0.9rem;
-    border: 1px solid #ddd;
+    border: none;
+    outline: none;
     border-radius: 8px;
     font-size: 1rem;
     transition: border-color 0.2s;
+    color: var(--black-text-color);
 }
 
 .form-group input:focus {
@@ -116,7 +119,7 @@
 }
 
 .forgot-password a {
-    color: #8A1C23;
+    color: #E8B4B3;
     text-decoration: none;
     font-size: 0.9rem;
 }
@@ -139,7 +142,7 @@
 }
 
 .auth-btn:hover {
-    background: #6D1419;
+    background: #DC3B44;
 }
 
 /* Helpers for modal actions and button rows */
@@ -252,7 +255,7 @@
     align-items:center;
     justify-content:center;
     gap:1rem;
-    background: linear-gradient(180deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+    background: linear-gradient(180deg, hsl(2, 64%, 62%), hsl(1, 54%, 81%));
 }
 
 .auth-left h2{
@@ -260,15 +263,15 @@
     letter-spacing: 1px;
 }
 
-.auth-logo{
-    width: 260px;
-    max-width: 80%;
+.auth-left .auth-logo{
+    width: 360px;
+    max-width: 90%;
     height: auto;
 }
 
 .auth-right{
     padding: 2.5rem;
-    background: linear-gradient(180deg, rgba(152,23,35,0.95), rgba(151,5,29,0.95));
+    background: linear-gradient(180deg, hsla(356, 66%, 33%, 1), hsla(2, 64%, 62%, 1));
     display:flex;
     flex-direction:column;
     justify-content:center;
