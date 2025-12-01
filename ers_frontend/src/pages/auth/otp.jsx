@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useMessageModal } from '../../context/MessageModal'
+import '../../css/authPages.css'
+import logo from '../../assets/logo-rectangles.png'
 
 export default function Otp({ onCancel }) {
     const [otp, setOtp] = useState('')
@@ -130,48 +132,78 @@ export default function Otp({ onCancel }) {
     }
 
     return (
-        <div className="modal-overlay" role="dialog" aria-modal="true">
-            <div className="modal-card" style={{ position: 'relative' }}>
-                <h2>OTP Verification</h2>
-                <form
-                    className="auth-form"
-                    onSubmit={(e) => {
-                        e.preventDefault()
-                        verifyOtp()
-                    }}
-                >
-                    <div className="form-group" style={{ marginBottom: '.25rem' }}>
-                        <input
-                            type="text"
-                            className="otp-textspace"
-                            placeholder="Enter 6-DIGIT OTP"
-                            required
-                            value={otp}
-                            onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
-                            maxLength={6}
-                        />
+        <div className="auth-content">
+            <div className="auth-page">
+                <div className="auth-card two-col">
+                    <div className="auth-left">
+                        <h2>Account Verification</h2>
+                        <img src={logo} alt="logo" className="auth-logo" />
                     </div>
-                    <div className="modal-actions" style={{ justifyContent: 'space-between' }}>
-                        <button
-                            type="button"
-                            className="btn-secondary"
-                            onClick={onCancel}
-                            style={{ marginRight: 'auto' }}
+
+                    <div className="auth-right">
+                        <h1>OTP Verification</h1>
+                        <form
+                            className="auth-form"
+                            onSubmit={(e) => {
+                                e.preventDefault()
+                                verifyOtp()
+                            }}
                         >
-                            Cancel
-                        </button>
-                        <button
-                            type="button"
-                            className="btn-secondary"
-                            onClick={getOtp}
-                            disabled={disabled}
-                            style={{ opacity: disabled ? 0.55 : 1, marginRight: '.5rem' }}
-                        >
-                            {disabled ? `Resend in ${timer}s` : 'Send Code'}
-                        </button>
-                        <button type="submit" className="auth-btn">Verify OTP</button>
+                            <div className="form-group">
+                                <label>Enter 6-Digit Code</label>
+                                <input
+                                    type="text"
+                                    className="otp-textspace"
+                                    placeholder="000000"
+                                    required
+                                    value={otp}
+                                    onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
+                                    maxLength={6}
+                                />
+                            </div>
+
+                            <div style={{ display: 'flex', gap: '.75rem', marginTop: '.5rem' }}>
+                                <button
+                                    type="button"
+                                    className="btn-secondary"
+                                    onClick={getOtp}
+                                    disabled={disabled}
+                                    style={{ 
+                                        opacity: disabled ? 0.55 : 1, 
+                                        flex: 1,
+                                        background: 'transparent',
+                                        color: '#fff',
+                                        backgroundColor: 'hsla(0, 0%, 100%, 0.10)',
+                                        border: '1px solid hsla(0, 0%, 100%, 0.20)',
+                                    }}
+                                >
+                                    {disabled ? `Resend in ${timer}s` : 'Send Code'}
+                                </button>
+                                <button type="submit" className="auth-btn" style={{ flex: 1 }}>
+                                    Verify
+                                </button>
+                            </div>
+
+                            {onCancel && (
+                                <button
+                                    type="button"
+                                    onClick={onCancel}
+                                    style={{
+                                        background: 'transparent',
+                                        color: '#E8B4B3',
+                                        border: 'none',
+                                        padding: '.5rem',
+                                        cursor: 'pointer',
+                                        marginTop: '.5rem',
+                                        fontSize: '0.9rem'
+                                    }}
+                                >
+                                    Cancel
+                                </button>
+                            )}
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     )

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import '../../css/authPages.css';
+import logo from '../../assets/logo-rectangles.png';
 import { useMessageModal } from '../../context/MessageModal';
 
 export default function ChangePass() {
@@ -22,52 +23,59 @@ export default function ChangePass() {
     const closeOtp = () => setShowOtp(false);
 
     return (
-        <div className="auth-page">
-            <div className="auth-card">
-                <h1>Change Password</h1>
-                <form className="auth-form" onSubmit={openOtp}>
-                    <div className="form-group">
-                        <label>Current Password</label>
-                        <input
-                            type="password"
-                            value={oldPassword}
-                            onChange={(e) => setOldPassword(e.target.value)}
-                            required
-                            placeholder="Enter current password"
-                        />
+        <div className="auth-content">
+            <div className="auth-page">
+                <div className="auth-card two-col">
+                    <div className="auth-left">
+                        <h2>Account Security</h2>
+                        <img src={logo} alt="logo" className="auth-logo" />
                     </div>
 
-                    <div className="form-group">
-                        <label>New Password</label>
-                        <input
-                            type="password"
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                            required
-                            placeholder="Enter new password"
-                        />
-                    </div>
+                    <div className="auth-right">
+                        <h1>Change Password</h1>
+                        <form className="auth-form" onSubmit={openOtp}>
+                            <div className="form-group">
+                                <label>Current Password</label>
+                                <input
+                                    type="password"
+                                    value={oldPassword}
+                                    onChange={(e) => setOldPassword(e.target.value)}
+                                    required
+                                    placeholder="Enter current password"
+                                />
+                            </div>
 
-                    <div className="form-group">
-                        <label>Repeat New Password</label>
-                        <input
-                            type="password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            required
-                            placeholder="Repeat new password"
-                        />
-                    </div>
+                            <div className="form-group">
+                                <label>New Password</label>
+                                <input
+                                    type="password"
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    required
+                                    placeholder="Enter new password"
+                                />
+                            </div>
 
-                    <div className="btn-row">
-                        <button type="submit" className="auth-btn">Verify</button>
+                            <div className="form-group">
+                                <label>Repeat New Password</label>
+                                <input
+                                    type="password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    required
+                                    placeholder="Repeat new password"
+                                />
+                            </div>
+
+                            <button type="submit" className="auth-btn">Verify</button>
+                        </form>
                     </div>
-                </form>
+                </div>
+
+                {showOtp && (
+                    <OtpPopup onCancel={closeOtp} />
+                )}
             </div>
-
-            {showOtp && (
-                <OtpPopup onCancel={closeOtp} />
-            )}
         </div>
     );
 }

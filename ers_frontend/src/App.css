@@ -18,6 +18,8 @@ body, :root{
     /* Message text color */
     --secondary-color: hsl(2, 47%, 59%);
 
+    --black-text-color: hsl(0, 3%, 6%);
+
     /* Button Text color */
     --tertiary-color: hsl(2, 70%, 70%); 
     --gradient-linear-bg: linear-gradient(90deg,rgba(220, 100, 96, 1) 0%, rgba(233, 181, 180, 1) 100%);
