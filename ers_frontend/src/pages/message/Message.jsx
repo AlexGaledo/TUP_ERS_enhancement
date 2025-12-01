@@ -1,3 +1,4 @@
+// TUP_ERS_enhancement\ers_frontend
 import React, { useState } from 'react';
 import "../../css/message/message.css";
 
@@ -14,37 +15,37 @@ function Message() {
     const [showMessageContent, setShowMessageContent] = useState(false);
     const [selectedIds, setSelectedIds] = useState([]);
     const [showMoreOptions, setShowMoreOptions] = useState(false);
-
-    const inboxMessageContent = [
-        { id: 1, sender: "Clifford Torion", subject: "Meeting Reminder", snippet: "Don't forget about our meeting...", time: "9:30 AM" },
-        { id: 2, sender: "Marc Justin Jadaone", subject: "Project Update", snippet: "The latest update on the project...", time: "Yesterday" },
-        { id: 3, sender: "Alex Dipinili", subject: "Policy Changes", snippet: "Please be informed about the recent changes...", time: "2 days ago" }
-    ];
-
-    const sentMessageContent = [
-        { id: 4, sender: "Clifford Torion", subject: "Sent", snippet: "Sent Sample Message", time: "9:30 AM" },
-        { id: 5, sender: "Marc Justin Jadaone", subject: "Sent", snippet: "Sent Sample Message", time: "Yesterday" },
-        { id: 6, sender: "Alex Dipinili", subject: "Sent", snippet: "Sent Sample Message", time: "2 days ago" }
-    ];
-    
-    const draftMessageContent = [
-        { id: 7, sender: "Clifford Torion", subject: "Draft", snippet: "Draft Sample Message", time: "9:30 AM" },
-        { id: 8, sender: "Marc Justin Jadaone", subject: "Draft", snippet: "Draft Sample Message", time: "Yesterday" },
-        { id: 9, sender: "Alex Dipinili", subject: "Draft", snippet: "Draft Sample Message", time: "2 days ago" }
-    ];
-
-    const trashMessageContent = [
+    const [isRead, setIsRead] = useState([]);
+    const [trashMessages, setTrashMessages] = useState([
         { id: 10, sender: "Clifford Torion", subject: "Deleted", snippet: "Deleted Sample Message", time: "9:30 AM" },
-    ];
+    ]);
+
+    const [inboxMessages, setInboxMessages] = useState([
+        { id: 1, sender: "Clifford Torion", subject: "Meeting Reminder", snippet: "Don't forget about our meeting...", time: "2 days ago" },
+        { id: 2, sender: "Marc Justin Jadaone", subject: "Project Update", snippet: "The latest update on the project...", time: "Yesterday" },
+        { id: 3, sender: "Alex Difeenili", subject: "Policy Changes", snippet: "Please be informed about the recent changes...", time: "9:30 AM" }
+    ]);
+
+    const [sentMessages, setSentMessages] = useState([
+        { id: 4, sender: "Clifford Torion", subject: "Sent", snippet: "Sent Sample Message", time: "2 days ago" },
+        { id: 5, sender: "Marc Justin Jadaone", subject: "Sent", snippet: "Sent Sample Message", time: "Yesterday" },
+        { id: 6, sender: "Alex Difeenili", subject: "Sent", snippet: "Sent Sample Message", time: "9:30 AM" }
+    ]);
+    
+    const [draftMessages, setDraftMessages] = useState([
+        { id: 7, sender: "Clifford Torion", subject: "Draft", snippet: "Draft Sample Message", time: "2 days ago" },
+        { id: 8, sender: "Marc Justin Jadaone", subject: "Draft", snippet: "Draft Sample Message", time: "Yesterday" },
+        { id: 9, sender: "Alex Difeenili", subject: "Draft", snippet: "Draft Sample Message", time: "9:30 AM" }
+    ]);
 
 
     const getCurrentList = () => {
         switch (messageContentPage) {
-            case 'Inbox': return inboxMessageContent;
-            case 'Sent': return sentMessageContent;
-            case 'Draft': return draftMessageContent;
-            case 'Trash': return trashMessageContent;
-            default: return inboxMessageContent;
+            case 'Inbox': return inboxMessages;
+            case 'Sent': return sentMessages;
+            case 'Draft': return draftMessages;
+            case 'Trash': return trashMessages;
+            default: return inboxMessages;
         }
     };
 
@@ -87,14 +88,79 @@ function Message() {
         setSelectedIds([]);
     };
 
-    // 4. MORE BUTTON LOGIC
+    
     const toggleMoreOptions = () => {
         setShowMoreOptions(!showMoreOptions);
     };
     
     const handleMarkAsRead = () => {
-        console.log("Marking as read:", selectedIds);
+        setIsRead(prev => {
+            const newReadMessages = [...new Set([...prev, ...selectedIds])];
+            console.log("Marking as read:", selectedIds);
+            console.log("Updated read messages:", newReadMessages);
+            return newReadMessages;
+        });
+        setSelectedIds([]); 
         setShowMoreOptions(false);
+    };
+
+    const handleDelete = () => {
+        if (messageContentPage === 'Trash') {
+            // Permanently delete from trash
+            setTrashMessages(prev => prev.filter(msg => !selectedIds.includes(msg.id)));
+        } else {
+            // Move to trash from other folders
+            const currentList = getCurrentList();
+            const messagesToTrash = currentList.filter(msg => selectedIds.includes(msg.id));
+            
+            // Add to trash
+            setTrashMessages(prev => [...prev, ...messagesToTrash]);
+            
+            // Remove from current folder
+            switch (messageContentPage) {
+                case 'Inbox':
+                    setInboxMessages(prev => prev.filter(msg => !selectedIds.includes(msg.id)));
+                    break;
+                case 'Sent':
+                    setSentMessages(prev => prev.filter(msg => !selectedIds.includes(msg.id)));
+                    break;
+                case 'Draft':
+                    setDraftMessages(prev => prev.filter(msg => !selectedIds.includes(msg.id)));
+                    break;
+            }
+        }
+        
+        setSelectedIds([]); 
+        setShowMoreOptions(false);
+    }
+
+    
+    const handleSendMessage = (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(e.target);
+        const recipient = formData.get('recipient');
+        const subject = formData.get('subject');
+        const messageBody = formData.get('message');
+        
+        const newMessage = {
+            id: Date.now(), 
+            sender: "You",
+            subject: subject || "(No Subject)",
+            snippet: messageBody || "",
+            time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+        };
+        
+        setSentMessages(prev => [...prev, newMessage]);
+        setComposeMessageVisible(false);
+        e.target.reset();
+    }
+
+    const handleReply = () => {
+        if (selectedMessage) {
+            setComposeMessageVisible(true);
+            setShowMessageContent(false);
+        }
     };
 
     return (
@@ -125,7 +191,7 @@ function Message() {
                         title="Refresh"
                     />    
                     
-                    {/* More Button */}
+                    
                     <div style={{ position: 'relative' }}>
                         <img 
                             src={more} 
@@ -136,11 +202,11 @@ function Message() {
                                 toggleMoreOptions();
                             }}
                         />
-                        {/* Simple "More" Dropdown */}
+                        
                         {showMoreOptions && (
                             <div className="more-options-dropdown">
                                 <div className="dropdown-item" onClick={handleMarkAsRead}>Mark as Read</div>
-                                <div className="dropdown-item">Delete</div>
+                                <div className="dropdown-item" onClick={handleDelete}>Delete</div>
                             </div>
                         )}
                     </div>
@@ -154,24 +220,26 @@ function Message() {
                 </select>
             </div>
 
-            {/* REFACTORED LIST RENDERING */}
+
             <div className='message-list'>
-                {getCurrentList().map((message) => {
+                {getCurrentList()
+                    .sort((a, b) => b.id - a.id) // Sort by ID descending (newest first)
+                    .map((message) => {
                     const isSelected = selectedIds.includes(message.id);
+                    const isMessageRead = isRead.includes(message.id);
                     return (
                         <div 
                             key={message.id} 
-                            className={`message-item ${isSelected ? 'selected' : ''}`}
+                            className={`message-item ${isSelected ? 'selected' : ''} ${isMessageRead ? 'read' : 'unread'}`}
                             role='button' 
                             onClick={() => handleMessageClick(message)}
-                            style={{ backgroundColor: isSelected ? 'var(--white-bg-color)' : '' }} // Optional override
                         >
                             <input 
                                 type="checkbox" 
                                 className='message-checkbox' 
                                 checked={isSelected}
                                 onChange={(e) => toggleSelectMessage(e, message.id)}
-                                onClick={(e) => e.stopPropagation()} // Extra safety
+                                onClick={(e) => e.stopPropagation()}
                             />
                             <div className='message-details'>
                                 <h3 className='message-sender'>{message.sender}</h3>
@@ -190,17 +258,38 @@ function Message() {
                     <div className='compose-message-content'>
                         <div>
                             <h2>New Message</h2>
-                            <button onClick={() => setComposeMessageVisible(false)}>Close</button>
+                            <button onClick={() =>  setComposeMessageVisible(false) }>Close</button>
                         </div>
-                        <form>
-                            <input type="text" placeholder="To:" className='compose-input'/>
-                            <input type="text" placeholder="Subject:" className='compose-input'/>
-                            <textarea placeholder="Type your message here..." className='compose-textarea'></textarea>
+                        <form onSubmit={handleSendMessage}>
+                            <input type="text" name="recipient" placeholder="To:" className='compose-input' required/>
+                            <input type="text" name="subject" placeholder="Subject:" className='compose-input'/>
+                            <textarea name="message" placeholder="Type your message here..." className='compose-textarea' required></textarea>
                             <button type="submit" className='send-button'>Send</button>
                         </form>
                     </div>
                 </div>
             )}
+
+            {/* Reply Modal */}
+            {composeMessageVisible && selectedMessage && (
+                <div className='compose-message-modal'>
+                    <div className='compose-message-content'>
+                        <div>
+                            <h2>Reply to {selectedMessage.sender}</h2>
+                            <button onClick={() => { setComposeMessageVisible(false); setSelectedMessage(null); }}>Close</button>
+                        </div>
+                        <form onSubmit={handleSendMessage}>
+                            <input type="text" name="recipient" value={selectedMessage.sender} readOnly className='compose-input' required/>
+                            <input type="text" name="subject" value={`Re: ${selectedMessage.subject}`} readOnly className='compose-input'/>
+                            <textarea name="message" placeholder="Type your message here..." className='compose-textarea' required></textarea>
+                            <button type="submit" className='send-button'>Send</button>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+
+
 
             {/* VIEW MESSAGE MODAL */}
             {showMessageContent && selectedMessage && (
@@ -220,9 +309,11 @@ function Message() {
                         <div className='msg-body'>
                             <p>{selectedMessage.snippet}</p>
                         </div>
-                        <div className='msg-footer'>
-                            <button className='reply-button'>Reply</button>
-                        </div>
+                        {(messageContentPage === 'Inbox' || messageContentPage === 'Sent') && (
+                            <div className='msg-footer'>
+                                <button className='reply-button' onClick={handleReply}>Reply</button>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}
