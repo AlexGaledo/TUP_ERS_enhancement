@@ -1,6 +1,7 @@
 // src/pages/profile/Profile.jsx
 import { useState } from 'react';
 import './Profile.css';
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   // Profile picture state
@@ -103,10 +104,17 @@ const Profile = () => {
   const [consentChecked, setConsentChecked] = useState(false);
 
   const [activeTab, setActiveTab] = useState('personal'); // 'personal' | 'family' | 'education' | 'employment'
+  
+  const navigate = useNavigate();
 
   const handleSubmitEmployment = e => {
     e.preventDefault();
     // hook to backend later
+  };
+
+  const handleOpenChangePassword = () => {
+    // hook this to modal / route later
+    navigate('/change-password');
   };
 
   return (
@@ -170,7 +178,6 @@ const Profile = () => {
                       <span className="avatar-icon-placeholder" />
                     )}
                   </button>
-
                   <input
                     id="profile-image-input"
                     type="file"
@@ -190,6 +197,7 @@ const Profile = () => {
                   />
                 </div>
 
+                {/* Name rows */}
                 <div className="profile-name-row">
                   <div className="field-group">
                     <label>Last Name</label>
@@ -209,25 +217,6 @@ const Profile = () => {
                       onChange={e => setFirstName(e.target.value)}
                     />
                   </div>
-                  <div className="field-group gender-group">
-                    <label>Male</label>
-                    <input
-                      type="radio"
-                      name="gender"
-                      checked={gender === 'male'}
-                      onChange={() => setGender('male')}
-                    />
-                    <label>Female</label>
-                    <input
-                      type="radio"
-                      name="gender"
-                      checked={gender === 'female'}
-                      onChange={() => setGender('female')}
-                    />
-                  </div>
-                </div>
-
-                <div className="profile-name-row">
                   <div className="field-group">
                     <label>Middle Name</label>
                     <input
@@ -237,6 +226,9 @@ const Profile = () => {
                       onChange={e => setMiddleName(e.target.value)}
                     />
                   </div>
+                </div>
+
+                <div className="profile-name-row">
                   <div className="field-group">
                     <label>Extension Name</label>
                     <input
@@ -246,11 +238,48 @@ const Profile = () => {
                       onChange={e => setExtensionName(e.target.value)}
                     />
                   </div>
+
+                  {/* Gender + change password block */}
+                  <div className="field-group">
+                    <label>Gender</label>
+                    <div className="gender-block">
+                      <div className="gender-row">
+                        <label className="gender-option">
+                          <input
+                            type="radio"
+                            name="gender"
+                            value="male"
+                            checked={gender === 'male'}
+                            onChange={() => setGender('male')}
+                          />
+                          <span>Male</span>
+                        </label>
+                        <label className="gender-option">
+                          <input
+                            type="radio"
+                            name="gender"
+                            value="female"
+                            checked={gender === 'female'}
+                            onChange={() => setGender('female')}
+                          />
+                          <span>Female</span>
+                        </label>
+                      </div>
+                      <button
+                        type="button"
+                        className="profile-change-password-btn"
+                        onClick={handleOpenChangePassword}
+                      >
+                        Change password
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </header>
 
               <hr className="profile-divider" />
 
+              {/* 3‑column info grid */}
               <div className="profile-grid">
                 <div className="field-group">
                   <label>Campus</label>

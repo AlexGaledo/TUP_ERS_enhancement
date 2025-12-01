@@ -33,12 +33,8 @@ function App() {
         <Route index element={<Auth />} />
       </Route>
       <Route path="/forget-password" element={<ResetPage />} />
-
-      {/* Center ChangePass and OTP inside AuthLayout while keeping absolute paths */}
-      <Route element={<AuthLayout />}>
-        <Route path="/reset-password" element={<ChangePass />} />
-        <Route path="/otp" element={<Otp />} />
-      </Route>
+      <Route path="/change-password" element={<ChangePass />} />
+      <Route path="/otp" element={<Otp />} />
 
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Navigate to="home" replace />}/>
