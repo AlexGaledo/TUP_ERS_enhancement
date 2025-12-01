@@ -29,14 +29,14 @@
   gap: 0.5rem 1rem; /* Vertical and horizontal gap */
   width: 100%;
   margin-bottom: 1.5rem;
+  
 
 }
 
 .page-header h1 {
-  color: rgb(118, 19, 26);
+  color: rgb(56, 6, 8);
   font-size: 1.5rem;
   margin: 0;
-
 }
 
 .unit-count {
@@ -49,47 +49,50 @@
 }
 
 /* Table Styling (Desktop Default) */
-.table-wrapper {
-  background: var(--white);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  overflow: hidden; /* Clips corners */
+.schedule-list-container {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.responsive-table {
+.schedule-desktop-view {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
 }
 
-.responsive-table thead {
+.schedule-desktop-view thead {
   background-color: var(--primary-color);
   color: var(--white);
 }
 
-.responsive-table tr:nth-child(even) {
+.schedule-desktop-view tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 
-.responsive-table tbody tr:hover {
-    background-color: #e8b4b3;
+.schedule-desktop-view tbody tr:hover {
+    background-color: #ddd;
 }
 
-.responsive-table th,
-.responsive-table td {
+.schedule-desktop-view th,
+.schedule-desktop-view td {
   padding: 1rem;
   border-bottom: 1px solid var(--border-color);
 }
 
-.responsive-table th {
+.schedule-desktop-view th {
   font-weight: 600;
   text-transform: uppercase;
   font-size: 0.75rem;
   letter-spacing: 0.05em;
 }
 
-.responsive-table td {
+.schedule-desktop-view td {
     color: rgb(199, 104, 101);
 }
 
@@ -117,83 +120,85 @@
   color: #e8f5e9;
 }
 
+/* Mobile View Styling */
+.schedule-mobile-view {
+    display: none;
+}
+
+.schedule-card {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.schedule-card-header {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1rem;
+}
+
+.schedule-card-body {
+    padding: 1rem;
+    color: var(--text-dark);
+}
+
+.schedule-card-body .column-name {
+    color: gray;
+    font-size: 0.8rem;
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+.schedule-card-body .column-value {
+    color: rgb(199, 104, 101);
+    font-size: 1.1rem;
+    font-weight: bold;
+    display: block;
+}
+
+.schedule-card-body hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 0.75rem 0;
+}
+
+.schedule-card-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 /* --- MOBILE RESPONSIVENESS --- */
 @media screen and (max-width: 768px) {
   .schedule-container {
     padding: .7rem;
   }
 
-  .table-wrapper {
-    background: none;
-  }
-  
-  .responsive-table thead {
-    display: none; /* Hide headers on mobile */
+  .schedule-desktop-view {
+    display: none;
   }
 
-  .responsive-table, 
-  .responsive-table tbody, 
-  .responsive-table tr, 
-  .responsive-table td {
-    display: block;
-    width: 100%;
-  }
-
-  .responsive-table tr {
-    margin-bottom: 1rem;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  }
-
-  /* Turn cells into flex rows */
-  .responsive-table td {
+  .schedule-mobile-view {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    text-align: left;
-    padding: 0.75rem 1rem;
-    font-weight: bold;
-    font-size: 1.1rem;
-    word-wrap: break-word; /* Ensure long text wraps */
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    width: 100%;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
   }
 
-  
-
-  .responsive-table td:last-child {
-    border-bottom: none;
-  }
-
-  /* Use the data-label to create the "Key" on the left */
-  .responsive-table td::before {
-    content: attr(data-label);
-    font-weight: bold;
-    color: rgb(128, 128, 128);
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    text-align: left;
-    margin-bottom: .5rem;
-
-  }
-  
-  /* Special highlighting for the Subject Code on mobile */
-  .responsive-table td[data-label="Subject Code"] {
-    background-color: var(--primary-color); /* Light pink bg for title */
-    color: white;
-    font-size: 1.1rem;
-    justify-content: center; /* Center the title */
-  }
-  
-  .responsive-table td[data-label="Subject Code"]::before {
-    display: none; /* Hide label for the main title */
-  }
-
-  .responsive-table tr {
-    border-radius: 10px;
-  }
-
-  .responsive-table td:nth-child(even) {
-    background-color: #f2f2f2;
+  .schedule-card {
+    min-width: 85%; /* Show most of the card, peek the next one */
+    scroll-snap-align: center;
+    flex-shrink: 0;
+    margin-bottom: 0;
   }
 }
 

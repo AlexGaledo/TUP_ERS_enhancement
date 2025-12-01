@@ -75,7 +75,7 @@
 }
 
 .curriculum-table tr:hover {
-    background-color: #e8b4b3;
+    background-color: #ddd;
 }
 
 @media (max-width: 768px) {
@@ -102,17 +102,25 @@
     }
 
     .curriculum-mobile-view {
-        display: block;
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 1rem;
+        padding-bottom: 1rem;
+        width: 100%;
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
         background: none;
     }
 
     .curriculum-card {
+        min-width: 100%;
+        scroll-snap-align: center;
+        flex-shrink: 0;
+        margin-bottom: 0;
         background: var(--white);
         border-radius: 12px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         overflow: hidden;
-        width: 100%;
-        margin-bottom: 1rem;
     }
 
     .curriculum-card-header {
