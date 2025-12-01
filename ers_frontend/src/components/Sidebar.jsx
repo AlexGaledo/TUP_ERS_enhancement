@@ -20,7 +20,7 @@ export default function Sidebar({ isSidebarVisible }) {
                 <p>Message</p>
             </Link>
 
-            <Link to="/home" className="sidebar-link">
+            <Link to="/profile" className="sidebar-link">
                 <img src={profileIcon} alt="Profile" />
                 <p>Profile</p>
             </Link>
@@ -30,12 +30,12 @@ export default function Sidebar({ isSidebarVisible }) {
                 <p>Enrollment</p>
             </Link>
 
-            <Link to="/home" className="sidebar-link">
+            <Link to="/graduation-application" className="sidebar-link">
                 <img src={graduationIcon} alt="Graduation" />
                 <p>Application for Graduation</p>
             </Link>
 
-            <Link to="/home" className="sidebar-link">
+            <Link to="/faculty-evaluation" className="sidebar-link">
                 <img src={evaluationIcon} alt="Evaluation" />
                 <p>Faculty Evaluation</p>
             </Link>

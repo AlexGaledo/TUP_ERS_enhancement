@@ -10,8 +10,11 @@ import announcement3 from "../../assets/announcement3.jpg";
 import HomeNavigation from "../../components/HomeNavigation";
 
 import { scheduleData } from "./Schedule";
+import { useUser } from "../../context/UserContext";
 
 export default function Welcome() {
+    const ctx = useUser();
+    const user = ctx?.user;
     
     const announcementImages = [announcement1, announcement2, announcement3];
     const announcementCaptions = [
@@ -69,6 +72,10 @@ export default function Welcome() {
     useEffect(() => {
         try {
             localStorage.setItem('semesterGoals', JSON.stringify(goals));
+            if(user){
+                console.log(user);
+            }
+            
         } catch {}
     }, [goals]);
 
@@ -95,7 +102,7 @@ export default function Welcome() {
             <div className="home-welcome-container">
                 <div className="home-welcome-text">
                     <p id="home-welcome-date">{formattedDate}</p>
-                    <h1 id="home-welcome-greeting">Welcome back, Ford!</h1>
+                    <h1 id="home-welcome-greeting">{`Welcome back, ${user?.username || 'Ford'}!`}</h1>
                     <p id="home-welcome-message">Always stay updated in your student portal.</p>
                 </div>
 

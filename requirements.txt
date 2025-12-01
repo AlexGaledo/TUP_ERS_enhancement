@@ -4,3 +4,4 @@
  flask-jwt-extended 
  flask-sqlalchemy
  flask-bcrypt
+ google-genai

@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    padding: 1rem; /* add padding for mobile */
+    padding: 1rem; 
     box-sizing: border-box;
 }
 
@@ -14,9 +14,9 @@
     border-radius: 1rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 1rem;
-    align-items: stretch; /* make both boxes same height */
+    align-items: stretch; 
     width: 100%;
-    max-width: 900px; /* limit max width */
+    max-width: 900px; 
 }
 
 .login-form .left-box{
@@ -27,19 +27,19 @@
     padding: 2rem;
     color: white;
     width: 50%;
-    text-align: center; /* center text content */
+    text-align: center; 
 }
 
-/* FIXED: removed -container from selector */
+
 .login-form .right-box{
     display: flex;
     flex-direction: column;
-    justify-content: center; /* center form vertically */
+    justify-content: center;
     background: linear-gradient(0deg, #DC625E 0%, #8A1C23DE 69%);
     padding: 3rem;
     border-radius: 1rem;
     width: 50%;
-    gap: 1rem; /* space between form elements */
+    gap: 1rem;
 }
 
 .login-form .right-box h1{
@@ -61,7 +61,7 @@
     font-family: inherit;
     box-shadow: 0 2px 8px rgba(108, 99, 255, 0.06);
     transition: box-shadow 0.2s;
-    box-sizing: border-box; /* include padding in width calculation */
+    box-sizing: border-box; 
 }
 
 .login-form .right-box button{
@@ -86,7 +86,7 @@
     text-align: left;
     font-size: 0.9rem;
     text-decoration: none;
-    margin-bottom: 1rem; /* space between link and button */
+    margin-bottom: 1rem; 
 }
 
 /* Responsive styles */
