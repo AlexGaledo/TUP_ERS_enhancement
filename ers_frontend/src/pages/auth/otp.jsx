@@ -155,7 +155,7 @@ export default function Otp({ onCancel }) {
                         <button
                             type="button"
                             className="btn-secondary"
-                            onClick={onCancel}
+                            onClick={()=>{navigate('/auth');}}
                             style={{ marginRight: 'auto' }}
                         >
                             Cancel
