@@ -1,10 +1,12 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import './css/auth.css';
-import Auth from './pages/auth.jsx';
-import ResetPage from './pages/forgetpass.jsx';
-import ChangePass from './pages/changepass.jsx';
-import Otp from './pages/otp.jsx';
+import Auth from './pages/auth/auth.jsx';
+import AuthLayout from './layouts/AuthLayout.jsx';
+import ResetPage from './pages/auth/forgetpass.jsx';
+import ChangePass from './pages/auth/changepass.jsx';
+import Otp from './pages/auth/otp.jsx';
+import Error404 from './pages/error/error404.jsx';
 
 import MainLayout from './layouts/MainLayout.jsx';
 import HomeLayout from './layouts/HomeLayout.jsx';
@@ -27,7 +29,9 @@ import FacultyEvaluation from './pages/facultyEvaluation/FacultyEvaluation';
 function App() {
   return (
     <Routes>
-      <Route path="/auth" element={<Auth />} />
+      <Route path="/auth" element={<AuthLayout />}>
+        <Route index element={<Auth />} />
+      </Route>
       <Route path="/forget-password" element={<ResetPage />} />
       <Route path="/change-password" element={<ChangePass />} />
       <Route path="/otp" element={<Otp />} />
@@ -55,6 +59,8 @@ function App() {
 
         
       </Route>
+      {/* Fallback for any unknown route outside /home */}
+      <Route path="*" element={<Error404 />} />
     </Routes>
   );
 }

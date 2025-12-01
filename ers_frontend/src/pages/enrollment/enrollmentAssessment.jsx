@@ -1,5 +1,3 @@
-// TUP_ERS_enhancement\ers_frontend
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../../css/enrollment/assessment.css";
