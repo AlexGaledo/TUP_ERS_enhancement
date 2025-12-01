@@ -182,6 +182,10 @@
     transform: translateX(4px);
 }
 
+.message-item.read{
+    opacity: 0.5;
+}
+
 /* Color Inherit to not use the color defined in the index.css */
 .message-item *,
 .msg-body *{
