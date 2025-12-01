@@ -20,6 +20,9 @@ import Message from './pages/message/Message.jsx';
 
 import Enrollment from './pages/enrollment/enrollment.jsx';
 import Assessment from './pages/enrollment/enrollmentAssessment.jsx';
+import Profile from './pages/profile/Profile.jsx';
+import GraduationApplication from './pages/graduation/GraduationApplication';
+import FacultyEvaluation from './pages/facultyEvaluation/FacultyEvaluation';
 
 function App() {
   return (
@@ -31,6 +34,7 @@ function App() {
 
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Navigate to="home" replace />}/>
+        <Route path="profile" element={<Profile />} />
         <Route path="home" element={<HomeLayout />}>
           <Route index element={<Navigate to="welcome" replace />} />
           <Route path="welcome" element={<Welcome />} />
@@ -40,12 +44,15 @@ function App() {
           <Route path="calendar" element={<Calendar />} />
           <Route path="curriculum" element={<Curriculum />} />
         </Route>
-
+        <Route path="graduation-application" element={<GraduationApplication />} />
+        <Route path="faculty-evaluation" element={<FacultyEvaluation />} />
         <Route path="message" element={<Message />} />
 
         <Route path="enrollment" element={<Enrollment />}>
           <Route path="assessment" element={<Assessment />} />  
         </Route>
+
+
         
       </Route>
     </Routes>
