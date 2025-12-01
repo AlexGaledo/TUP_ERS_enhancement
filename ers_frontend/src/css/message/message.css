@@ -183,7 +183,7 @@
 }
 
 .message-item.read{
-    opacity: 0.5;
+    opacity: 0.7;
 }
 
 /* Color Inherit to not use the color defined in the index.css */
