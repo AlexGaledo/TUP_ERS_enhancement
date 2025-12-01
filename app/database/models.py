@@ -11,7 +11,7 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(255))
     email = db.Column(db.String(80), unique=True, nullable=False)
-    birthday = db.Column(db.DateTime, nullable=False)
+    birthday = db.Column(db.DateTime, nullable=True)
     tup_id = db.Column(db.String(36), unique=True, nullable=False)
 
     def __init__(self,username,password,email,birthday,tup_id):
