@@ -258,7 +258,7 @@ function Message() {
                     <div className='compose-message-content'>
                         <div>
                             <h2>New Message</h2>
-                            <button onClick={() => setComposeMessageVisible(false)}>Close</button>
+                            <button onClick={() =>  setComposeMessageVisible(false) }>Close</button>
                         </div>
                         <form onSubmit={handleSendMessage}>
                             <input type="text" name="recipient" placeholder="To:" className='compose-input' required/>
@@ -276,7 +276,7 @@ function Message() {
                     <div className='compose-message-content'>
                         <div>
                             <h2>Reply to {selectedMessage.sender}</h2>
-                            <button onClick={() => setComposeMessageVisible(false)}>Close</button>
+                            <button onClick={() => { setComposeMessageVisible(false); setSelectedMessage(null); }}>Close</button>
                         </div>
                         <form onSubmit={handleSendMessage}>
                             <input type="text" name="recipient" value={selectedMessage.sender} readOnly className='compose-input' required/>
