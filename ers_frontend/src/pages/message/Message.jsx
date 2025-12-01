@@ -1,5 +1,5 @@
 // TUP_ERS_enhancement\ers_frontend
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import "../../css/message/message.css";
 
 // Message Assets
@@ -16,6 +16,8 @@ function Message() {
     const [selectedIds, setSelectedIds] = useState([]);
     const [showMoreOptions, setShowMoreOptions] = useState(false);
     const [isRead, setIsRead] = useState([]);
+    const composeFormRef = useRef(null);
+
     const [trashMessages, setTrashMessages] = useState([
         { id: 10, sender: "Clifford Torion", subject: "Deleted", snippet: "Deleted Sample Message", time: "9:30 AM" },
     ]);
@@ -58,7 +60,8 @@ function Message() {
 
     const handleMessageClick = (message) => {
         setSelectedMessage(message); 
-        setShowMessageContent(true); 
+        setShowMessageContent(true);
+        handleMarkAsRead(message.id); 
     };
 
 
@@ -93,15 +96,19 @@ function Message() {
         setShowMoreOptions(!showMoreOptions);
     };
     
-    const handleMarkAsRead = () => {
+    const handleMarkAsRead = (messageId = null) => {
         setIsRead(prev => {
-            const newReadMessages = [...new Set([...prev, ...selectedIds])];
-            console.log("Marking as read:", selectedIds);
-            console.log("Updated read messages:", newReadMessages);
+            const idsToMark = messageId ? [messageId] : selectedIds;
+            const newReadMessages = [...new Set([...prev, ...idsToMark])];
+            // console.log("Marking as read:", idsToMark);
+            // console.log("Updated read messages:", newReadMessages);
             return newReadMessages;
         });
-        setSelectedIds([]); 
-        setShowMoreOptions(false);
+        
+        if (!messageId) {
+            setSelectedIds([]);
+            setShowMoreOptions(false);
+        }
     };
 
     const handleDelete = () => {
@@ -163,6 +170,35 @@ function Message() {
         }
     };
 
+    const handleDraftSave = () => {
+        if (!composeFormRef.current) {
+            setComposeMessageVisible(false);
+            return;
+        }
+        
+        const formData = new FormData(composeFormRef.current);
+        const recipient = formData.get('recipient');
+        const subject = formData.get('subject');
+        const messageBody = formData.get('message');
+        
+        if (!recipient && !subject && !messageBody) {
+            setComposeMessageVisible(false);
+            return;
+        }
+        
+        const newDraft = {
+            id: Date.now(),
+            sender: "You",
+            subject: subject || "(No Subject)",
+            snippet: messageBody || "",
+            time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+        };
+        
+        setDraftMessages(prev => [...prev, newDraft]);
+        setComposeMessageVisible(false);
+        composeFormRef.current.reset();
+    }
+
     return (
         <div className="message-page" onClick={() => setShowMoreOptions(false)}>
             <div className='main-header'>
@@ -205,7 +241,7 @@ function Message() {
                         
                         {showMoreOptions && (
                             <div className="more-options-dropdown">
-                                <div className="dropdown-item" onClick={handleMarkAsRead}>Mark as Read</div>
+                                <div className="dropdown-item" onClick={() => handleMarkAsRead()}>Mark as Read</div>
                                 <div className="dropdown-item" onClick={handleDelete}>Delete</div>
                             </div>
                         )}
@@ -223,7 +259,7 @@ function Message() {
 
             <div className='message-list'>
                 {getCurrentList()
-                    .sort((a, b) => b.id - a.id) // Sort by ID descending (newest first)
+                    .sort((a, b) => b.id - a.id)
                     .map((message) => {
                     const isSelected = selectedIds.includes(message.id);
                     const isMessageRead = isRead.includes(message.id);
@@ -252,43 +288,43 @@ function Message() {
                 })}
             </div>
 
-            {/* COMPOSE MODAL */}
+            {/* COMPOSE/REPLY MODAL */}
             {composeMessageVisible && (
                 <div className='compose-message-modal'>
                     <div className='compose-message-content'>
                         <div>
-                            <h2>New Message</h2>
-                            <button onClick={() =>  setComposeMessageVisible(false) }>Close</button>
+                            <h2>{selectedMessage ? `Reply to ${selectedMessage.sender}` : 'New Message'}</h2>
+                            <button onClick={handleDraftSave}>Close</button>
                         </div>
-                        <form onSubmit={handleSendMessage}>
-                            <input type="text" name="recipient" placeholder="To:" className='compose-input' required/>
-                            <input type="text" name="subject" placeholder="Subject:" className='compose-input'/>
-                            <textarea name="message" placeholder="Type your message here..." className='compose-textarea' required></textarea>
+                        <form ref={composeFormRef} onSubmit={handleSendMessage}>
+                            <input 
+                                type="text" 
+                                name="recipient" 
+                                placeholder="To:" 
+                                defaultValue={selectedMessage?.sender || ''}
+                                readOnly={!!selectedMessage}
+                                className='compose-input' 
+                                required
+                            />
+                            <input 
+                                type="text" 
+                                name="subject" 
+                                placeholder="Subject:" 
+                                defaultValue={selectedMessage ? `Re: ${selectedMessage.subject}` : ''}
+                                readOnly={!!selectedMessage}
+                                className='compose-input'
+                            />
+                            <textarea 
+                                name="message" 
+                                placeholder="Type your message here..." 
+                                className='compose-textarea' 
+                                required
+                            ></textarea>
                             <button type="submit" className='send-button'>Send</button>
                         </form>
                     </div>
                 </div>
             )}
-
-            {/* Reply Modal */}
-            {composeMessageVisible && selectedMessage && (
-                <div className='compose-message-modal'>
-                    <div className='compose-message-content'>
-                        <div>
-                            <h2>Reply to {selectedMessage.sender}</h2>
-                            <button onClick={() => { setComposeMessageVisible(false); setSelectedMessage(null); }}>Close</button>
-                        </div>
-                        <form onSubmit={handleSendMessage}>
-                            <input type="text" name="recipient" value={selectedMessage.sender} readOnly className='compose-input' required/>
-                            <input type="text" name="subject" value={`Re: ${selectedMessage.subject}`} readOnly className='compose-input'/>
-                            <textarea name="message" placeholder="Type your message here..." className='compose-textarea' required></textarea>
-                            <button type="submit" className='send-button'>Send</button>
-                        </form>
-                    </div>
-                </div>
-            )}
-
-
 
 
             {/* VIEW MESSAGE MODAL */}
