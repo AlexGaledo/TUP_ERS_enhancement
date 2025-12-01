@@ -1,0 +1,408 @@
+/* src/pages/GraduationApplication.css */
+
+/* ===== Layout shells ===== */
+
+/* Outer shell – extra space from top nav, like Profile page */
+.grad-page-shell {
+    padding: 5rem 2.5rem 3rem 2.5rem; /* gives room under the red navbar */
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Faded rounded square behind the white card – mimic Profile */
+  .grad-faded-panel {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.32); /* soft, similar to profile inner shell */
+    border-radius: 32px;
+    padding: 2.3rem 2.7rem 2.6rem 2.7rem;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
+  }
+  
+  /* Header inside faded panel */
+  .page-section-header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .page-section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #7f1317;
+  }
+  
+  .page-section-subtitle {
+    margin-top: 0.3rem;
+    font-size: 0.88rem;
+    color: #7f1317;
+  }
+  
+  /* Inner white card for the actual form */
+  .grad-card {
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto;
+    background: #fffdfc;
+    border-radius: 30px;
+    padding: 2.4rem 3rem 2.6rem 3rem;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+  }
+  
+  /* ===== Field rows / labels / inputs ===== */
+  
+  .grad-field-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.6rem;
+  }
+  
+  .grad-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #7f1317;
+    min-width: 150px;
+    text-align: right;
+  }
+  
+  /* Pill-style select without custom triangles (same flow as profile) */
+  .grad-select {
+    flex: 1;
+    max-width: 460px;
+    padding: 0.7rem 1.6rem;
+    border-radius: 999px;
+    border: 2px solid #f0b4b1;
+    background: #ffffff;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    font-size: 0.95rem;
+    color: #741319;
+    outline: none;
+    box-sizing: border-box;
+  }
+  
+  .grad-select.no-arrow {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: none;
+  }
+  
+  .grad-select:focus {
+    border-color: #dc625e;
+    box-shadow: 0 0 0 3px rgba(220, 98, 94, 0.27);
+  }
+  
+  /* Radio pill group */
+  .grad-radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  
+  .grad-radio-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 37, 42, 0.35);
+    background: #ffffff;
+    color: #7f1317;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  
+  .grad-radio-pill span {
+    color: #7f1317 !important;
+  }
+  
+  .grad-radio-pill input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 2px solid #c74842;
+    background: #ffffff;
+    position: relative;
+  }
+  
+  .grad-radio-pill input[type="radio"]:checked::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #c74842;
+    transform: translate(-50%, -50%);
+  }
+  
+  .grad-radio-pill:hover {
+    background: #fff2f1;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  }
+  
+  /* Section divider */
+  .grad-section-divider {
+    border-top: 1px solid rgba(125, 22, 27, 0.12);
+    margin-top: 0.4rem;
+  }
+  
+  /* Two-column layout for contact + thesis/remarks */
+  .grad-two-column {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.4rem 2.2rem;
+  }
+  
+  .grad-top-space {
+    margin-top: 0.4rem;
+  }
+  
+  .grad-field-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  
+  .grad-label-block {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #7f1317;
+  }
+  
+  .grad-optional {
+    font-weight: 400;
+    font-size: 0.78rem;
+    color: rgba(125, 22, 27, 0.9);
+  }
+  
+  /* Text inputs */
+  .grad-input {
+    width: 100%;
+    padding: 0.65rem 1.4rem;
+    border-radius: 999px;
+    border: 2px solid #f0b4b1;
+    background: #ffffff;
+    color: #741319;
+    font-size: 0.92rem;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+    outline: none;
+    box-sizing: border-box;
+  }
+  
+  .grad-input::placeholder {
+    color: #d99b98;
+  }
+  
+  .grad-input:focus {
+    border-color: #dc625e;
+    box-shadow: 0 0 0 3px rgba(220, 98, 94, 0.25);
+  }
+  
+  /* Textareas */
+  .grad-textarea {
+    width: 100%;
+    padding: 0.65rem 1.2rem;
+    border-radius: 18px;
+    border: 2px solid #f0b4b1;
+    background: #ffffff;
+    color: #741319;
+    font-size: 0.9rem;
+    resize: vertical;
+    min-height: 70px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+    outline: none;
+    box-sizing: border-box;
+  }
+  
+  .grad-textarea:focus {
+    border-color: #dc625e;
+    box-shadow: 0 0 0 3px rgba(220, 98, 94, 0.25);
+  }
+  
+  /* ===== Declaration / consent ===== */
+  
+  /* Increase specificity and force dark red so it cannot stay white */
+  .grad-card .grad-declaration,
+  .grad-card .grad-declaration p,
+  .grad-card .grad-declaration span {
+    color: #7f1317 !important;
+  }
+  
+  .grad-declaration {
+    margin-top: 0.4rem;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+  
+  .grad-checkbox-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.45rem;
+  }
+  
+  .grad-checkbox-row input[type="checkbox"] {
+    margin-top: 0.14rem;
+  }
+  
+  /* ===== Action buttons ===== */
+  
+  .grad-actions-row {
+    margin-top: 0.6rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+  
+  /* Primary pill button – same palette as Profile Submit */
+  .primary-pill-btn {
+    border: none;
+    border-radius: 999px;
+    padding: 0.7rem 1.9rem;
+    background: #f15a3c;
+    color: #ffffff;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+  }
+  
+  .primary-pill-btn:hover:not(:disabled) {
+    background: #d9482b;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+  
+  .primary-pill-btn:disabled {
+    background: rgba(255, 255, 255, 0.6);
+    color: #b56a68;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  
+  /* Secondary outline button for Print Preview */
+  .secondary-outline-btn {
+    border-radius: 999px;
+    padding: 0.7rem 1.6rem;
+    border: 2px solid #b54844;
+    background: transparent;
+    color: #7f1317;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .secondary-outline-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+    color: #7f1317;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+  }
+  
+  /* ===== Print styles (clean preview) ===== */
+  
+  @media print {
+    body {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  
+    header,
+    nav,
+    .sidebar,
+    .layout-sidebar {
+      display: none !important;
+    }
+  
+    .grad-page-shell {
+      padding: 0;
+    }
+  
+    .grad-faded-panel {
+      box-shadow: none;
+      background: #ffffff !important;
+      border-radius: 0;
+      padding: 1.5rem;
+      max-width: 100%;
+    }
+  
+    .grad-card {
+      max-width: 100%;
+      box-shadow: none;
+      border-radius: 0;
+      padding: 1.5rem;
+    }
+  
+    .grad-actions-row {
+      display: none;
+    }
+  }
+  
+  /* ===== Responsive ===== */
+  
+  @media (max-width: 992px) {
+    .grad-page-shell {
+      padding: 4.2rem 1.6rem 2.5rem 1.6rem;
+    }
+  
+    .grad-faded-panel {
+      padding: 2rem 1.6rem 2.2rem 1.6rem;
+    }
+  
+    .grad-card {
+      padding: 2.2rem 2rem 2.3rem 2rem;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .grad-page-shell {
+      padding: 4rem 1rem 2.2rem 1rem;
+    }
+  
+    .grad-faded-panel {
+      padding: 1.8rem 1.2rem 2rem 1.2rem;
+    }
+  
+    .grad-card {
+      padding: 2rem 1.4rem 2.1rem 1.4rem;
+    }
+  
+    .grad-field-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .grad-label {
+      text-align: left;
+      min-width: 0;
+    }
+  
+    .grad-two-column {
+      grid-template-columns: 1fr;
+    }
+  
+    .grad-actions-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .primary-pill-btn,
+    .secondary-outline-btn {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  
