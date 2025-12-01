@@ -24,7 +24,7 @@ export default function Auth() {
                 password,
             });
             const data = res.data;
-            if (res.status === 200 && data?.response === 'logged in successfully' && data?.email) {
+            if (res.status === 200 && data?.email) {
                 localStorage.setItem('tup_Id', tup_Id);
                 localStorage.setItem('email_for_verification', data.email);
                 console.log('tup id stored:', tup_Id, 'email stored:', data.email);
