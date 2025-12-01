@@ -29,7 +29,7 @@ function App() {
     <Routes>
       <Route path="/auth" element={<Auth />} />
       <Route path="/forget-password" element={<ResetPage />} />
-      <Route path="/reset-password/:token" element={<ChangePass />} />
+      <Route path="/change-password" element={<ChangePass />} />
       <Route path="/otp" element={<Otp />} />
 
       <Route path="/" element={<MainLayout />}>
