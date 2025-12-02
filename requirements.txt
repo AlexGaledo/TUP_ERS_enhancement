@@ -7,3 +7,5 @@
  google-genai
  flask-mail
  gunicorn
+ python-dotenv
+ 
