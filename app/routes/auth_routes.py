@@ -1,5 +1,5 @@
 
-import uuid
+import os, uuid
 from flask import Blueprint, jsonify, request
 from ..extensions import db, serializer, mail,bcrypt
 from ..database.models import User, Otp
@@ -69,6 +69,35 @@ def signin():
         return jsonify({"error":"something went wrong"}), 500
     
 
+def _send_otp_email_via_resend(email: str, code: str) -> tuple[bool, str]:
+    """Send OTP using Resend HTTPS API to avoid SMTP restrictions on PaaS."""
+    api_key = os.getenv('RESEND_API_KEY')
+    from_addr = os.getenv('RESEND_FROM', 'onboarding@resend.dev')
+    if not api_key:
+        return False, 'RESEND_API_KEY not configured'
+    try:
+        import requests as _req
+        resp = _req.post(
+            'https://api.resend.com/emails',
+            headers={
+                'Authorization': f'Bearer {api_key}',
+                'Content-Type': 'application/json',
+            },
+            json={
+                'from': from_addr,
+                'to': [email],
+                'subject': 'Your OTP Code',
+                'html': f'<p>Your OTP code is <strong>{code}</strong>. It will expire in 10 minutes.</p>',
+            },
+            timeout=15,
+        )
+        if 200 <= resp.status_code < 300:
+            return True, 'sent'
+        return False, f'Resend error {resp.status_code}: {resp.text[:200]}'
+    except Exception as e:
+        return False, str(e)
+
+
 #2 factor authentitcation(otp)
 def getotp(email):
     user = User.query.filter_by(email=email).first()
@@ -85,13 +114,23 @@ def getotp(email):
         db.session.add(token)
         db.session.commit()    
 
-        msg = Message(
-            subject='Your OTP Code',
-            sender=Config.MAIL_USERNAME,
-            recipients=[email],
-        )
-        msg.body = f'Your OTP code is: {token.code}. It will expire in 10 minutes.'
-        mail.send(msg)
+        # Prefer Resend (HTTPS). If not configured, try Flask-Mail as fallback.
+        ok, err = _send_otp_email_via_resend(email, token.code)
+        if not ok:
+            try:
+                msg = Message(
+                    subject='Your OTP Code',
+                    sender=Config.MAIL_USERNAME,
+                    recipients=[email],
+                )
+                msg.body = f'Your OTP code is: {token.code}. It will expire in 10 minutes.'
+                mail.send(msg)
+            except Exception:
+                logging.error(f"Resend failed and SMTP fallback failed: {err}\n{traceback.format_exc()}")
+                # Dev fallback: expose OTP so flow is unblocked in non-prod
+                if app_env := os.getenv('FLASK_ENV', 'production') != 'production':
+                    return jsonify({"response":"otp generated (dev mode)", "otp": token.code, "dev": True}), 200
+                return jsonify({"error":"unable to send otp"}), 502
         return jsonify({"response":"otp sent"}), 200
     except Exception as e:
         logging.error(traceback.format_exc())
@@ -101,9 +140,12 @@ def getotp(email):
 @auth_bp.route('/send-2fa', methods=['POST', 'OPTIONS'])
 def sendotp():
     if request.method == 'OPTIONS':
-        return ('', 204)
+        # Return 200 for preflight to keep clients happy
+        return ('', 200)
     data = request.get_json() or {}
-    email = data.get('email')
+    email = (data.get('email') or '').strip().lower()
+    if not email:
+        return jsonify({"error": "email is required"}), 400
     return getotp(email)
 
 
