@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import '../../css/home/Welcome.css';
 
 import studentImage from "../../assets/studentImage.png";
@@ -8,11 +8,13 @@ import announcement1 from "../../assets/announcement1.jpg";
 import announcement2 from "../../assets/announcement2.jpg";
 import announcement3 from "../../assets/announcement3.jpg";
 import HomeNavigation from "../../components/HomeNavigation";
-
+import { useUser } from "../../context/UserContext";
 import { scheduleData } from "./Schedule";
 
 export default function Welcome() {
-    
+    const {user} = useUser();
+
+
     const announcementImages = [announcement1, announcement2, announcement3];
     const announcementCaptions = [
         "TUP US conducts a survey on TUP students regarding the rise of flu-like cases.",
@@ -95,7 +97,7 @@ export default function Welcome() {
             <div className="home-welcome-container">
                 <div className="home-welcome-text">
                     <p id="home-welcome-date">{formattedDate}</p>
-                    <h1 id="home-welcome-greeting">Welcome back, Ford!</h1>
+                    <h1 id="home-welcome-greeting">Welcome back, {user.username}!</h1>
                     <p id="home-welcome-message">Always stay updated in your student portal.</p>
                 </div>
 

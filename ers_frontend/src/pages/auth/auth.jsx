@@ -29,7 +29,7 @@ export default function Auth() {
                 localStorage.setItem('email_for_verification', data.email);
                 console.log('tup id stored:', tup_Id, 'email stored:', data.email);
                 addUser(res.data)
-                navigate('/otp');
+                navigate('/auth/otp');
             } else {
                 showMessage({ title: 'Login failed', message: data?.error || 'Invalid credentials', type: 'error', autoCloseMs: 3500 });
             }

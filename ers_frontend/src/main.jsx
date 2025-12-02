@@ -9,12 +9,12 @@ import { MessageModalProvider } from './context/MessageModal'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter><MessageModalProvider>
       <UserProvider>
-        <MessageModalProvider>
+        
           <App />
-        </MessageModalProvider>
-      </UserProvider>
+        
+      </UserProvider></MessageModalProvider>
     </BrowserRouter>
   </StrictMode>,
 )

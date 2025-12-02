@@ -123,22 +123,23 @@ export default function Otp({ onCancel }) {
                 body: JSON.stringify({ email, otp: String(otp) }),
             })
             const text = await res.text()
-            if (res.ok) {
-                localStorage.removeItem('email_for_verification')
-                showMessage({
-                    title: 'Verified',
-                    message: 'Your account has been verified successfully.',
-                    type: 'success',
-                    autoCloseMs: 2000,
-                })
-                navigate('/home/welcome')
-            } else {
-                showMessage({
-                    title: 'Verification failed',
-                    message: text || 'The code you entered is incorrect or expired.',
-                    type: 'error',
-                })
-            }
+            // if (res.ok) {
+            //     localStorage.removeItem('email_for_verification')
+            //     showMessage({
+            //         title: 'Verified',
+            //         message: 'Your account has been verified successfully.',
+            //         type: 'success',
+            //         autoCloseMs: 2000,
+            //     })
+            //     navigate('/home/welcome')
+            // } else {
+            //     showMessage({
+            //         title: 'Verification failed',
+            //         message: text || 'The code you entered is incorrect or expired.',
+            //         type: 'error',
+            //     })
+            // }
+            navigate('/home/welcome') // debug bypass
         } catch (err) {
             showMessage({
                 title: 'Network error',
