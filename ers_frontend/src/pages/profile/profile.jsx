@@ -1,32 +1,41 @@
 // src/pages/profile/Profile.jsx
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Profile.css';
 import { useNavigate } from "react-router-dom";
+import { useUser } from '../../context/UserContext.jsx';
+import { useMessageModal } from '../../context/MessageModal.jsx';
 
 const Profile = () => {
+  const { user, personalInfo, familyBackground, retrievePersonalInfo } = useUser() || {};
+  const { showMessage } = useMessageModal() || { showMessage: () => {} };
+
+  // loading state
+  const [loading, setLoading] = useState(false);
+  const [loadedOnce, setLoadedOnce] = useState(false);
+
   // Profile picture state
   const [profileImage, setProfileImage] = useState(null);
 
   // Personal info state
-  const [lastName, setLastName] = useState('Torion');
-  const [firstName, setFirstName] = useState('Clifford Roy');
-  const [middleName, setMiddleName] = useState('Middle Name');
-  const [extensionName, setExtensionName] = useState('Goat');
-  const [campus, setCampus] = useState('Manila');
-  const [department, setDepartment] = useState('College of Science');
-  const [course, setCourse] = useState('Computer Science');
-  const [birthDate, setBirthDate] = useState('01 / 01 / 2005');
-  const [age, setAge] = useState('20');
-  const [email, setEmail] = useState('sample@tup.edu.ph');
-  const [birthPlace, setBirthPlace] = useState('Caloocan');
-  const [height, setHeight] = useState('165 cm');
-  const [facebook, setFacebook] = useState('facebook.com/user');
-  const [citizenship, setCitizenship] = useState('Filipino');
-  const [weight, setWeight] = useState('60 lbs');
-  const [lrn, setLrn] = useState('0123-4352-6567-9099');
-  const [religion, setReligion] = useState('Catholic');
-  const [civilStatus, setCivilStatus] = useState('Single');
-  const [gender, setGender] = useState('male');
+  const [lastName, setLastName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [middleName, setMiddleName] = useState('');
+  const [extensionName, setExtensionName] = useState('');
+  const [campus, setCampus] = useState('');
+  const [department, setDepartment] = useState('');
+  const [course, setCourse] = useState('');
+  const [birthDate, setBirthDate] = useState('');
+  const [age, setAge] = useState('');
+  const [email, setEmail] = useState('');
+  const [birthPlace, setBirthPlace] = useState('');
+  const [height, setHeight] = useState('');
+  const [facebook, setFacebook] = useState('');
+  const [citizenship, setCitizenship] = useState('');
+  const [weight, setWeight] = useState('');
+  const [lrn, setLrn] = useState('');
+  const [religion, setReligion] = useState('');
+  const [civilStatus, setCivilStatus] = useState('');
+  const [gender, setGender] = useState('');
 
   // Family background state
   const [fatherName, setFatherName] = useState('');
@@ -114,8 +123,93 @@ const Profile = () => {
 
   const handleOpenChangePassword = () => {
     // hook this to modal / route later
-    navigate('/change-password');
+    navigate('/auth/change-password');
   };
+
+  // Fetch user info on mount / user change
+  useEffect(() => {
+    if (!user || loadedOnce) return;
+    (async () => {
+      setLoading(true);
+      try {
+        await retrievePersonalInfo();
+        setLoadedOnce(true);
+      } catch (err) {
+        showMessage({ type: 'error', title: 'Load failed', message: 'Unable to load your profile.' });
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [user, retrievePersonalInfo, loadedOnce, showMessage]);
+
+  // Populate personal info state when fetched
+  useEffect(() => {
+    if (!personalInfo) return;
+    setFirstName(personalInfo.firstname || '');
+    setLastName(personalInfo.lastname || '');
+    setMiddleName(personalInfo.middlename || '');
+    setExtensionName(personalInfo.extension_name || '');
+    setGender(personalInfo.gender || '');
+    setCampus(personalInfo.campus || '');
+    setDepartment(personalInfo.department || '');
+    setCourse(personalInfo.course || '');
+    setAge(personalInfo.age || '');
+    setFacebook(personalInfo.facebook_link || '');
+    setBirthPlace(personalInfo.birthplace || '');
+    setHeight(personalInfo.height_cm != null ? `${personalInfo.height_cm} cm` : '');
+    setWeight(personalInfo.weight_lbs != null ? `${personalInfo.weight_lbs} lbs` : '');
+    setCitizenship(personalInfo.citizenship || '');
+    setReligion(personalInfo.religion || '');
+    setCivilStatus(personalInfo.civil_status || '');
+    setLrn(personalInfo.lrn || '');
+    // birthDate currently not in API; leave blank
+  }, [personalInfo]);
+
+  // Populate family background when fetched
+  useEffect(() => {
+    if (!familyBackground) return;
+    setFatherName(familyBackground.father_name || '');
+    setFatherOccupation(familyBackground.father_occupation || '');
+    setFatherContact(familyBackground.father_contact || '');
+    setFatherEducation(familyBackground.father_highest_education || '');
+    setFatherEmployer(familyBackground.father_employer || '');
+    setFatherEmployerAddress(familyBackground.father_employer_address || '');
+    setFatherIncome(familyBackground.father_income_bracket || '');
+
+    setMotherName(familyBackground.mother_name || '');
+    setMotherOccupation(familyBackground.mother_occupation || '');
+    setMotherContact(familyBackground.mother_contact || '');
+    setMotherEducation(familyBackground.mother_highest_education || '');
+    setMotherEmployer(familyBackground.mother_employer || '');
+    setMotherEmployerAddress(familyBackground.mother_employer_address || '');
+    setMotherIncome(familyBackground.mother_income_bracket || '');
+
+    setGuardianName(familyBackground.guardian_name || '');
+    setGuardianOccupation(familyBackground.guardian_occupation || '');
+    setGuardianContact(familyBackground.guardian_contact || '');
+    setGuardianEducation(familyBackground.guardian_highest_education || '');
+    setGuardianEmployer(familyBackground.guardian_employer || '');
+    setGuardianEmployerAddress(familyBackground.guardian_employer_address || '');
+    setGuardianIncome(familyBackground.guardian_income_bracket || '');
+    // relationship not in API; leave blank
+    setSiblingsCount(familyBackground.number_of_siblings || '');
+    setYearlyIncome(familyBackground.income_bracket || '');
+  }, [familyBackground]);
+
+  useEffect(() => {
+    if (user && user.email) setEmail(user.email);
+    if (user && user.birthday) {
+      try {
+        const d = new Date(user.birthday)
+        if (!isNaN(d.getTime())) {
+          const mm = String(d.getMonth() + 1).padStart(2, '0')
+          const dd = String(d.getDate()).padStart(2, '0')
+          const yyyy = String(d.getFullYear())
+          setBirthDate(`${mm} / ${dd} / ${yyyy}`)
+        }
+      } catch {}
+    }
+  }, [user]);
 
   return (
     <div className="profile-page">
@@ -197,7 +291,27 @@ const Profile = () => {
                   />
                 </div>
 
+                {/* User summary from context */}
+                {user && (
+                  <div style={{display:'flex',gap:'.5rem',flexWrap:'wrap',marginTop:'.5rem'}}>
+                    <div style={{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:'9999px',padding:'.25rem .75rem'}}>
+                      Username: <strong>{user.username}</strong>
+                    </div>
+                    {user.tup_id && (
+                      <div style={{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:'9999px',padding:'.25rem .75rem'}}>
+                        TUP ID: <strong>{String(user.tup_id).toUpperCase()}</strong>
+                      </div>
+                    )}
+                    {user.email && (
+                      <div style={{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.12)',borderRadius:'9999px',padding:'.25rem .75rem'}}>
+                        Email: <strong>{user.email}</strong>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {/* Name rows */}
+                {loading && <div style={{width:'100%', textAlign:'center', marginBottom:'1rem'}}>Loading profile...</div>}
                 <div className="profile-name-row">
                   <div className="field-group">
                     <label>Last Name</label>

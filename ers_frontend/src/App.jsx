@@ -22,20 +22,23 @@ import Message from './pages/message/Message.jsx';
 
 import Enrollment from './pages/enrollment/enrollment.jsx';
 import Assessment from './pages/enrollment/enrollmentAssessment.jsx';
-import Profile from './pages/profile/Profile.jsx';
+import Profile from './pages/profile/profile.jsx';
 import GraduationApplication from './pages/graduation/GraduationApplication';
 import FacultyEvaluation from './pages/facultyEvaluation/FacultyEvaluation';
+import ResetPassword from './pages/auth/resetpassword.jsx';
 
 function App() {
   return (
     <Routes>
       <Route path="/auth" element={<AuthLayout />}>
-        <Route index element={<Auth />} />
+        <Route index element={<Navigate to="login" replace />}/>
+        <Route path="login" element={<Auth />} />
+        <Route path="forget-password" element={<ResetPage />} />
+        <Route path="change-password" element={<ChangePass />} />
+        <Route path="reset-password/:token" element={<ResetPassword/>} />
+        <Route path="otp" element={<Otp />} />
       </Route>
-      <Route path="/forget-password" element={<ResetPage />} />
-      <Route path="/change-password" element={<ChangePass />} />
-      <Route path="/otp" element={<Otp />} />
-
+    
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Navigate to="home" replace />}/>
         <Route path="profile" element={<Profile />} />

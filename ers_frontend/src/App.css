@@ -1,12 +1,20 @@
 body, :root{
     font-family: "Product Sans", "Google Sans", "Roboto", Arial, sans-serif;
     width: 100%;
-    background: linear-gradient(180deg, #F3CFCE 20%, #97051D 100%); 
+    
     min-height: 100vh;
     margin: 0;  
     padding: 0;
     box-sizing: border-box;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+body {
+    background: linear-gradient(180deg, #F3CFCE 20%, #97051D 100%); 
 }
 
 :root{
@@ -23,6 +31,33 @@ body, :root{
     /* Button Text color */
     --tertiary-color: hsl(2, 70%, 70%); 
     --gradient-linear-bg: linear-gradient(90deg,rgba(220, 100, 96, 1) 0%, rgba(233, 181, 180, 1) 100%);
+}
+
+/* Animations */
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+@keyframes fadeIn {
+    from {opacity: 0.4;}
+    to {opacity: 1}
 }
 
 

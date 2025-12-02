@@ -5,3 +5,7 @@
  flask-sqlalchemy
  flask-bcrypt
  google-genai
+ flask-mail
+ gunicorn
+ python-dotenv
+ 

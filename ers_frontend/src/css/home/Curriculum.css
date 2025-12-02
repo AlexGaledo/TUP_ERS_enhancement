@@ -14,6 +14,7 @@
     background: linear-gradient(to top, #E8B4B3, #DC625E);
     border: none;
     border-radius: 30px;
+    animation: slideInDown 0.8s ease-out;
 }
 
 .curriculum-year-title {

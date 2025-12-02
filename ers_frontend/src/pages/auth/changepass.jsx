@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import '../../css/authPages.css';
-import logo from '../../assets/logo-rectangles.png';
+import '../../css/auth.css';
+import logo from '../../assets/tup_logo.png';
 import { useMessageModal } from '../../context/MessageModal';
+import backend from '../../api/axios.jsx';
+import { useUser } from '../../context/UserContext.jsx';
 
 export default function ChangePass() {
     const [oldPassword, setOldPassword] = useState('');
@@ -9,34 +11,77 @@ export default function ChangePass() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showOtp, setShowOtp] = useState(false);
     const { showMessage } = useMessageModal() || { showMessage: () => {} };
+    const { user } = useUser() || { user: null };
 
-    const openOtp = (e) => {
+    const openOtp = async (e) => {
         e.preventDefault();
         if (!oldPassword || !newPassword || !confirmPassword) return;
         if (newPassword !== confirmPassword) {
             showMessage({ title: 'Password mismatch', message: 'New passwords do not match.', type: 'warning', autoCloseMs: 2500 });
             return;
         }
-        setShowOtp(true);
+        // Step 1: trigger OTP send
+        try {
+            const email = user?.email;
+            if (!email) throw new Error('Missing user email');
+            await backend.post('/auth/send-2fa', { email });
+            setShowOtp(true);
+        } catch (error) {
+            const apiMsg = error?.response?.data?.message || error?.response?.data?.error;
+            showMessage({ title: 'Error', message: apiMsg || 'Failed to send verification code.', type: 'error', autoCloseMs: 2500 });
+        }
     };
 
     const closeOtp = () => setShowOtp(false);
 
-    return (
-        <div className="auth-content">
-            <div className="auth-page">
-                <div className="auth-card two-col">
-                    <div className="auth-left">
-                        <h2>Account Security</h2>
-                        <img src={logo} alt="logo" className="auth-logo" />
-                    </div>
+    // Called when OTP modal reports success
+    const handleOtpVerified = async (ok) => {
+        if (!ok) return; // do nothing on failure
+        try {
+            const response = await backend.post('/auth/change-password', {
+                user_id: user?.id,
+                old_password: oldPassword,
+                new_password: newPassword,
+            });
+            if (response.status === 200) {
+                showMessage({ title: 'Success', message: `${response.data?.response}`, type: 'success', autoCloseMs: 2500 });
+                setShowOtp(false);
+            }
+        } catch (error) {
+            showMessage({ title: 'Error', message: `${error.response?.data?.error || 'Failed to change password.'}`, type: 'error', autoCloseMs: 2500 });
+        }
+    };
 
-                    <div className="auth-right">
-                        <h1>Change Password</h1>
-                        <form className="auth-form" onSubmit={openOtp}>
-                            <div className="form-group">
-                                <label>Current Password</label>
+    return (
+        <div className="login-page">
+            <div className="login-background-shapes">
+                <div className="shape shape-1"></div>
+                <div className="shape shape-2"></div>
+            </div>
+
+            <div className="login-container">
+                <div className="login-brand-section">
+                    <div className="brand-content">
+                        <img src={logo} alt="TUP Logo" className="brand-logo" />
+                        <div className="brand-text">
+                            <h2>Technological University of the Philippines</h2>
+                            <h3>Students Access Module</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="login-form-section">
+                    <div className="login-card">
+                        <div className="login-header">
+                            <h1>Change Password</h1>
+                            <p>Update your account password</p>
+                        </div>
+
+                        <form className="login-form" onSubmit={openOtp}>
+                            <div className="input-group">
+                                <label htmlFor="oldPassword">Current Password</label>
                                 <input
+                                    id="oldPassword"
                                     type="password"
                                     value={oldPassword}
                                     onChange={(e) => setOldPassword(e.target.value)}
@@ -45,9 +90,10 @@ export default function ChangePass() {
                                 />
                             </div>
 
-                            <div className="form-group">
-                                <label>New Password</label>
+                            <div className="input-group">
+                                <label htmlFor="newPassword">New Password</label>
                                 <input
+                                    id="newPassword"
                                     type="password"
                                     value={newPassword}
                                     onChange={(e) => setNewPassword(e.target.value)}
@@ -56,9 +102,10 @@ export default function ChangePass() {
                                 />
                             </div>
 
-                            <div className="form-group">
-                                <label>Repeat New Password</label>
+                            <div className="input-group">
+                                <label htmlFor="confirmPassword">Repeat New Password</label>
                                 <input
+                                    id="confirmPassword"
                                     type="password"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -67,21 +114,25 @@ export default function ChangePass() {
                                 />
                             </div>
 
-                            <button type="submit" className="auth-btn">Verify</button>
+                            <button type="submit" className="login-btn">Verify</button>
+                            
+                            <div className="form-actions" style={{ justifyContent: 'center', marginTop: '1rem' }}>
+                                <a href="/auth" className="forgot-password-link">Back to Login</a>
+                            </div>
                         </form>
                     </div>
                 </div>
-
-                {showOtp && (
-                    <OtpPopup onCancel={closeOtp} />
-                )}
             </div>
+
+            {showOtp && (
+                <OtpPopup onCancel={closeOtp} onVerified={handleOtpVerified} />
+            )}
         </div>
     );
 }
 
 // Lightweight wrapper to reuse central OTP component
 import OtpComponent from './otp.jsx';
-function OtpPopup({ onCancel }) {
-    return <OtpComponent onCancel={onCancel} />;
+function OtpPopup({ onCancel, onVerified }) {
+    return <OtpComponent onCancel={onCancel} onVerified={onVerified} />;
 }

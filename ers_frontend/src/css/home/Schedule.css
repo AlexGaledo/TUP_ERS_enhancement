@@ -9,15 +9,15 @@
 }
 
 .schedule-container {
-    margin-top: 1rem;
-    padding: 2rem;
-    min-height: 100vh;
-    width: 100%;
+  margin-top: 1rem;
+  padding: 2rem;
+  min-height: 100vh;
+  width: 100%;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Header Styling */
@@ -29,6 +29,7 @@
   gap: 0.5rem 1rem; /* Vertical and horizontal gap */
   width: 100%;
   margin-bottom: 1.5rem;
+  animation: slideInDown 0.8s ease-out;
   
 
 }
@@ -64,6 +65,7 @@
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   overflow: hidden;
+  animation: slideInRight 0.8s ease-out;
 }
 
 .schedule-desktop-view thead {
@@ -123,6 +125,7 @@
 /* Mobile View Styling */
 .schedule-mobile-view {
     display: none;
+    animation: slideInRight 0.8s ease-out;
 }
 
 .schedule-card {
@@ -228,6 +231,7 @@
   display: flex;
   flex-direction: column;
   transition: transform 0.2s ease;
+  animation: slideInLeft 0.8s ease-out;
 }
 
 .day-card:hover {

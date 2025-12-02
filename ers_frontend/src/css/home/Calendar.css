@@ -9,6 +9,7 @@
     background: linear-gradient(to top, #dd908e, #DC625E );
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border-radius: 30px;
+    animation: slideInDown 0.8s ease-out;
 }
 
 .home-calendar-page-content {

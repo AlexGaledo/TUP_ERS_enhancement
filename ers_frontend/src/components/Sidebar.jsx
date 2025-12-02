@@ -6,10 +6,11 @@ import profileIcon from "../assets/profileIcon.svg";
 import enrollmentIcon from "../assets/enrollmentIcon.svg";
 import graduationIcon from "../assets/graduationIcon.svg";
 import evaluationIcon from "../assets/evaluationIcon.svg";
+import { forwardRef } from "react";
 
-export default function Sidebar({ isSidebarVisible }) {
+const Sidebar = forwardRef(({ isSidebarVisible }, ref) => {
     return (
-        <div className={`sidebar-container ${isSidebarVisible ? 'sidebar-visible' : ''}`}>
+        <div ref={ref} className={`sidebar-container ${isSidebarVisible ? 'sidebar-visible' : ''}`}>
             <Link to="/home" className="sidebar-link">
                 <img src={homeIcon} alt="Home" />
                 <p>Home</p>
@@ -41,4 +42,6 @@ export default function Sidebar({ isSidebarVisible }) {
             </Link>
         </div>
     )
-}
+});
+
+export default Sidebar;
