@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import backend from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
-import '../../css/authPages.css';
-import logo from '../../assets/logo-rectangles.png'
+import '../../css/auth.css';
+import logo from '../../assets/tup_logo.png';
 import { useUser } from '../../context/UserContext';
 import { useMessageModal } from '../../context/MessageModal';
 
@@ -45,80 +45,64 @@ export default function Auth() {
 
 
     return (
-        <div className="auth-page">
-            <div className="auth-card two-col">
-                <div className="auth-left">
-                    <h2>Students Access Module</h2>
-                    <img src={logo} alt="logo" className="auth-logo" />
+        <div className="login-page">
+            <div className="login-background-shapes">
+                <div className="shape shape-1"></div>
+                <div className="shape shape-2"></div>
+            </div>
+
+            <div className="login-container">
+                <div className="login-brand-section">
+                    <div className="brand-content">
+                        <img src={logo} alt="TUP Logo" className="brand-logo" />
+                        <div className="brand-text">
+                            <h2>Technological University of the Philippines</h2>
+                            <h3>Students Access Module</h3>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="auth-right">
-                    <h1>Student Login</h1>
-                    <form className="auth-form" onSubmit={login_acc}>
-                        <div className="form-group">
-                            <label>TUP Student ID</label>
-                            <input
-                                type="text"
-                                placeholder="TUPM-XX-XXXX"
-                                value={tup_Id}
-                                onChange={(e) => setTupId(e.target.value)}
-                                required
-                            />
+                <div className="login-form-section">
+                    <div className="login-card">
+                        <div className="login-header">
+                            <h1>Welcome Back</h1>
+                            <p>Please sign in to your account</p>
                         </div>
 
-                        <div className="form-group">
-                            <label>Password</label>
-                            <input
-                                type="password"
-                                placeholder="Enter your password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-                        </div>
+                        <form className="login-form" onSubmit={login_acc}>
+                            <div className="input-group">
+                                <label htmlFor="tupId">TUP Student ID</label>
+                                <input
+                                    id="tupId"
+                                    type="text"
+                                    placeholder="TUPM-XX-XXXX"
+                                    value={tup_Id}
+                                    onChange={(e) => setTupId(e.target.value)}
+                                    required
+                                />
+                            </div>
 
-                        <div className="forgot-password">
-                            <a href="/forget-password">Forgot Password?</a>
-                        </div>
+                            <div className="input-group">
+                                <label htmlFor="password">Password</label>
+                                <input
+                                    id="password"
+                                    type="password"
+                                    placeholder="••••••••"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                            </div>
 
-                        <button type="submit" className="auth-btn">
-                            Log In
-                        </button>
-                    </form>
+                            <div className="form-actions">
+                                <a href="/forget-password" className="forgot-password-link">Forgot Password?</a>
+                            </div>
 
-                    {/*isAdminView && (
-                        <div className="admin-panel">
-                            { <button className="admin-btn" onClick={toggleAddStudent}>
-                                {showAddStudent ? 'Cancel' : 'Add Student'}
-                            </button> }
-
-                            {showAddStudent && (
-                                <form className="auth-form add-student" onSubmit={submitNewStudent}>
-                                    <div className="form-group">
-                                        <label>Username</label>
-                                        <input value={newStudent.username} onChange={(e) => handleNewStudentChange('username', e.target.value)} required />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Email</label>
-                                        <input type="email" value={newStudent.email} onChange={(e) => handleNewStudentChange('email', e.target.value)} required />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>TUP ID</label>
-                                        <input value={newStudent.tup_id} onChange={(e) => handleNewStudentChange('tup_id', e.target.value)} required />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Birthday</label>
-                                        <input type="date" value={newStudent.birthday} onChange={(e) => handleNewStudentChange('birthday', e.target.value)} required />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Password</label>
-                                        <input type="password" value={newStudent.password} onChange={(e) => handleNewStudentChange('password', e.target.value)} required />
-                                    </div>
-                                    <button type="submit" className="auth-btn">Create Student</button>
-                                </form>
-                            )}
-                        </div>
-                    )*/}
+                            <button type="submit" className="login-btn">
+                                Login
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
