@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useMessageModal } from '../../context/MessageModal'
-import '../../css/authPages.css'
-import logo from '../../assets/logo-rectangles.png'
+import '../../css/auth.css'
+import logo from '../../assets/tup_logo.png'
 
 export default function Otp({ onCancel }) {
     const [otp, setOtp] = useState('')
@@ -148,55 +148,77 @@ export default function Otp({ onCancel }) {
         }
     }
 
-    return (
-        <div className="auth-content">
-            <div className="auth-page">
-                <div className="auth-card two-col">
-                    <div className="auth-left">
-                        <h2>Account Verification</h2>
-                        <img src={logo} alt="logo" className="auth-logo" />
-                    </div>
+    const containerStyle = onCancel ? {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        zIndex: 1000,
+        backgroundColor: 'var(--bg-color)',
+    } : {};
 
-                    <div className="auth-right">
-                        <h1>OTP Verification</h1>
+    return (
+        <div className="login-page" style={containerStyle}>
+            <div className="login-background-shapes">
+                <div className="shape shape-1"></div>
+                <div className="shape shape-2"></div>
+            </div>
+
+            <div className="login-container">
+                <div className="login-brand-section">
+                    <div className="brand-content">
+                        <img src={logo} alt="TUP Logo" className="brand-logo" />
+                        <div className="brand-text">
+                            <h2>Technological University of the Philippines</h2>
+                            <h3>Students Access Module</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="login-form-section">
+                    <div className="login-card">
+                        <div className="login-header">
+                            <h1>OTP Verification</h1>
+                            <p>Enter the 6-digit code sent to your email</p>
+                        </div>
+
                         <form
-                            className="auth-form"
+                            className="login-form"
                             onSubmit={(e) => {
                                 e.preventDefault()
                                 verifyOtp()
                             }}
                         >
-                            <div className="form-group">
-                                <label>Enter 6-Digit Code</label>
+                            <div className="input-group">
+                                <label htmlFor="otp">Enter 6-Digit Code</label>
                                 <input
+                                    id="otp"
                                     type="text"
-                                    className="otp-textspace"
                                     placeholder="000000"
                                     required
                                     value={otp}
                                     onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
                                     maxLength={6}
+                                    style={{ letterSpacing: '0.5rem', textAlign: 'center', fontSize: '1.2rem' }}
                                 />
                             </div>
 
                             <div style={{ display: 'flex', gap: '.75rem', marginTop: '.5rem' }}>
                                 <button
                                     type="button"
-                                    className="btn-secondary"
+                                    className="login-btn"
                                     onClick={getOtp}
                                     disabled={disabled}
                                     style={{ 
-                                        opacity: disabled ? 0.55 : 1, 
+                                        opacity: disabled ? 0.7 : 1, 
                                         flex: 1,
-                                        background: 'transparent',
-                                        color: '#fff',
-                                        backgroundColor: 'hsla(0, 0%, 100%, 0.10)',
-                                        border: '1px solid hsla(0, 0%, 100%, 0.20)',
+                                        marginTop: 0,
+                                        background: disabled ? '#ccc' : 'var(--text-light)',
+                                        boxShadow: 'none'
                                     }}
                                 >
                                     {disabled ? `Resend in ${timer}s` : 'Send Code'}
                                 </button>
-                                <button type="submit" className="auth-btn" style={{ flex: 1 }}>
+                                <button type="submit" className="login-btn" style={{ flex: 1, marginTop: 0 }}>
                                     Verify
                                 </button>
                             </div>
@@ -207,12 +229,14 @@ export default function Otp({ onCancel }) {
                                     onClick={onCancel}
                                     style={{
                                         background: 'transparent',
-                                        color: '#E8B4B3',
+                                        color: 'var(--text-light)',
                                         border: 'none',
                                         padding: '.5rem',
                                         cursor: 'pointer',
-                                        marginTop: '.5rem',
-                                        fontSize: '0.9rem'
+                                        marginTop: '1rem',
+                                        fontSize: '0.9rem',
+                                        width: '100%',
+                                        textDecoration: 'underline'
                                     }}
                                 >
                                     Cancel

@@ -1,5 +1,5 @@
-import '../../css/authPages.css';
-import logo from '../../assets/logo-rectangles.png';
+import '../../css/auth.css';
+import logo from '../../assets/tup_logo.png';
 import { useNavigate, useParams } from 'react-router-dom';
 import backend from '../../api/axios.jsx'
 import { useMessageModal } from '../../context/MessageModal';
@@ -24,7 +24,7 @@ export default function ResetPassword() {
         }
 
         if (!token) {
-            showMessage({ type: 'error', message: msg || 'missing token' });
+            showMessage({ type: 'error', message: 'missing token' });
             return;
         }
 
@@ -48,44 +48,60 @@ export default function ResetPassword() {
 
 
 	return (
-		<div className="auth-content">
-			<div className="auth-page">
-				<div className="auth-card two-col">
-					<div className="auth-left">
-						<h2>Password Reset</h2>
-						<img src={logo} alt="logo" className="auth-logo" />
-					</div>
+		<div className="login-page">
+            <div className="login-background-shapes">
+                <div className="shape shape-1"></div>
+                <div className="shape shape-2"></div>
+            </div>
 
-					<div className="auth-right">
-						<h1>Set New Password</h1>
-						<form className="auth-form" onSubmit={(e) => { e.preventDefault(); verify_token(); }}>
-							<div className="form-group">
-								<label>New Password</label>
-								<input
-									type="password"
-									placeholder="Enter new password"
-									required
+            <div className="login-container">
+                <div className="login-brand-section">
+                    <div className="brand-content">
+                        <img src={logo} alt="TUP Logo" className="brand-logo" />
+                        <div className="brand-text">
+                            <h2>Technological University of the Philippines</h2>
+                            <h3>Students Access Module</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="login-form-section">
+                    <div className="login-card">
+                        <div className="login-header">
+                            <h1>Set New Password</h1>
+                            <p>Create a new password for your account</p>
+                        </div>
+
+                        <form className="login-form" onSubmit={(e) => { e.preventDefault(); verify_token(); }}>
+                            <div className="input-group">
+                                <label htmlFor="password">New Password</label>
+                                <input
+                                    id="password"
+                                    type="password"
+                                    placeholder="Enter new password"
+                                    required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-								/>
-							</div>
+                                />
+                            </div>
 
-							<div className="form-group">
-								<label>Repeat New Password</label>
-								<input
-									type="password"
-									placeholder="Repeat new password"
-									required
+                            <div className="input-group">
+                                <label htmlFor="confirmPassword">Repeat New Password</label>
+                                <input
+                                    id="confirmPassword"
+                                    type="password"
+                                    placeholder="Repeat new password"
+                                    required
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
-								/>
-							</div>
+                                />
+                            </div>
 
-							<button type="submit" className="auth-btn">Reset Password</button>
-						</form>
-					</div>
-				</div>
-			</div>
+                            <button type="submit" className="login-btn">Reset Password</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
 		</div>
 	);
     
