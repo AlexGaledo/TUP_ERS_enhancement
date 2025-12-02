@@ -21,7 +21,9 @@ export function UserProvider({ children }) {
     };
     useEffect(() => {
         if (!user) {
-            if (window.location.pathname.startsWith('/auth') === false){
+            if (window.location.pathname.startsWith('/auth') === false &&
+                window.location.pathname.startsWith('/auth/forget-password') === false &&
+                window.location.pathname.startsWith('/auth/reset-password/') === false) {
                     navigate('/auth/login');
                 }       
         }

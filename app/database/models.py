@@ -1,6 +1,6 @@
 
 from ..extensions import db,bcrypt
-import uuid
+import uuid, datetime
 
 
 
@@ -93,6 +93,23 @@ class Otp(db.Model):
     code = db.Column(db.String(6), nullable=False)
     expires_at = db.Column(db.DateTime, nullable=False)
 
+    def __init__(self, email, code, expires_at):
+        self.email = email
+        self.code = code
+        self.expires_at = expires_at
+
+    def is_expired(self):
+        return datetime.datetime.utcnow() > self.expires_at
+
+    def regenerate_code(self):
+        self.code = str(uuid.uuid4().int)[:6]
+        self.expires_at = datetime.datetime.utcnow() + datetime.timedelta(minutes=10)
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    
 
 
    

@@ -2,6 +2,8 @@ import { useState } from 'react';
 import '../../css/auth.css';
 import logo from '../../assets/tup_logo.png';
 import { useMessageModal } from '../../context/MessageModal';
+import backend from '../../api/axios.jsx';
+import { useUser } from '../../context/UserContext.jsx';
 
 export default function ChangePass() {
     const [oldPassword, setOldPassword] = useState('');
@@ -9,18 +11,46 @@ export default function ChangePass() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showOtp, setShowOtp] = useState(false);
     const { showMessage } = useMessageModal() || { showMessage: () => {} };
+    const { user } = useUser() || { user: null };
 
-    const openOtp = (e) => {
+    const openOtp = async (e) => {
         e.preventDefault();
         if (!oldPassword || !newPassword || !confirmPassword) return;
         if (newPassword !== confirmPassword) {
             showMessage({ title: 'Password mismatch', message: 'New passwords do not match.', type: 'warning', autoCloseMs: 2500 });
             return;
         }
-        setShowOtp(true);
+        // Step 1: trigger OTP send
+        try {
+            const email = user?.email;
+            if (!email) throw new Error('Missing user email');
+            await backend.post('/auth/send-2fa', { email });
+            setShowOtp(true);
+        } catch (error) {
+            const apiMsg = error?.response?.data?.message || error?.response?.data?.error;
+            showMessage({ title: 'Error', message: apiMsg || 'Failed to send verification code.', type: 'error', autoCloseMs: 2500 });
+        }
     };
 
     const closeOtp = () => setShowOtp(false);
+
+    // Called when OTP modal reports success
+    const handleOtpVerified = async (ok) => {
+        if (!ok) return; // do nothing on failure
+        try {
+            const response = await backend.post('/auth/change-password', {
+                user_id: user?.id,
+                old_password: oldPassword,
+                new_password: newPassword,
+            });
+            if (response.status === 200) {
+                showMessage({ title: 'Success', message: `${response.data?.response}`, type: 'success', autoCloseMs: 2500 });
+                setShowOtp(false);
+            }
+        } catch (error) {
+            showMessage({ title: 'Error', message: `${error.response?.data?.error || 'Failed to change password.'}`, type: 'error', autoCloseMs: 2500 });
+        }
+    };
 
     return (
         <div className="login-page">
@@ -95,7 +125,7 @@ export default function ChangePass() {
             </div>
 
             {showOtp && (
-                <OtpPopup onCancel={closeOtp} />
+                <OtpPopup onCancel={closeOtp} onVerified={handleOtpVerified} />
             )}
         </div>
     );
@@ -103,6 +133,6 @@ export default function ChangePass() {
 
 // Lightweight wrapper to reuse central OTP component
 import OtpComponent from './otp.jsx';
-function OtpPopup({ onCancel }) {
-    return <OtpComponent onCancel={onCancel} />;
+function OtpPopup({ onCancel, onVerified }) {
+    return <OtpComponent onCancel={onCancel} onVerified={onVerified} />;
 }

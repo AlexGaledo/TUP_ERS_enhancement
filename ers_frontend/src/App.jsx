@@ -22,7 +22,7 @@ import Message from './pages/message/Message.jsx';
 
 import Enrollment from './pages/enrollment/enrollment.jsx';
 import Assessment from './pages/enrollment/enrollmentAssessment.jsx';
-import Profile from './pages/profile/Profile.jsx';
+import Profile from './pages/profile/profile.jsx';
 import GraduationApplication from './pages/graduation/GraduationApplication';
 import FacultyEvaluation from './pages/facultyEvaluation/FacultyEvaluation';
 import ResetPassword from './pages/auth/resetpassword.jsx';

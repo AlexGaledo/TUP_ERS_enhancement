@@ -95,7 +95,7 @@ export default function Auth() {
                             </div>
 
                             <div className="form-actions">
-                                <a href="/forget-password" className="forgot-password-link">Forgot Password?</a>
+                                <a href="/auth/forget-password" className="forgot-password-link">Forgot Password?</a>
                             </div>
 
                             <button type="submit" className="login-btn">

@@ -3,15 +3,15 @@ import { useNavigate } from 'react-router-dom'
 import { useMessageModal } from '../../context/MessageModal'
 import '../../css/auth.css'
 import logo from '../../assets/tup_logo.png'
+import backend from '../../api/axios.jsx'
 
-export default function Otp({ onCancel }) {
+export default function Otp({ onCancel, onVerified }) {
     const [otp, setOtp] = useState('')
     const [disabled, setDisabled] = useState(false)
     const [timer, setTimer] = useState(0)
     const intervalRef = useRef(null)
     const navigate = useNavigate()
     const { showMessage } = useMessageModal() || { showMessage: () => {} }
-    const OTP_API = import.meta.env.VITE_API_SECOND_URL
 
     useEffect(() => {
         return () => {
@@ -38,15 +38,6 @@ export default function Otp({ onCancel }) {
     }
 
     const getOtp = async () => {
-        if (disabled) return
-        if (!OTP_API) {
-            showMessage({
-                title: 'Service not configured',
-                message: 'VITE_API_SECOND_URL is missing. Please configure the OTP service URL.',
-                type: 'error',
-            })
-            return
-        }
         const email = localStorage.getItem('email_for_verification')
         if (!email) {
             showMessage({
@@ -56,48 +47,30 @@ export default function Otp({ onCancel }) {
             })
             return
         }
-
         startCountdown()
         try {
-            const res = await fetch(`${OTP_API}/send-otp`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email }),
-            })
-            const text = await res.text()
-            if (res.ok) {
+            const res = await backend.post(`/auth/send-2fa`, { email })
+            if (res.status >= 200 && res.status < 300) {
                 showMessage({
                     title: 'OTP sent',
                     message: 'Check your inbox for the verification code.',
                     type: 'success',
                     autoCloseMs: 2500,
                 })
-            } else {
-                showMessage({
-                    title: 'Send failed',
-                    message: text || 'Unable to send OTP. Please try again.',
-                    type: 'error',
-                })
             }
         } catch (err) {
+            const apiMsg = err?.response?.data?.message || err?.response?.data?.error
             showMessage({
                 title: 'Network error',
-                message: 'Could not reach the OTP service.',
+                message: apiMsg || 'Could not reach the OTP service.',
                 type: 'error',
             })
         }
     }
 
-    const verifyOtp = async () => {
-        if (!OTP_API) {
-            showMessage({
-                title: 'Service not configured',
-                message: 'VITE_API_SECOND_URL is missing. Please configure the OTP service URL.',
-                type: 'error',
-            })
-            return
-        }
+    const verifyOtp = async () => { 
         const email = localStorage.getItem('email_for_verification')
+        console.log(`retrieved email from local storage: ${email} and otp: ${otp}`)
         if (!email) {
             showMessage({
                 title: 'No email found',
@@ -117,35 +90,35 @@ export default function Otp({ onCancel }) {
         }
 
         try {
-            const res = await fetch(`${OTP_API}/verify-otp`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, otp: String(otp) }),
-            })
-            const text = await res.text()
-            // if (res.ok) {
-            //     localStorage.removeItem('email_for_verification')
-            //     showMessage({
-            //         title: 'Verified',
-            //         message: 'Your account has been verified successfully.',
-            //         type: 'success',
-            //         autoCloseMs: 2000,
-            //     })
-            //     navigate('/home/welcome')
-            // } else {
-            //     showMessage({
-            //         title: 'Verification failed',
-            //         message: text || 'The code you entered is incorrect or expired.',
-            //         type: 'error',
-            //     })
-            // }
-            navigate('/home/welcome') // debug bypass
+            const res = await backend.post(`/auth/verify-2fa`, { email, otp: String(otp) })
+            console.log(`sent corresponding details to the backend = ${email}, ${otp}:`)
+            if (res.status >= 200 && res.status < 300) {
+                showMessage({
+                    title: 'OTP verified',
+                    message: 'You have been successfully verified.',
+                    type: 'success',
+                    autoCloseMs: 2500,
+                })
+                if (typeof onVerified === 'function') {
+                    onVerified(true)
+                } else {
+                    // Default behavior if no callback supplied
+                    navigate('/home/welcome')
+                }
+                return true
+            }
+
+
         } catch (err) {
+            const apiMsg = err?.response?.data?.message || err?.response?.data?.error
             showMessage({
-                title: 'Network error',
-                message: 'Could not verify the OTP right now.',
+                title: 'Verification failed',
+                message: apiMsg || err.data?.response || 'OTP verification failed. Please try again.',
                 type: 'error',
             })
+            if (typeof onVerified === 'function') {
+                onVerified(false)
+            }
         }
     }
 

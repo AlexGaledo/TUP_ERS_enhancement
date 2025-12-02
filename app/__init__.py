@@ -9,6 +9,7 @@ from flask_jwt_extended import JWTManager
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
+    # Configure CORS to allow Vite dev server origin and handle preflights
     CORS(app)
     db.init_app(app)
     migrate.init_app(app,db)
@@ -19,6 +20,15 @@ def create_app():
     register_routes(app)
     JWTManager(app)
     from .extensions import serializer
+
+    @app.after_request
+    def add_cors_headers(response):
+        # Ensure preflight responses are correct
+        response.headers.setdefault('Access-Control-Allow-Origin', 'http://localhost:5173')
+        response.headers.setdefault('Access-Control-Allow-Credentials', 'true')
+        response.headers.setdefault('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+        response.headers.setdefault('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+        return response
 
     # #initializedsqlite
     # with app.app_context():

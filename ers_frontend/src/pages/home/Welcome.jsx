@@ -97,7 +97,7 @@ export default function Welcome() {
             <div className="home-welcome-container">
                 <div className="home-welcome-text">
                     <p id="home-welcome-date">{formattedDate}</p>
-                    <h1 id="home-welcome-greeting">Welcome back, {user.username}!</h1>
+                    <h1 id="home-welcome-greeting">Welcome back, {user?.username || null}!</h1>
                     <p id="home-welcome-message">Always stay updated in your student portal.</p>
                 </div>
 

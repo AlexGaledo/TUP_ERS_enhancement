@@ -1,15 +1,17 @@
 
+import uuid
 from flask import Blueprint, jsonify, request
 from ..extensions import db, serializer, mail,bcrypt
-from ..database.models import User
+from ..database.models import User, Otp
 import logging, traceback
 from datetime import datetime
 from flask_mail import Message
 from ..config import Config
 from flask_jwt_extended import create_access_token
-from datetime import timedelta
+from datetime import timedelta, datetime
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import requests
+
 
 
 auth_bp = Blueprint('auth_bp',__name__)
@@ -73,36 +75,60 @@ def getotp(email):
     user = User.query.filter_by(email=email).first()
     if not user:
         return jsonify({"error":"user not found"}), 401
-    
+    try:
+        token = Otp(email=email, code=str(uuid.uuid4().int)[:6], expires_at=datetime.utcnow() + timedelta(minutes=10))
 
-    payload = jsonify({
-        "email":email,
-    })
-    res = requests.post(f"{Config.sexpress}/send-otp",json=payload)
-    if res.ok:
-        return jsonify({
-            "response":"otp sent"
-        }), 200
-    
-    return jsonify({"error":"something went wrong"}), 500
+        token_existing = Otp.query.filter_by(email=email).first()
+        if token_existing:
+            db.session.delete(token_existing)
+            db.session.commit()
+
+        db.session.add(token)
+        db.session.commit()    
+
+        msg = Message(
+            subject='Your OTP Code',
+            sender=Config.MAIL_USERNAME,
+            recipients=[email],
+        )
+        msg.body = f'Your OTP code is: {token.code}. It will expire in 10 minutes.'
+        mail.send(msg)
+        return jsonify({"response":"otp sent"}), 200
+    except Exception as e:
+        logging.error(traceback.format_exc())
+        return jsonify({"error":"something went wrong"}), 500
+
+
+@auth_bp.route('/send-2fa', methods=['POST', 'OPTIONS'])
+def sendotp():
+    if request.method == 'OPTIONS':
+        return ('', 204)
+    data = request.get_json() or {}
+    email = data.get('email')
+    return getotp(email)
 
 
 @auth_bp.route('/verify-2fa',methods=['POST'])    
-def getotpverify(email,otp):
+def getotpverify():
+    data = request.get_json()
+    email = data.get('email')
+    otp = data.get('otp')
     user = User.query.filter_by(email=email).first()
+    
     if not user:
         return jsonify({"error":"user not found"}), 401
-    
-    res = requests.post(f"{Config.sexpress}/verify-otp",json={
-        "email":email,
-        "otp":otp
-    })
-
-    if res.ok:
-        return jsonify({"response":"otp verified"}), 200
-    
-    return jsonify({"error":"invalid otp"}), 401
-
+    try:
+        token = Otp.query.filter_by(email=email,code=otp).first()
+        if token and not token.is_expired():
+            db.session.delete(token)
+            db.session.commit()
+            access_token = create_access_token(identity=user.id,expires_delta=timedelta(minutes=60))
+            return jsonify({"access_token":access_token}), 200
+        else:
+            return jsonify({"error":"expired or invalid code, resend a new one"}), 401
+    except Exception as e:
+        logging.error(traceback.format_exc())
+        return jsonify({"error":"invalid otp"}), 401
 
 
 #refresh access
@@ -129,7 +155,7 @@ def change_password():
             return jsonify({"error":"user not found"}), 401
         
         token = serializer.dumps(email,salt='forgot-password')
-        reset_url = f"http://localhost:5173/reset-password/{token}" # hide sa production since ibang url na gamit
+        reset_url = f"http://localhost:5173/auth/reset-password/{token}" # hide sa production since ibang url na gamit
 
         msg = Message(
             subject='reset password',
@@ -165,6 +191,30 @@ def reset_password(token):
         return jsonify({"error":"something went wrong"}) ,500
 
 
+@auth_bp.route('/change-password',methods=['POST'])
+def change_password_logged():
+    try:
+        data = request.get_json()
+        user_id = data.get('user_id')
+        old_password = data.get('old_password')
+        new_password = data.get('new_password')
+
+        user = User.query.filter_by(id=user_id).first()
+        if not user:
+            return jsonify({'error':'User not found'}), 404
+        
+        if not user.check_password(old_password):
+            return jsonify({'error':'Old password is incorrect'}), 401
+        
+        user.set_password(new_password)
+        db.session.commit()
+        
+        return jsonify({'response':'Password successfully changed'}), 200
+    
+    except Exception as e:
+        db.session.rollback()
+        logging.error(traceback.format_exc())
+        return jsonify({'error':'Something went wrong'}), 500
     
 
 

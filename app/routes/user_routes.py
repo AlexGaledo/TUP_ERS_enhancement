@@ -132,7 +132,7 @@ def update_info():
         # Fetch or create personal info
         personal_info = personalInfo.query.filter_by(user_id=user_id).first()
         if not personal_info:
-            personal_info = personalInfo(user_id=user_id)
+            personal_info = personalInfo(user_id=user_id) #type: ignore
             db.session.add(personal_info)
 
         for key, value in personal_info_data.items():
@@ -142,7 +142,7 @@ def update_info():
         # Fetch or create family background
         family_background = familyBackground.query.filter_by(user_id=user_id).first()
         if not family_background:
-            family_background = familyBackground(user_id=user_id)
+            family_background = familyBackground(user_id=user_id) #type: ignore
             db.session.add(family_background)
 
         for key, value in family_background_data.items():
