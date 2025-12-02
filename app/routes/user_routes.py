@@ -114,4 +114,46 @@ def retrieve_info():
         traceback.print_exc()
         return jsonify({'error': 'Internal server error'}), 500
         
+@user_bp.route('/update-info',methods=['POST'])
+def update_info():
+    try:
+        data = request.get_json()
+        user_id = data.get('user_id')
+        if not user_id:
+            return jsonify({'error':'user_id is required'}), 400
         
+        user = User.query.filter_by(id=user_id).first()
+        if not user:
+            return jsonify({'error':'User not found'}), 404
+        
+        personal_info_data = data.get('personal_info',{})
+        family_background_data = data.get('family_background',{})
+        
+        # Fetch or create personal info
+        personal_info = personalInfo.query.filter_by(user_id=user_id).first()
+        if not personal_info:
+            personal_info = personalInfo(user_id=user_id)
+            db.session.add(personal_info)
+
+        for key, value in personal_info_data.items():
+            if hasattr(personal_info, key):
+                setattr(personal_info, key, value)
+        
+        # Fetch or create family background
+        family_background = familyBackground.query.filter_by(user_id=user_id).first()
+        if not family_background:
+            family_background = familyBackground(user_id=user_id)
+            db.session.add(family_background)
+
+        for key, value in family_background_data.items():
+            if hasattr(family_background, key):
+                setattr(family_background, key, value)
+        
+        db.session.commit()
+        
+        return jsonify({'message':'User information updated successfully'}), 200
+    
+    except Exception as e:
+        logging.error(f"Error updating user info: {str(e)}")
+        traceback.print_exc()
+        return jsonify({'error': 'Internal server error'}), 500
