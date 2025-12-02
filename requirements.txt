@@ -8,4 +8,5 @@
  flask-mail
  gunicorn
  python-dotenv
- 
+ dotenv
+ itsdangerous
