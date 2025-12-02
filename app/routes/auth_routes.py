@@ -141,6 +141,7 @@ def change_password():
         mail.send(msg)
         return jsonify({"response":"email sent"}), 200
     except Exception as e:
+        logging.error(traceback.format_exc())
         return jsonify({"error":"something went wrong"}), 500
     
 

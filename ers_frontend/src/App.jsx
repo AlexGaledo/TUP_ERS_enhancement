@@ -25,6 +25,7 @@ import Assessment from './pages/enrollment/enrollmentAssessment.jsx';
 import Profile from './pages/profile/Profile.jsx';
 import GraduationApplication from './pages/graduation/GraduationApplication';
 import FacultyEvaluation from './pages/facultyEvaluation/FacultyEvaluation';
+import ResetPassword from './pages/auth/resetpassword.jsx';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
       </Route>
       <Route path="/forget-password" element={<ResetPage />} />
       <Route path="/change-password" element={<ChangePass />} />
+      <Route path="/reset-password/:token" element={<ResetPassword/>} />
       <Route path="/otp" element={<Otp />} />
 
       <Route path="/" element={<MainLayout />}>

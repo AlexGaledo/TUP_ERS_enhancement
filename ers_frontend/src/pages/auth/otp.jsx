@@ -11,6 +11,7 @@ export default function Otp({ onCancel }) {
     const intervalRef = useRef(null)
     const navigate = useNavigate()
     const { showMessage } = useMessageModal() || { showMessage: () => {} }
+    const OTP_API = import.meta.env.VITE_API_SECOND_URL
 
     useEffect(() => {
         return () => {
@@ -38,6 +39,14 @@ export default function Otp({ onCancel }) {
 
     const getOtp = async () => {
         if (disabled) return
+        if (!OTP_API) {
+            showMessage({
+                title: 'Service not configured',
+                message: 'VITE_API_SECOND_URL is missing. Please configure the OTP service URL.',
+                type: 'error',
+            })
+            return
+        }
         const email = localStorage.getItem('email_for_verification')
         if (!email) {
             showMessage({
@@ -50,7 +59,7 @@ export default function Otp({ onCancel }) {
 
         startCountdown()
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_SECOND_URL}/send-otp`, {
+            const res = await fetch(`${OTP_API}/send-otp`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email }),
@@ -80,6 +89,14 @@ export default function Otp({ onCancel }) {
     }
 
     const verifyOtp = async () => {
+        if (!OTP_API) {
+            showMessage({
+                title: 'Service not configured',
+                message: 'VITE_API_SECOND_URL is missing. Please configure the OTP service URL.',
+                type: 'error',
+            })
+            return
+        }
         const email = localStorage.getItem('email_for_verification')
         if (!email) {
             showMessage({
@@ -100,10 +117,10 @@ export default function Otp({ onCancel }) {
         }
 
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_SECOND_URL}/verify-otp`, {
+            const res = await fetch(`${OTP_API}/verify-otp`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, otp }),
+                body: JSON.stringify({ email, otp: String(otp) }),
             })
             const text = await res.text()
             if (res.ok) {
