@@ -200,17 +200,6 @@
     transform: translateY(0);
 }
 
-/* Animations */
-@keyframes slideInLeft {
-    from { opacity: 0; transform: translateX(-30px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes slideInRight {
-    from { opacity: 0; transform: translateX(30px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
 /* Responsive Design */
 @media (max-width: 968px) {
     .login-container {

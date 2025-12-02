@@ -294,7 +294,7 @@ export default function Calendar() {
                                     <span className="day-number">
                                         {day}
                                         {calendarDays.length <= 35 && (
-                                            <span className="day-label"> {daysOfWeek[(firstDayOfMonth + index) % 7]}</span>
+                                            <span className="day-label">{daysOfWeek[(firstDayOfMonth + index) % 7]}</span>
                                         )}
                                     </span>
                                     {renderEvents(day)}

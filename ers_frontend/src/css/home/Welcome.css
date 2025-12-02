@@ -34,6 +34,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
     margin-bottom: 4rem;
+    animation: slideInLeft 0.8s ease-out;
 }
 
 .home-welcome-text {
@@ -82,6 +83,7 @@
     column-gap: 5rem;
 
     width: 100%;
+    animation: slideInRight 0.8s ease-out;
 }
 
 /* Mobile select fallback for navigation (hidden by default) */
@@ -279,6 +281,7 @@
 
     padding: 2rem;
     overflow: hidden;
+    animation: slideInLeft 0.8s ease-out;
 }
 
 .home-widget-announcement-author-container {
@@ -649,6 +652,9 @@
 @media (max-width: 1450px) {
     .home-navigation-tabs {
         justify-content: center;
+    }
+    .home-navigation-select {
+        animation: slideInDown 0.8s ease-out;
     }
     .home-tab-container {
         flex: 1 1 28%;
