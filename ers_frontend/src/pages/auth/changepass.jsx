@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import '../../css/authPages.css';
-import logo from '../../assets/logo-rectangles.png';
+import '../../css/auth.css';
+import logo from '../../assets/tup_logo.png';
 import { useMessageModal } from '../../context/MessageModal';
 
 export default function ChangePass() {
@@ -23,20 +23,35 @@ export default function ChangePass() {
     const closeOtp = () => setShowOtp(false);
 
     return (
-        <div className="auth-content">
-            <div className="auth-page">
-                <div className="auth-card two-col">
-                    <div className="auth-left">
-                        <h2>Account Security</h2>
-                        <img src={logo} alt="logo" className="auth-logo" />
-                    </div>
+        <div className="login-page">
+            <div className="login-background-shapes">
+                <div className="shape shape-1"></div>
+                <div className="shape shape-2"></div>
+            </div>
 
-                    <div className="auth-right">
-                        <h1>Change Password</h1>
-                        <form className="auth-form" onSubmit={openOtp}>
-                            <div className="form-group">
-                                <label>Current Password</label>
+            <div className="login-container">
+                <div className="login-brand-section">
+                    <div className="brand-content">
+                        <img src={logo} alt="TUP Logo" className="brand-logo" />
+                        <div className="brand-text">
+                            <h2>Technological University of the Philippines</h2>
+                            <h3>Students Access Module</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="login-form-section">
+                    <div className="login-card">
+                        <div className="login-header">
+                            <h1>Change Password</h1>
+                            <p>Update your account password</p>
+                        </div>
+
+                        <form className="login-form" onSubmit={openOtp}>
+                            <div className="input-group">
+                                <label htmlFor="oldPassword">Current Password</label>
                                 <input
+                                    id="oldPassword"
                                     type="password"
                                     value={oldPassword}
                                     onChange={(e) => setOldPassword(e.target.value)}
@@ -45,9 +60,10 @@ export default function ChangePass() {
                                 />
                             </div>
 
-                            <div className="form-group">
-                                <label>New Password</label>
+                            <div className="input-group">
+                                <label htmlFor="newPassword">New Password</label>
                                 <input
+                                    id="newPassword"
                                     type="password"
                                     value={newPassword}
                                     onChange={(e) => setNewPassword(e.target.value)}
@@ -56,9 +72,10 @@ export default function ChangePass() {
                                 />
                             </div>
 
-                            <div className="form-group">
-                                <label>Repeat New Password</label>
+                            <div className="input-group">
+                                <label htmlFor="confirmPassword">Repeat New Password</label>
                                 <input
+                                    id="confirmPassword"
                                     type="password"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -67,15 +84,19 @@ export default function ChangePass() {
                                 />
                             </div>
 
-                            <button type="submit" className="auth-btn">Verify</button>
+                            <button type="submit" className="login-btn">Verify</button>
+                            
+                            <div className="form-actions" style={{ justifyContent: 'center', marginTop: '1rem' }}>
+                                <a href="/auth" className="forgot-password-link">Back to Login</a>
+                            </div>
                         </form>
                     </div>
                 </div>
-
-                {showOtp && (
-                    <OtpPopup onCancel={closeOtp} />
-                )}
             </div>
+
+            {showOtp && (
+                <OtpPopup onCancel={closeOtp} />
+            )}
         </div>
     );
 }

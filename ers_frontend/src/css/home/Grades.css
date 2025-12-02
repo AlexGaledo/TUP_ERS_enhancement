@@ -33,6 +33,7 @@
     background: linear-gradient(to top,#E8B4B3, #DC625E);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border-radius: 30px;
+    animation: slideInDown 0.8s ease-out;
 }
 
 .grades-header p {
@@ -62,6 +63,7 @@
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     overflow: hidden;
+    animation: slideInUp 0.8s ease-out;
 }
 
 .grades-desktop-view thead {
@@ -96,6 +98,7 @@
 
 .grades-mobile-view {
     display: none;
+    animation: slideInUp 0.8s ease-out;
 }
 
 .grade-status-pill {
@@ -196,6 +199,7 @@
         padding-bottom: 1rem;
         width: 100%;
         -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        animation: slideInRight 0.8s ease-out;
     }
 
     .grades-card {
@@ -212,6 +216,7 @@
     .grades-header {
         text-align: center;
         font-size: 0.9rem;
+        animation: slideInLeft 0.8s ease-out;
     }
 
     .grades-card-header {
