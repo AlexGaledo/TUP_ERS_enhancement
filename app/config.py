@@ -1,11 +1,11 @@
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
 
 load_dotenv()
 
 # mga susi
 class Config():
-    SQLALCHEMY_DATABASE_URI = os.getenv('sql_url')
+    SQLALCHEMY_DATABASE_URI = os.getenv("sql_url", "sqlite:///ers_database.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.getenv('SECRET_KEY', "dev-secret-key")
     MAIL_SERVER = 'smtp.gmail.com'

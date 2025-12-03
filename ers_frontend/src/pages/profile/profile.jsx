@@ -320,6 +320,7 @@ const Profile = () => {
                       type="text"
                       value={lastName}
                       onChange={e => setLastName(e.target.value)}
+                      placeholder="Enter your last name"
                     />
                   </div>
                   <div className="field-group">
@@ -329,6 +330,7 @@ const Profile = () => {
                       type="text"
                       value={firstName}
                       onChange={e => setFirstName(e.target.value)}
+                      placeholder="Enter your first name"
                     />
                   </div>
                   <div className="field-group">
@@ -338,6 +340,7 @@ const Profile = () => {
                       type="text"
                       value={middleName}
                       onChange={e => setMiddleName(e.target.value)}
+                      placeholder="Enter your middle name"
                     />
                   </div>
                 </div>
@@ -350,6 +353,7 @@ const Profile = () => {
                       type="text"
                       value={extensionName}
                       onChange={e => setExtensionName(e.target.value)}
+                      placeholder="Enter extension name"
                     />
                   </div>
 
@@ -402,6 +406,7 @@ const Profile = () => {
                     type="text"
                     value={campus}
                     onChange={e => setCampus(e.target.value)}
+                    placeholder="Eg: TUP Manila, TUP Visayas, ..."
                   />
                 </div>
                 <div className="field-group">
@@ -411,6 +416,7 @@ const Profile = () => {
                     type="text"
                     value={department}
                     onChange={e => setDepartment(e.target.value)}
+                    placeholder="Eg: College of Engineering, College of Science, ..."
                   />
                 </div>
                 <div className="field-group">
@@ -420,6 +426,7 @@ const Profile = () => {
                     type="text"
                     value={course}
                     onChange={e => setCourse(e.target.value)}
+                    placeholder="Eg: BS Computer Engineering, BS Information Technology, ..."
                   />
                 </div>
 
@@ -439,6 +446,7 @@ const Profile = () => {
                     type="text"
                     value={age}
                     onChange={e => setAge(e.target.value)}
+                    placeholder="Enter your age"
                   />
                 </div>
                 <div className="field-group">
@@ -458,6 +466,7 @@ const Profile = () => {
                     type="text"
                     value={birthPlace}
                     onChange={e => setBirthPlace(e.target.value)}
+                    placeholder="Enter your birth place"
                   />
                 </div>
                 <div className="field-group">
@@ -467,6 +476,7 @@ const Profile = () => {
                     type="text"
                     value={height}
                     onChange={e => setHeight(e.target.value)}
+                    placeholder="Enter your height"
                   />
                 </div>
                 <div className="field-group">
@@ -476,6 +486,7 @@ const Profile = () => {
                     type="text"
                     value={facebook}
                     onChange={e => setFacebook(e.target.value)}
+                    placeholder="Enter your Facebook profile link"
                   />
                 </div>
 
@@ -486,6 +497,7 @@ const Profile = () => {
                     type="text"
                     value={citizenship}
                     onChange={e => setCitizenship(e.target.value)}
+                    placeholder="Eg: Filipino, American, ..."
                   />
                 </div>
                 <div className="field-group">
@@ -495,6 +507,7 @@ const Profile = () => {
                     type="text"
                     value={weight}
                     onChange={e => setWeight(e.target.value)}
+                    placeholder="Enter your weight"
                   />
                 </div>
                 <div className="field-group">
@@ -504,6 +517,7 @@ const Profile = () => {
                     type="text"
                     value={lrn}
                     onChange={e => setLrn(e.target.value)}
+                    placeholder="Enter your LRN"
                   />
                 </div>
 
@@ -514,16 +528,24 @@ const Profile = () => {
                     type="text"
                     value={religion}
                     onChange={e => setReligion(e.target.value)}
+                    placeholder="Eg: Roman Catholic, Born Again, ..."
                   />
                 </div>
                 <div className="field-group">
                   <label>Civil Status</label>
-                  <input
-                    className="pill-input"
-                    type="text"
+                  <select
+                    className="pill-select"
                     value={civilStatus}
                     onChange={e => setCivilStatus(e.target.value)}
-                  />
+                  >
+                    <option value="" disabled>
+                      Select civil status
+                    </option>
+                    <option value="single">Single</option>
+                    <option value="married">Married</option>
+                    <option value="widowed">Widowed</option>
+                    <option value="separated">Separated</option>
+                  </select>
                 </div>
               </div>
             </>
@@ -541,6 +563,7 @@ const Profile = () => {
                     type="text"
                     value={fatherName}
                     onChange={e => setFatherName(e.target.value)}
+                    placeholder = "Last Name, First Name MI."
                   />
                 </div>
                 <div className="field-group">
@@ -550,6 +573,7 @@ const Profile = () => {
                     type="text"
                     value={fatherContact}
                     onChange={e => setFatherContact(e.target.value)}
+                    placeholder = "09xx-xxx-xxxx"
                   />
                 </div>
                 <div className="field-group">
@@ -575,6 +599,7 @@ const Profile = () => {
                     type="text"
                     value={fatherOccupation}
                     onChange={e => setFatherOccupation(e.target.value)}
+                    placeholder = "Eg: Engineer, Teacher, ..."
                   />
                 </div>
                 <div className="field-group">
@@ -584,6 +609,7 @@ const Profile = () => {
                     type="text"
                     value={fatherEmployer}
                     onChange={e => setFatherEmployer(e.target.value)}
+                    placeholder = "Enter employer/company name"
                   />
                 </div>
                 <div className="field-group">
@@ -593,6 +619,7 @@ const Profile = () => {
                     type="text"
                     value={fatherEmployerAddress}
                     onChange={e => setFatherEmployerAddress(e.target.value)}
+                    placeholder = "Enter employer/company address"
                   />
                 </div>
                 <div className="field-group">
@@ -624,6 +651,7 @@ const Profile = () => {
                     type="text"
                     value={motherName}
                     onChange={e => setMotherName(e.target.value)}
+                    placeholder = "Last Name, First Name MI."
                   />
                 </div>
                 <div className="field-group">
@@ -633,6 +661,7 @@ const Profile = () => {
                     type="text"
                     value={motherContact}
                     onChange={e => setMotherContact(e.target.value)}
+                    placeholder = "09xx-xxx-xxxx"
                   />
                 </div>
                 <div className="field-group">
@@ -658,6 +687,7 @@ const Profile = () => {
                     type="text"
                     value={motherOccupation}
                     onChange={e => setMotherOccupation(e.target.value)}
+                    placeholder = "Eg: Engineer, Teacher, ..."
                   />
                 </div>
                 <div className="field-group">
@@ -667,6 +697,7 @@ const Profile = () => {
                     type="text"
                     value={motherEmployer}
                     onChange={e => setMotherEmployer(e.target.value)}
+                    placeholder = "Enter employer/company name"
                   />
                 </div>
                 <div className="field-group">
@@ -676,6 +707,7 @@ const Profile = () => {
                     type="text"
                     value={motherEmployerAddress}
                     onChange={e => setMotherEmployerAddress(e.target.value)}
+                    placeholder = "Enter employer/company address"
                   />
                 </div>
                 <div className="field-group">
@@ -707,6 +739,7 @@ const Profile = () => {
                     type="text"
                     value={guardianName}
                     onChange={e => setGuardianName(e.target.value)}
+                    placeholder = "Last Name, First Name MI."
                   />
                 </div>
                 <div className="field-group">
@@ -716,6 +749,7 @@ const Profile = () => {
                     type="text"
                     value={guardianAddress}
                     onChange={e => setGuardianAddress(e.target.value)}
+                    placeholder = "Enter complete address"
                   />
                 </div>
                 <div className="field-group">
@@ -725,6 +759,7 @@ const Profile = () => {
                     type="text"
                     value={guardianContact}
                     onChange={e => setGuardianContact(e.target.value)}
+                    placeholder='09xx-xxx-xxxx'
                   />
                 </div>
                 <div className="field-group">
@@ -750,6 +785,7 @@ const Profile = () => {
                     type="text"
                     value={guardianOccupation}
                     onChange={e => setGuardianOccupation(e.target.value)}
+                    placeholder='Eg: Engineer, Teacher, ...'
                   />
                 </div>
                 <div className="field-group">
@@ -759,6 +795,7 @@ const Profile = () => {
                     type="text"
                     value={guardianEmployer}
                     onChange={e => setGuardianEmployer(e.target.value)}
+                    placeholder='Enter employer/company name'
                   />
                 </div>
                 <div className="field-group">
@@ -768,6 +805,7 @@ const Profile = () => {
                     type="text"
                     value={guardianEmployerAddress}
                     onChange={e => setGuardianEmployerAddress(e.target.value)}
+                    placeholder='Enter employer/company address'
                   />
                 </div>
                 <div className="field-group">
@@ -777,6 +815,7 @@ const Profile = () => {
                     type="text"
                     value={guardianRelationship}
                     onChange={e => setGuardianRelationship(e.target.value)}
+                    placeholder='Eg: Uncle, Aunt, Cousin, ...'
                   />
                 </div>
                 <div className="field-group">
@@ -1150,6 +1189,7 @@ const Profile = () => {
                     type="text"
                     value={companyName}
                     onChange={e => setCompanyName(e.target.value)}
+                    placeholder='Eg: ABC Corporation'
                   />
                 </div>
                 <div className="field-group">
@@ -1159,6 +1199,7 @@ const Profile = () => {
                     type="text"
                     value={companyPosition}
                     onChange={e => setCompanyPosition(e.target.value)}
+                    placeholder="Eg: Manager, Supervisor, ..."
                   />
                 </div>
                 <div className="field-group">
@@ -1168,7 +1209,7 @@ const Profile = () => {
                     type="text"
                     value={inclusiveDates}
                     onChange={e => setInclusiveDates(e.target.value)}
-                    placeholder="e.g., 2022–2024"
+                    placeholder="Eg: 2022–2024"
                   />
                 </div>
               </div>
@@ -1181,6 +1222,7 @@ const Profile = () => {
                     type="text"
                     value={duration}
                     onChange={e => setDuration(e.target.value)}
+                    placeholder='Eg: 2 years 3 months'
                   />
                 </div>
                 <div className="field-group">
@@ -1190,6 +1232,7 @@ const Profile = () => {
                     type="text"
                     value={titleAwards}
                     onChange={e => setTitleAwards(e.target.value)}
+                    placeholder='Eg: Blackbelt Certified, ...'
                   />
                 </div>
                 <div className="field-group">
@@ -1199,6 +1242,7 @@ const Profile = () => {
                     type="text"
                     value={sponsor}
                     onChange={e => setSponsor(e.target.value)}
+                    placeholder='Eg: Company Name, Organization, ...'
                   />
                 </div>
                 <div className="field-group">
@@ -1221,6 +1265,7 @@ const Profile = () => {
                     type="text"
                     value={refName}
                     onChange={e => setRefName(e.target.value)}
+                    placeholder='Last Name, First Name MI.'
                   />
                 </div>
                 <div className="field-group">
@@ -1230,6 +1275,7 @@ const Profile = () => {
                     type="text"
                     value={refPosition}
                     onChange={e => setRefPosition(e.target.value)}
+                    placeholder="Eg: Manager, Supervisor, ..."
                   />
                 </div>
                 <div className="field-group">
@@ -1239,6 +1285,7 @@ const Profile = () => {
                     type="text"
                     value={refCompany}
                     onChange={e => setRefCompany(e.target.value)}
+                    placeholder='Eg: ABC Corporation'
                   />
                 </div>
                 <div className="field-group">
@@ -1248,6 +1295,7 @@ const Profile = () => {
                     type="text"
                     value={refCity}
                     onChange={e => setRefCity(e.target.value)}
+                    placeholder='Eg: Manila, Quezon City, ...'
                   />
                 </div>
                 <div className="field-group">
@@ -1257,6 +1305,7 @@ const Profile = () => {
                     type="text"
                     value={refContact}
                     onChange={e => setRefContact(e.target.value)}
+                    placeholder='09xx-xxx-xxxx'
                   />
                 </div>
               </div>
