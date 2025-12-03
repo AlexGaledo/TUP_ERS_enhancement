@@ -103,8 +103,8 @@
     box-shadow: 0 0 0 3px rgba(220, 98, 94, 0.25);
   }
 
-  .fe-card select,
-  .fe-select {
+  .fe-card select option,
+  .fe-select option{
     color: #222222 !important;
     background-color: #ffffff !important;
   }

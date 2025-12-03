@@ -92,8 +92,8 @@
     box-shadow: 0 0 0 3px rgba(220, 98, 94, 0.27);
   }
 
-  .grad-card select,
-  .grad-select {
+  .grad-card select option,
+  .grad-select option{
     color: #222222 !important;
     background-color: #ffffff !important;
   }
