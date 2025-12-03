@@ -10,13 +10,42 @@ export default function ResetPage() {
   const [loading, setLoading] = useState(false);
   const [totpRequired, setTotpRequired] = useState(false);
   const [totpCode, setTotpCode] = useState('');
+  const [emailConfirmed, setEmailConfirmed] = useState(false);
   const navigate = useNavigate();
   const { showMessage } = useMessageModal() || { showMessage: () => {} };
 
-  const get_reset_link = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+  const checkTotpStatus = async () => {
+    if (!email) {
+      showMessage({ title: 'Email required', message: 'Please enter your email address', type: 'warning' });
+      return;
+    }
 
+    setLoading(true);
+    try {
+      const res = await backend.post('/auth/check-totp-status', { email });
+      setTotpRequired(res.data.totp_enabled);
+      setEmailConfirmed(true);
+      
+      if (res.data.totp_enabled) {
+        showMessage({ 
+          title: '2FA Enabled', 
+          message: 'This account has Google Authenticator enabled. Please enter your 6-digit code.', 
+          type: 'info',
+          autoCloseMs: 3000 
+        });
+      } else {
+        // If no TOTP, send reset link immediately
+        await sendResetLink();
+      }
+    } catch (err) {
+      showMessage({ title: 'Error', message: 'Failed to check account status', type: 'error' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const sendResetLink = async () => {
+    setLoading(true);
     try {
       const payload = { email };
       if (totpRequired && totpCode) {
@@ -29,15 +58,19 @@ export default function ResetPage() {
         navigate('/auth');
       }
     } catch (err) {
-      // Check if TOTP is required
-      if (err.response?.status === 403 && err.response?.data?.totp_required) {
-        setTotpRequired(true);
-        showMessage({ title: 'TOTP Required', message: 'This account has 2FA enabled. Please enter your authenticator code.', type: 'info' });
-      } else {
-        showMessage({ title: 'Request failed', message: err.response?.data?.error || 'Something went wrong', type: 'error' });
-      }
+      showMessage({ title: 'Request failed', message: err.response?.data?.error || 'Something went wrong', type: 'error' });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const get_reset_link = async (e) => {
+    e.preventDefault();
+    
+    if (!emailConfirmed) {
+      await checkTotpStatus();
+    } else {
+      await sendResetLink();
     }
   };
 
@@ -73,25 +106,32 @@ export default function ResetPage() {
                   id="email"
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setEmailConfirmed(false);
+                    setTotpRequired(false);
+                    setTotpCode('');
+                  }}
                   required
                   placeholder="Enter your email"
-                  disabled={totpRequired}
+                  disabled={emailConfirmed}
                 />
               </div>
 
-              {totpRequired && (
+              {totpRequired && emailConfirmed && (
                 <div className="input-group">
                   <label htmlFor="totp">Authenticator Code</label>
                   <input
                     id="totp"
                     type="text"
+                    inputMode="numeric"
                     value={totpCode}
                     onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                     placeholder="000000"
                     maxLength="6"
                     required
-                    style={{ textAlign: 'center', letterSpacing: '8px', fontSize: '1.5rem', fontFamily: 'monospace' }}
+                    autoFocus
+                    style={{ textAlign: 'center', letterSpacing: '0.5rem', fontSize: '1.2rem', fontFamily: 'monospace' }}
                   />
                   <small style={{ color: '#666', marginTop: '8px', display: 'block' }}>
                     Enter the 6-digit code from your Google Authenticator app
@@ -99,9 +139,37 @@ export default function ResetPage() {
                 </div>
               )}
 
-              <button type="submit" className="login-btn" disabled={totpRequired && totpCode.length !== 6}>
-                {loading ? 'Loading...' : 'Send Reset Link'}
+              <button 
+                type="submit" 
+                className="login-btn" 
+                disabled={loading || (totpRequired && emailConfirmed && totpCode.length !== 6)}
+              >
+                {loading ? 'Loading...' : emailConfirmed && totpRequired ? 'Send Reset Link' : 'Continue'}
               </button>
+
+              {emailConfirmed && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEmailConfirmed(false);
+                    setTotpRequired(false);
+                    setTotpCode('');
+                  }}
+                  style={{
+                    background: 'transparent',
+                    color: 'var(--text-light)',
+                    border: 'none',
+                    padding: '.5rem',
+                    cursor: 'pointer',
+                    marginTop: '0.5rem',
+                    fontSize: '0.9rem',
+                    width: '100%',
+                    textDecoration: 'underline'
+                  }}
+                >
+                  Change Email
+                </button>
+              )}
               
               <div className="form-actions" style={{ justifyContent: 'center', marginTop: '1rem' }}>
                   <a href="/auth" className="forgot-password-link">Back to Login</a>

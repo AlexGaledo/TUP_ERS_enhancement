@@ -23,11 +23,11 @@ def create_app():
 
     @app.after_request
     def add_cors_headers(response):
-        # Allow both port 5173 and 5174
-        response.headers['Access-Control-Allow-Origin'] = '*'
-        response.headers['Access-Control-Allow-Credentials'] = 'true'
-        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
-        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+        # Ensure preflight responses are correct
+        response.headers.setdefault('Access-Control-Allow-Origin', 'http://localhost:5173')
+        response.headers.setdefault('Access-Control-Allow-Credentials', 'true')
+        response.headers.setdefault('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+        response.headers.setdefault('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
         return response
 
     # #initializedsqlite

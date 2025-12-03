@@ -127,19 +127,19 @@
   width: 100%;
   max-width: 200px;
   padding: 12px;
-  font-size: 1.5rem;
-  text-align: center;
   border: 2px solid #ddd;
   border-radius: 6px;
   margin: 16px auto;
   display: block;
-  letter-spacing: 8px;
-  font-family: 'Courier New', monospace;
+  font-family: monospace;
+  color: #333;
+  background-color: #fff;
 }
 
 .totp-input:focus {
   outline: none;
   border-color: #800000;
+  box-shadow: 0 0 0 3px rgba(128, 0, 0, 0.1);
 }
 
 /* Enabled State */
@@ -176,11 +176,18 @@
   border: 2px solid #ddd;
   border-radius: 6px;
   font-size: 1rem;
+  color: #333;
+  background-color: #fff;
+}
+
+.input-field::placeholder {
+  color: #999;
 }
 
 .input-field:focus {
   outline: none;
   border-color: #800000;
+  box-shadow: 0 0 0 3px rgba(128, 0, 0, 0.1);
 }
 
 /* Buttons */

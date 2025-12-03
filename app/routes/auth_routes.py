@@ -188,6 +188,30 @@ def refresh():
     
 
 #change password
+@auth_bp.route('/check-totp-status', methods=['POST'])
+def check_totp_status():
+    """
+    Check if a user has TOTP enabled (public endpoint for forgot password flow)
+    """
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        
+        if not email:
+            return jsonify({"error": "Email is required"}), 400
+        
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            # Don't reveal if user exists or not for security
+            return jsonify({"totp_enabled": False}), 200
+        
+        return jsonify({"totp_enabled": user.totp_enabled}), 200
+        
+    except Exception as e:
+        logging.error(traceback.format_exc())
+        return jsonify({"error": "Something went wrong"}), 500
+
+
 @auth_bp.route('/forgot-password',methods=['POST'])
 def change_password():
     try:

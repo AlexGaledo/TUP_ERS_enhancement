@@ -15,13 +15,22 @@ const GoogleAuthenticator = ({ userId }) => {
 
   // Check TOTP status on component mount
   useEffect(() => {
-    checkTotpStatus();
+    // Only check status if we have a valid token
+    const token = localStorage.getItem('access_token');
+    if (token && token !== 'null' && token !== 'undefined') {
+      checkTotpStatus();
+    }
   }, []);
 
   const checkTotpStatus = async () => {
     try {
       const token = localStorage.getItem('access_token');
-      const response = await axiosInstance.get('/totp/status', {
+      if (!token || token === 'null' || token === 'undefined') {
+        console.log('No valid access token found');
+        return;
+      }
+      
+      const response = await axiosInstance.get('/auth/totp/status', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setTotpEnabled(response.data.totp_enabled);
@@ -35,7 +44,13 @@ const GoogleAuthenticator = ({ userId }) => {
     setMessage({ text: '', type: '' });
     try {
       const token = localStorage.getItem('access_token');
-      const response = await axiosInstance.post('/totp/setup', {}, {
+      if (!token || token === 'null' || token === 'undefined') {
+        setMessage({ text: 'Please log in again to continue', type: 'error' });
+        setLoading(false);
+        return;
+      }
+      
+      const response = await axiosInstance.post('/auth/totp/setup', {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -60,7 +75,7 @@ const GoogleAuthenticator = ({ userId }) => {
     
     try {
       const token = localStorage.getItem('access_token');
-      await axiosInstance.post('/totp/enable', 
+      await axiosInstance.post('/auth/totp/enable', 
         { totp_code: totpCode },
         { headers: { Authorization: `Bearer ${token}` }}
       );
@@ -88,7 +103,7 @@ const GoogleAuthenticator = ({ userId }) => {
     
     try {
       const token = localStorage.getItem('access_token');
-      await axiosInstance.post('/totp/disable', 
+      await axiosInstance.post('/auth/totp/disable', 
         { password, totp_code: totpCode },
         { headers: { Authorization: `Bearer ${token}` }}
       );
@@ -151,17 +166,20 @@ const GoogleAuthenticator = ({ userId }) => {
                 </div>
               </div>
 
-              <form onSubmit={handleEnableAuthenticator} className="verify-form">
+              <form onSubmit={handleEnableAuthenticator} className="verify-form" autoFocus>
                 <h4>Step 2: Verify Code</h4>
                 <p>Enter the 6-digit code from your authenticator app</p>
                 <input
                   type="text"
+                  inputMode="numeric"
                   value={totpCode}
                   onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                   placeholder="000000"
                   maxLength="6"
                   required
                   className="totp-input"
+                  autoComplete="off"
+                  style={{ letterSpacing: '0.5rem', textAlign: 'center', fontSize: '1.2rem' }}
                 />
                 <div className="button-group">
                   <button type="submit" disabled={loading || totpCode.length !== 6} className="btn-primary">
@@ -190,22 +208,28 @@ const GoogleAuthenticator = ({ userId }) => {
           
           <form onSubmit={handleDisableAuthenticator} className="disable-form">
             <h4>Disable Authenticator</h4>
+            <p style={{color: '#666', marginBottom: '16px', textAlign: 'center'}}>
+              To disable Google Authenticator, enter your account password and a fresh code from your authenticator app
+            </p>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Your password"
+              placeholder="Enter your account password"
               required
               className="input-field"
             />
             <input
               type="text"
+              inputMode="numeric"
               value={totpCode}
               onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-              placeholder="6-digit code"
+              placeholder="000000"
               maxLength="6"
               required
               className="totp-input"
+              autoComplete="off"
+              style={{ letterSpacing: '0.5rem', textAlign: 'center', fontSize: '1.2rem' }}
             />
             <button type="submit" disabled={loading} className="btn-danger">
               {loading ? 'Disabling...' : 'Disable Authenticator'}
