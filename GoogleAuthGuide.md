@@ -207,18 +207,3 @@ Frontend:
 │           └── forgetpass.jsx (updated)
 ```
 
-## Next Steps
-
-1. Run database migration
-2. Add GoogleAuthenticator component to Profile page
-3. Test the complete flow
-4. Update production environment variables if needed
-5. Consider adding TOTP to login flow (optional enhancement)
-
-## Future Enhancements
-
-- Add TOTP to login flow (not just password reset)
-- Backup codes for account recovery
-- Email notification when TOTP is enabled/disabled
-- TOTP setup during registration
-- Admin panel to view TOTP status of users
