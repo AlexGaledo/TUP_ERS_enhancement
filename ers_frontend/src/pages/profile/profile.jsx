@@ -434,7 +434,7 @@ const Profile = () => {
                   <label>Birth date</label>
                   <input
                     className="pill-input"
-                    type="text"
+                    type="date"
                     value={birthDate}
                     onChange={e => setBirthDate(e.target.value)}
                   />
