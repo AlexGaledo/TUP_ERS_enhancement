@@ -1,8 +1,8 @@
 /* --- Page Layout --- */
 .enrollment-assessment-page {
-    margin: 5rem 1rem 2rem 1rem;
+    margin: 7rem 1rem 2rem 1rem;
     background: var(--gradient-linear-bg);
-    min-height: 85vh;
+    min-height: 80vh;
     padding: 2rem;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -297,18 +297,346 @@
     font-weight: 500;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
+/* Responsive Design */
+@media (max-width: 1700px) {
+    .enrollment-assessment-page {
+        margin: 6rem 1.2rem 2rem 1.2rem;
+        padding: 1.8rem;
+    }
+
+    .enrollment-header-card,
+    .enrollment-assessment-subjects-card,
+    .fees-section {
+        padding: 1.3rem;
+    }
+
+    .student-info-grid {
+        gap: 1.2rem;
+    }
+
+    .info-item span {
+        font-size: 0.95rem;
+    }
+
+    .subjects-table {
+        font-size: 0.85rem;
+    }
+
+    .subjects-table thead th,
+    .subjects-table tbody td {
+        padding: 10px;
+    }
+
+    .backBtn {
+        padding: 0.7rem 1.3rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 1450px) {
+    .enrollment-assessment-page {
+        margin: 5.5rem 1rem 1.5rem 1rem;
+        padding: 1.6rem;
+    }
+
+    .enrollment-header-card,
+    .enrollment-assessment-subjects-card,
+    .fees-section {
+        padding: 1.2rem;
+    }
+
+    .card-header h2 {
+        font-size: 1rem;
+    }
+
+    .info-item h3 {
+        font-size: 0.7rem;
+    }
+
+    .info-item span {
+        font-size: 0.9rem;
+    }
+
+    .subjects-table {
+        font-size: 0.8rem;
+    }
+
+    .subjects-table thead th,
+    .subjects-table tbody td {
+        padding: 9px;
+    }
+
+    .fee-row h2,
+    .fee-row .price {
+        font-size: 1rem;
+    }
+
+    .fee-list h4 {
+        font-size: 0.9rem;
+    }
+
+    .backBtn {
+        padding: 0.65rem 1.2rem;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 1200px) {
+    .enrollment-assessment-page {
+        margin: 5rem 0.8rem 1.5rem 0.8rem;
+        padding: 1.4rem;
+        min-height: 75vh;
+    }
+
+    .student-info-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+    }
+
+    .fee-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .summary-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1.2rem;
+    }
+}
+
+@media (max-width: 750px) {
+    .enrollment-assessment-page {
+        margin: 4.5rem 0.5rem 1rem 0.5rem;
+        padding: 1.2rem;
+        border-radius: 12px;
+        gap: 1.2rem;
+    }
+
+    .enrollment-header-card,
+    .enrollment-assessment-subjects-card,
+    .fees-section {
+        padding: 1rem;
+        border-radius: 10px;
+    }
+
+    .card-header h2 {
+        font-size: 0.95rem;
+        padding-left: 8px;
+        border-left-width: 3px;
+    }
+
+    .student-info-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 0.8rem;
+    }
+
+    .info-item h3 {
+        font-size: 0.65rem;
+    }
+
+    .info-item span {
+        font-size: 0.85rem;
+    }
+
+    .status-tag {
+        font-size: 0.75rem !important;
+        padding: 1px 6px;
+    }
+
+    .subjects-table {
+        font-size: 0.75rem;
+    }
+
+    .subjects-table thead th,
+    .subjects-table tbody td {
+        padding: 8px;
+    }
+
+    .modality-badge {
+        font-size: 0.7rem;
+        padding: 3px 6px;
+    }
+
+    .fee-row h2,
+    .fee-row .price {
+        font-size: 0.95rem;
+    }
+
+    .fee-list {
+        padding: 0.8rem 1.2rem;
+    }
+
+    .fee-list h4 {
+        font-size: 0.85rem;
+    }
+
+    .total-sub h3 {
+        font-size: 0.9rem;
+    }
+
+    .fee-summary-footer {
+        padding: 1.2rem;
+    }
+
     .summary-grid {
         grid-template-columns: 1fr 1fr;
         text-align: left;
+        gap: 1rem;
     }
     
+    .summary-item h3 {
+        font-size: 0.75rem;
+    }
+
+    .summary-item p {
+        font-size: 1.1rem;
+    }
+
     .summary-item.grand-total {
         grid-column: span 2;
         text-align: center;
         margin-top: 1rem;
         padding-top: 1rem;
         border-top: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .summary-item.grand-total p {
+        font-size: 1.3rem;
+    }
+
+    .backBtn {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+        margin-top: 1.2rem;
+    }
+
+    .back-arrow {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .enrollment-assessment-page {
+        margin: 4rem 0.3rem 0.8rem 0.3rem;
+        padding: 1rem;
+        border-radius: 10px;
+        gap: 1rem;
+    }
+
+    .enrollment-header-card,
+    .enrollment-assessment-subjects-card,
+    .fees-section {
+        padding: 0.8rem;
+    }
+
+    .card-header h2 {
+        font-size: 0.85rem;
+        padding-left: 6px;
+        border-left-width: 2px;
+    }
+
+    .student-info-grid {
+        grid-template-columns: 1fr;
+        gap: 0.6rem;
+    }
+
+    .info-item h3 {
+        font-size: 0.6rem;
+    }
+
+    .info-item span {
+        font-size: 0.8rem;
+    }
+
+    .status-tag {
+        font-size: 0.7rem !important;
+    }
+
+    .subjects-table {
+        font-size: 0.7rem;
+    }
+
+    .subjects-table thead th,
+    .subjects-table tbody td {
+        padding: 6px;
+    }
+
+    .modality-badge {
+        font-size: 0.65rem;
+        padding: 2px 5px;
+    }
+
+    .fee-row.highlight {
+        padding-bottom: 0.8rem;
+    }
+
+    .fee-row h2,
+    .fee-row .price {
+        font-size: 0.85rem;
+    }
+
+    .group-label {
+        font-size: 0.8rem;
+    }
+
+    .fee-list {
+        padding: 0.7rem 1rem;
+    }
+
+    .fee-list h4 {
+        font-size: 0.8rem;
+    }
+
+    .fee-list span {
+        font-size: 0.85rem;
+    }
+
+    .total-sub h3 {
+        font-size: 0.85rem;
+    }
+
+    .fee-summary-footer {
+        padding: 1rem;
+        margin-top: 0.8rem;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+
+    .summary-item {
+        text-align: left;
+    }
+
+    .summary-item h3 {
+        font-size: 0.7rem;
+    }
+
+    .summary-item p {
+        font-size: 1rem;
+    }
+
+    .summary-item.grand-total {
+        grid-column: 1;
+        text-align: center;
+        margin-top: 0.8rem;
+        padding-top: 0.8rem;
+    }
+
+    .summary-item.grand-total p {
+        font-size: 1.2rem;
+    }
+
+    .backBtn {
+        padding: 0.55rem 0.9rem;
+        font-size: 0.75rem;
+        margin-top: 1rem;
+        border-radius: 10px;
+    }
+
+    .back-arrow {
+        font-size: 0.9rem;
     }
 }
