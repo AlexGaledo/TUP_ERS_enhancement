@@ -61,7 +61,10 @@ function Message() {
     const handleMessageClick = (message) => {
         setSelectedMessage(message); 
         setShowMessageContent(true);
-        handleMarkAsRead(message.id); 
+        // Only mark as read for Inbox messages
+        if (messageContentPage === 'Inbox') {
+            handleMarkAsRead(message.id);
+        }
     };
 
 
@@ -113,17 +116,13 @@ function Message() {
 
     const handleDelete = () => {
         if (messageContentPage === 'Trash') {
-            // Permanently delete from trash
             setTrashMessages(prev => prev.filter(msg => !selectedIds.includes(msg.id)));
         } else {
-            // Move to trash from other folders
             const currentList = getCurrentList();
             const messagesToTrash = currentList.filter(msg => selectedIds.includes(msg.id));
             
-            // Add to trash
             setTrashMessages(prev => [...prev, ...messagesToTrash]);
             
-            // Remove from current folder
             switch (messageContentPage) {
                 case 'Inbox':
                     setInboxMessages(prev => prev.filter(msg => !selectedIds.includes(msg.id)));
@@ -241,7 +240,9 @@ function Message() {
                         
                         {showMoreOptions && (
                             <div className="more-options-dropdown">
-                                <div className="dropdown-item" onClick={() => handleMarkAsRead()}>Mark as Read</div>
+                                {messageContentPage === 'Inbox' && (
+                                    <div className="dropdown-item" onClick={() => handleMarkAsRead()}>Mark as Read</div>
+                                )}
                                 <div className="dropdown-item" onClick={handleDelete}>Delete</div>
                             </div>
                         )}
@@ -263,10 +264,12 @@ function Message() {
                     .map((message) => {
                     const isSelected = selectedIds.includes(message.id);
                     const isMessageRead = isRead.includes(message.id);
+                    // Only show read/unread styling for Inbox messages
+                    const showReadStatus = messageContentPage === 'Inbox';
                     return (
                         <div 
                             key={message.id} 
-                            className={`message-item ${isSelected ? 'selected' : ''} ${isMessageRead ? 'read' : 'unread'}`}
+                            className={`message-item ${isSelected ? 'selected' : ''} ${showReadStatus ? (isMessageRead ? 'read' : 'unread') : ''}`}
                             role='button' 
                             onClick={() => handleMessageClick(message)}
                         >
