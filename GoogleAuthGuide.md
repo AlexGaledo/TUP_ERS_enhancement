@@ -40,43 +40,6 @@ w
    - TOTP input field when required
    - Automatic detection of TOTP-enabled accounts
 
-## Setup Instructions
-
-### Backend Setup
-
-1. **Install Required Packages**
-
-   ```bash
-   cd TUP_ERS_enhancement
-   pip install -r requirements.txt
-   ```
-
-2. **Create Database Migration**
-
-   ```bash
-   flask db migrate -m "Add TOTP fields to User model"
-   flask db upgrade
-   ```
-
-3. **Run the Backend**
-   ```bash
-   flask run
-   ```
-
-### Frontend Setup
-
-1. **No additional packages needed** (uses existing axios)
-
-2. **Add GoogleAuthenticator to Profile Page**
-
-   In `src/pages/profile/profile.jsx`, import and add the component:
-
-   ```jsx
-   import GoogleAuthenticator from "../../components/GoogleAuthenticator";
-
-   // Inside your Profile component, add this section (e.g., near Change Password):
-   <GoogleAuthenticator userId={user?.id} />;
-   ```
 
 ## Usage Flow
 
@@ -150,24 +113,6 @@ w
 3. Enter current TOTP code
 4. Click "Disable Authenticator"
 5. Verify TOTP is disabled
-
-## Troubleshooting
-
-**QR Code not showing?**
-
-- Check backend logs for errors
-- Verify `pyotp` and `qrcode[pil]` are installed
-
-**TOTP code always invalid?**
-
-- Check server time is synchronized
-- Verify phone/computer time is correct
-- Time drift can cause invalid codes
-
-**Cannot disable TOTP?**
-
-- Ensure password is correct
-- Verify TOTP code is current (codes expire every 30 seconds)
 
 ## Dependencies Added
 
