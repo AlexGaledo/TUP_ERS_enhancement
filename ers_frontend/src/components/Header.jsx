@@ -33,8 +33,8 @@ export default function Header({ toggleSidebar }) {
         <Link to="/profile" className="header-right-profile-group">
           <img src={profileIcon} alt="User Profile" />
           <div className="header-right-profile-group-text">
-            <h1>Ford Torion</h1>
-            <h2>TUPM-23-1690</h2>
+            <h1>{useUser()?.user?.username || 'User'}</h1>
+            <h2>{useUser()?.user?.tup_id || 'N/A'}</h2>
           </div>
         </Link>
 
