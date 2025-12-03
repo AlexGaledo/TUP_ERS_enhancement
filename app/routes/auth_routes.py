@@ -11,6 +11,8 @@ from flask_jwt_extended import create_access_token
 from datetime import timedelta, datetime
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
+from ..services.totp_service import TOTPService
+
 
 
 auth_bp = Blueprint('auth_bp',__name__)
@@ -191,9 +193,23 @@ def change_password():
     try:
         data = request.get_json()
         email = data.get('email')
+        totp_code = data.get('totp_code')  # Optional TOTP code
+        
         user = User.query.filter_by(email=email).first()
         if not user:
             return jsonify({"error":"user not found"}), 401
+        
+        # If user has TOTP enabled, require verification
+        if user.totp_enabled:
+            if not totp_code:
+                return jsonify({
+                    "error": "TOTP code required",
+                    "totp_required": True
+                }), 403
+            
+            # Verify TOTP code
+            if not TOTPService.verify_totp(user.totp_secret, totp_code):
+                return jsonify({"error": "Invalid TOTP code"}), 401
         
         token = serializer.dumps(email,salt='forgot-password')
         reset_url = f"http://localhost:5173/auth/reset-password/{token}" # hide sa production since ibang url na gamit
@@ -256,6 +272,177 @@ def change_password_logged():
         db.session.rollback()
         logging.error(traceback.format_exc())
         return jsonify({'error':'Something went wrong'}), 500
+
+
+# ========== TOTP/Google Authenticator Routes ==========
+
+@auth_bp.route('/totp/setup', methods=['POST'])
+@jwt_required()
+def setup_totp():
+    """
+    Generate TOTP secret and QR code for user to enable Google Authenticator
+    """
+    try:
+        user_id = get_jwt_identity()
+        user = User.query.filter_by(id=user_id).first()
+        
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+        
+        # Generate new secret
+        secret = TOTPService.generate_secret()
+        
+        # Generate QR code and get manual entry code
+        qr_code, manual_code = TOTPService.get_setup_data(secret, user.email)
+        
+        # Store secret temporarily (not enabled yet until verified)
+        user.totp_secret = secret
+        db.session.commit()
+        
+        return jsonify({
+            'qr_code': qr_code,
+            'manual_code': manual_code,
+            'email': user.email
+        }), 200
+        
+    except Exception as e:
+        db.session.rollback()
+        logging.error(traceback.format_exc())
+        return jsonify({'error': 'Something went wrong'}), 500
+
+
+@auth_bp.route('/totp/enable', methods=['POST'])
+@jwt_required()
+def enable_totp():
+    """
+    Verify TOTP code and enable Google Authenticator for user
+    """
+    try:
+        data = request.get_json()
+        totp_code = data.get('totp_code')
+        
+        if not totp_code:
+            return jsonify({'error': 'TOTP code is required'}), 400
+        
+        user_id = get_jwt_identity()
+        user = User.query.filter_by(id=user_id).first()
+        
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+        
+        if not user.totp_secret:
+            return jsonify({'error': 'TOTP not set up. Please generate QR code first'}), 400
+        
+        # Verify the TOTP code
+        if not TOTPService.verify_totp(user.totp_secret, totp_code):
+            return jsonify({'error': 'Invalid TOTP code'}), 401
+        
+        # Enable TOTP
+        user.totp_enabled = True
+        db.session.commit()
+        
+        return jsonify({'response': 'Google Authenticator enabled successfully'}), 200
+        
+    except Exception as e:
+        db.session.rollback()
+        logging.error(traceback.format_exc())
+        return jsonify({'error': 'Something went wrong'}), 500
+
+
+@auth_bp.route('/totp/disable', methods=['POST'])
+@jwt_required()
+def disable_totp():
+    """
+    Disable Google Authenticator for user
+    """
+    try:
+        data = request.get_json()
+        password = data.get('password')
+        totp_code = data.get('totp_code')
+        
+        if not password or not totp_code:
+            return jsonify({'error': 'Password and TOTP code are required'}), 400
+        
+        user_id = get_jwt_identity()
+        user = User.query.filter_by(id=user_id).first()
+        
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+        
+        # Verify password
+        if not user.check_password(password):
+            return jsonify({'error': 'Incorrect password'}), 401
+        
+        # Verify TOTP code
+        if user.totp_enabled and not TOTPService.verify_totp(user.totp_secret, totp_code):
+            return jsonify({'error': 'Invalid TOTP code'}), 401
+        
+        # Disable TOTP
+        user.totp_enabled = False
+        user.totp_secret = None
+        db.session.commit()
+        
+        return jsonify({'response': 'Google Authenticator disabled successfully'}), 200
+        
+    except Exception as e:
+        db.session.rollback()
+        logging.error(traceback.format_exc())
+        return jsonify({'error': 'Something went wrong'}), 500
+
+
+@auth_bp.route('/totp/status', methods=['GET'])
+@jwt_required()
+def totp_status():
+    """
+    Check if user has TOTP enabled
+    """
+    try:
+        user_id = get_jwt_identity()
+        user = User.query.filter_by(id=user_id).first()
+        
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+        
+        return jsonify({
+            'totp_enabled': user.totp_enabled,
+            'has_totp_secret': user.totp_secret is not None
+        }), 200
+        
+    except Exception as e:
+        logging.error(traceback.format_exc())
+        return jsonify({'error': 'Something went wrong'}), 500
+
+
+@auth_bp.route('/totp/verify', methods=['POST'])
+def verify_totp_for_reset():
+    """
+    Verify TOTP code during password reset flow
+    """
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        totp_code = data.get('totp_code')
+        
+        if not email or not totp_code:
+            return jsonify({'error': 'Email and TOTP code are required'}), 400
+        
+        user = User.query.filter_by(email=email).first()
+        
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+        
+        if not user.totp_enabled:
+            return jsonify({'error': 'TOTP not enabled for this user'}), 400
+        
+        # Verify TOTP code
+        if not TOTPService.verify_totp(user.totp_secret, totp_code):
+            return jsonify({'error': 'Invalid TOTP code'}), 401
+        
+        return jsonify({'response': 'TOTP verified successfully'}), 200
+        
+    except Exception as e:
+        logging.error(traceback.format_exc())
+        return jsonify({'error': 'Something went wrong'}), 500
     
 
 

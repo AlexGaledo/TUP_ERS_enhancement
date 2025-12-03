@@ -14,6 +14,9 @@ class User(db.Model):
     birthday = db.Column(db.DateTime, nullable=True)
     tup_id = db.Column(db.String(36), unique=True, nullable=False)
     
+    totp_secret = db.Column(db.String(32), nullable=True)
+    totp_enabled = db.Column(db.Boolean, default=False, nullable=False)
+    
 
     def __init__(self,username,password,email,birthday,tup_id):
         self.username = username
@@ -21,6 +24,7 @@ class User(db.Model):
         self.email = email
         self.birthday = birthday
         self.tup_id = tup_id
+        self.totp_enabled = False
 
     def set_password(self,password):
         self.password = bcrypt.generate_password_hash(password).decode('utf-8')

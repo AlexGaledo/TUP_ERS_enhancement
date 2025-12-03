@@ -1,0 +1,277 @@
+/* Google Authenticator Component Styles */
+
+.google-authenticator-section {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.google-authenticator-section h3 {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-size: 1.5rem;
+  border-bottom: 2px solid #800000;
+  padding-bottom: 10px;
+}
+
+.message {
+  padding: 12px;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Disabled State */
+.totp-disabled {
+  text-align: center;
+  padding: 20px;
+}
+
+.totp-disabled p {
+  margin-bottom: 20px;
+  color: #666;
+  font-size: 1rem;
+}
+
+/* Setup Section */
+.totp-setup {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.qr-code-section {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.qr-code-section h4 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.qr-code-section p {
+  margin-bottom: 16px;
+  color: #666;
+}
+
+.qr-code {
+  max-width: 250px;
+  width: 100%;
+  height: auto;
+  margin: 16px 0;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  background: white;
+}
+
+.manual-entry {
+  margin-top: 20px;
+}
+
+.code-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.code-display code {
+  background: #fff;
+  padding: 10px 16px;
+  border: 2px solid #800000;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 2px;
+  color: #800000;
+}
+
+/* Verify Form */
+.verify-form {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.verify-form h4 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.verify-form p {
+  margin-bottom: 16px;
+  color: #666;
+}
+
+.totp-input {
+  width: 100%;
+  max-width: 200px;
+  padding: 12px;
+  font-size: 1.5rem;
+  text-align: center;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  margin: 16px auto;
+  display: block;
+  letter-spacing: 8px;
+  font-family: 'Courier New', monospace;
+}
+
+.totp-input:focus {
+  outline: none;
+  border-color: #800000;
+}
+
+/* Enabled State */
+.totp-enabled {
+  padding: 20px;
+}
+
+.status-enabled {
+  padding: 12px;
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 6px;
+  margin-bottom: 24px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.disable-form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.disable-form h4 {
+  margin: 0 0 16px 0;
+  color: #333;
+  text-align: center;
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #800000;
+}
+
+/* Buttons */
+.button-group {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-danger,
+.btn-copy {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #800000;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #660000;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+  width: 100%;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background-color: #c82333;
+}
+
+.btn-copy {
+  background-color: #28a745;
+  color: white;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+}
+
+.btn-copy:hover {
+  background-color: #218838;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .google-authenticator-section {
+    padding: 16px;
+  }
+
+  .qr-code {
+    max-width: 200px;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+  }
+
+  .code-display {
+    flex-direction: column;
+  }
+
+  .code-display code {
+    font-size: 0.95rem;
+  }
+}

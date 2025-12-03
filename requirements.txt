@@ -11,3 +11,6 @@ gunicorn
 google-genai
 psycopg2-binary
 
+pyotp
+qrcode[pil]
+
