@@ -117,7 +117,7 @@ export default function ChangePass() {
                             <button type="submit" className="login-btn">Verify</button>
                             
                             <div className="form-actions" style={{ justifyContent: 'center', marginTop: '1rem' }}>
-                                <a href="/auth" className="forgot-password-link">Back to Login</a>
+                                <a href="/auth" className="forgot-password-link">Back to Profile</a>
                             </div>
                         </form>
                     </div>
