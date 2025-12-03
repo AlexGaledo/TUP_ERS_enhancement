@@ -91,6 +91,13 @@
     border-color: #dc625e;
     box-shadow: 0 0 0 3px rgba(220, 98, 94, 0.27);
   }
+
+  .grad-card select,
+  .grad-select {
+    color: #222222 !important;
+    background-color: #ffffff !important;
+  }
+
   
   /* Radio pill group */
   .grad-radio-group {
@@ -312,9 +319,16 @@
   /* ===== Print styles (clean preview) ===== */
   
   @media print {
+
+    @page {
+      size: A4 portrait; /* or: size: Letter portrait; */
+      margin: 1.5cm;
+    }
+
     body {
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
+      margin: 0;
     }
   
     header,
@@ -332,12 +346,13 @@
       box-shadow: none;
       background: #ffffff !important;
       border-radius: 0;
-      padding: 1.5rem;
+      padding: 0;
       max-width: 100%;
     }
   
     .grad-card {
       max-width: 100%;
+      width: 100%;
       box-shadow: none;
       border-radius: 0;
       padding: 1.5rem;
