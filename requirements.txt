@@ -1,11 +1,13 @@
- flask 
- flask-cors 
- flask-migrate 
- flask-jwt-extended 
- flask-sqlalchemy
- flask-bcrypt
- google-genai
- flask-mail
- gunicorn
- python-dotenv
- 
+flask
+flask-cors
+flask-migrate
+flask-jwt-extended
+flask-sqlalchemy
+flask-bcrypt
+flask-mail
+requests
+python-dotenv
+gunicorn
+google-genai
+psycopg2-binary
+

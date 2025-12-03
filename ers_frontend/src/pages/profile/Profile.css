@@ -294,6 +294,27 @@
   transform: translate(-50%, -50%);
 }
 
+.profile-change-password-btn {
+  margin-top: 0.15rem;
+  padding: 0.4rem 1.2rem;
+  border-radius: 999px;
+  border: 2px solid #f0b4b1;
+  background: #ffffff;
+  color: #731218;          /* dark text color to match site */
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+  transition: background 0.15s ease, color 0.15s ease,
+              box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.profile-change-password-btn:hover {
+  background: #fef0ef;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+  transform: translateY(-1px);
+}
+
 /* FAMILY BACKGROUND STYLES */
 
 .family-section {
@@ -329,7 +350,7 @@
   display: block;
   box-sizing: border-box;
   background: #ffffff;
-  color: #dc625e;
+  color: #731218;
   border-radius: 999px;
   padding: 0.6rem 1.4rem;
   font-weight: 500;
