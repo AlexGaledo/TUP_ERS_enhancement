@@ -19,14 +19,27 @@ export function UserProvider({ children }) {
     const updateUser = (partial) => {
         setUser((prev) => ({ ...(prev || {}), ...(partial || {}) }));
     };
+
     useEffect(() => {
         if (!user) {
+          // DEV ONLY: auto‑login fake user
+          setUser({
+            tup_id: "TUPM-00-0000",
+            email: "dev@example.com",
+            name: "Dev Preview User",
+            password: "1234",
+          });
+        }
+      }, [user, setUser]);
+
+    useEffect(() => {
+        /* if (!user) {
             if (window.location.pathname.startsWith('/auth') === false &&
                 window.location.pathname.startsWith('/auth/forget-password') === false &&
                 window.location.pathname.startsWith('/auth/reset-password/') === false) {
                     navigate('/auth/login');
                 }       
-        }
+        } */
         console.log('UserContext user changed:', user);
     }, [user, navigate]);
 

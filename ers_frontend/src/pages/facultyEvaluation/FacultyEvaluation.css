@@ -18,6 +18,7 @@
     border-radius: 32px;
     padding: 2.2rem 2.4rem 1.2rem 2.4rem;
     box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
+    margin-top: 1rem;
   }
   
   /* Header */
@@ -28,7 +29,7 @@
   .fe-title {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #ffffff;
+    color: #751319;
   }
   
   /* White card containing the form */
@@ -100,6 +101,12 @@
   .fe-select:focus {
     border-color: #dc625e;
     box-shadow: 0 0 0 3px rgba(220, 98, 94, 0.25);
+  }
+
+  .fe-card select,
+  .fe-select {
+    color: #222222 !important;
+    background-color: #ffffff !important;
   }
   
   /* ===== Legend ===== */
