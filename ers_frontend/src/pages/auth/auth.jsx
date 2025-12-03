@@ -20,7 +20,7 @@ export default function Auth() {
         e.preventDefault();
         try {
             const res = await backend.post('/auth/sign-in', {
-                tup_id: tup_Id, // backend expects snake_case key
+                tup_id: tup_Id, 
                 password,
             });
             const data = res.data;
@@ -28,7 +28,7 @@ export default function Auth() {
                 localStorage.setItem('tup_Id', tup_Id);
                 localStorage.setItem('email_for_verification', data.email);
                 console.log('tup id stored:', tup_Id, 'email stored:', data.email);
-                addUser(res.data)
+                addUser(res.data);
                 navigate('/auth/otp');
             } else {
                 showMessage({ title: 'Login failed', message: data?.error || 'Invalid credentials', type: 'error', autoCloseMs: 3500 });
