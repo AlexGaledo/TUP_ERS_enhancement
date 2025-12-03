@@ -5,8 +5,10 @@ import profileIcon from "../assets/profileIcon.svg";
 import notificationIcon from "../assets/notificationIcon.svg";
 import logoutIcon from "../assets/logoutIcon.svg";
 import { Link } from "react-router-dom";
+import { useUser } from "../context/UserContext";
 
 export default function Header({ toggleSidebar }) {
+  const { logout } = useUser() || { logout: () => {} };
   return (
     <header className="header-container">
       <div className="header-left-section">
@@ -37,7 +39,7 @@ export default function Header({ toggleSidebar }) {
         </Link>
 
         <img src={notificationIcon} alt="Notifications" />
-        <img src={logoutIcon} alt="Log Out" />
+        <img src={logoutIcon} alt="Log Out" onClick={logout} />
       </div>
     </header>
   );
