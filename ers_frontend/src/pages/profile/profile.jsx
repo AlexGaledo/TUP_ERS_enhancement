@@ -4,6 +4,7 @@ import './Profile.css';
 import { useNavigate } from "react-router-dom";
 import { useUser } from '../../context/UserContext.jsx';
 import { useMessageModal } from '../../context/MessageModal.jsx';
+import GoogleAuthenticator from '../../components/GoogleAuthenticator.jsx';
 
 const Profile = () => {
   const { user, personalInfo, familyBackground, retrievePersonalInfo } = useUser() || {};
@@ -390,6 +391,11 @@ const Profile = () => {
                   </div>
                 </div>
               </header>
+
+              <hr className="profile-divider" />
+
+              {/* Google Authenticator Section */}
+              <GoogleAuthenticator userId={user?.id} />
 
               <hr className="profile-divider" />
 

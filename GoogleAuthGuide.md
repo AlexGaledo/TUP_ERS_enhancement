@@ -18,7 +18,7 @@ This implementation adds Google Authenticator (Time-based One-Time Password) sup
    - Generate TOTP secrets
    - Create QR codes for easy setup
    - Verify TOTP codes with time drift tolerance
-
+w
 3. **API Routes** (`app/routes/auth_routes.py`)
    - `POST /auth/totp/setup` - Generate QR code and secret (requires JWT)
    - `POST /auth/totp/enable` - Verify and enable TOTP (requires JWT)

@@ -13,7 +13,6 @@ class User(db.Model):
     email = db.Column(db.String(80), unique=True, nullable=False)
     birthday = db.Column(db.DateTime, nullable=True)
     tup_id = db.Column(db.String(36), unique=True, nullable=False)
-    
     totp_secret = db.Column(db.String(32), nullable=True)
     totp_enabled = db.Column(db.Boolean, default=False, nullable=False)
     
@@ -113,9 +112,5 @@ class Otp(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-    
-
-
-   
 
 
