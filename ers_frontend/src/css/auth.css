@@ -177,30 +177,66 @@
 }
 
 /* Button */
-.login-btn {
+.login-btn,
+.auth-btn {
     background: linear-gradient(135deg, var(--primary-red), #a02029);
     color: var(--white);
-    padding: 1rem;
+    padding: 0.75rem 1.5rem;
     border: none;
     border-radius: 12px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     box-shadow: 0 4px 6px rgba(138, 28, 35, 0.2);
 }
 
-.login-btn:hover {
+.login-btn:hover,
+.auth-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(138, 28, 35, 0.3);
 }
 
-.login-btn:active {
+.login-btn:active,
+.auth-btn:active {
+    transform: translateY(0);
+}
+
+/* Secondary Button */
+.btn-secondary {
+    background: transparent;
+    color: var(--primary-red);
+    padding: 0.75rem 1.5rem;
+    border: 2px solid var(--primary-red);
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 0.5rem;
+}
+
+.btn-secondary:hover {
+    background: var(--primary-red);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(138, 28, 35, 0.2);
+}
+
+.btn-secondary:active {
     transform: translateY(0);
 }
 
 /* Responsive Design */
+@media (max-width: 768px) {
+    .login-btn,
+    .auth-btn,
+    .btn-secondary {
+        width: 100%;
+    }
+}
+
 @media (max-width: 968px) {
     .login-container {
         flex-direction: column;

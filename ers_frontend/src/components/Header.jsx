@@ -34,11 +34,10 @@ export default function Header({ toggleSidebar }) {
           <img src={profileIcon} alt="User Profile" />
           <div className="header-right-profile-group-text">
             <h1>{useUser()?.user?.username || 'User'}</h1>
-            <h2>{useUser()?.user?.tup_id || 'N/A'}</h2>
+            <h2>{useUser()?.user?.tup_id.toUpperCase() || 'N/A'}</h2>
           </div>
         </Link>
 
-        <img src={notificationIcon} alt="Notifications" />
         <img src={logoutIcon} alt="Log Out" onClick={logout} />
       </div>
     </header>
