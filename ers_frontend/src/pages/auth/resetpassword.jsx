@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import backend from '../../api/axios.jsx'
 import { useMessageModal } from '../../context/MessageModal';
 import { useState } from 'react';
+import { validatePassword } from '../../utils/passwordValidation';
 
 export default function ResetPassword() {
     const { token } = useParams();
@@ -13,8 +14,9 @@ export default function ResetPassword() {
     const navigate = useNavigate();
 
     const verify_token = async () => { {
-        if (password.length < 8) {
-            showMessage({ type: 'error', message: 'Password must be at least 8 characters long.' });
+        const validation = validatePassword(password);
+        if (!validation.isValid) {
+            showMessage({ type: 'error', message: validation.message });
             return;
         }
 
