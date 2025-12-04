@@ -1,5 +1,5 @@
 
-import os, uuid
+import os, uuid, re
 from flask import Blueprint, jsonify, request
 from ..extensions import db, serializer, mail,bcrypt
 from ..database.models import User, Otp
@@ -19,6 +19,21 @@ from ..services.totp_service import TOTPService
 auth_bp = Blueprint('auth_bp',__name__)
 
 
+def validate_password(password):
+
+    if len(password) < 8:
+        return False, "Password must be at least 8 characters long"
+    if not re.search(r'[a-z]', password):
+        return False, "Password must contain at least one lowercase letter"
+    if not re.search(r'[A-Z]', password):
+        return False, "Password must contain at least one uppercase letter"
+    if not re.search(r'\d', password):
+        return False, "Password must contain at least one number"
+    if not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
+        return False, "Password must contain at least one special character (!@#$%^&*(),.?\":{}|<>)"
+    return True, "Password is valid"
+
+
 #signup
 @auth_bp.route("/sign-up",methods=['POST'])
 def signup():
@@ -28,18 +43,24 @@ def signup():
             or User.query.filter_by(username=data.get('username')).first():
             return jsonify({"error":"Username already exists"}), 409
         
+        # Validate password
+        password = data.get('password')
+        is_valid, message = validate_password(password)
+        if not is_valid:
+            return jsonify({"error": message}), 400
+        
         raw_bday = data.get('bday')
         birthday = datetime.strptime(raw_bday, '%Y-%m-%d') if raw_bday else None
         tupid = data.get('tup_id').lower()
 
         new_user = User(
             data.get('username'),
-            data.get('password'),
+            password,
             data.get('email'),
             birthday,
             tupid
         )
-        new_user.set_password(data.get('password'))
+        new_user.set_password(password)
         db.session.add(new_user)
         db.session.commit()
         return jsonify({"response":"user successfully created",
@@ -319,7 +340,7 @@ def change_password():
         if not user:
             return jsonify({"error":"user not found"}), 401
         
-        # If user has TOTP enabled, require verification
+        # If user has TOTP enabled, require verification before sending reset link
         if user.totp_enabled:
             if not totp_code:
                 return jsonify({
@@ -330,16 +351,32 @@ def change_password():
             # Verify TOTP code
             if not TOTPService.verify_totp(user.totp_secret, totp_code):
                 return jsonify({"error": "Invalid TOTP code"}), 401
-        
-        token = serializer.dumps(email,salt='forgot-password')
-        reset_url = f"https://tup-ers-enhancement.vercel.app/auth/reset-password/{token}" # hide sa production since ibang url na gamit
+            
+            # TOTP verified, send reset link via Brevo
+            token = serializer.dumps(email,salt='forgot-password')
+            reset_url = f"https://tup-ers-enhancement.vercel.app/auth/reset-password/{token}"
 
-        subject = "Password Reset Request"
-        html_content = f"""<p>To reset your password, click the following link:</p>
-                           <a href="{reset_url}">{reset_url}</a>
-        """
-        send_brevo_message(email, subject, html_content)
-        return jsonify({"response":"email sent"}), 200
+            subject = "Password Reset Request"
+            html_content = f"""<p>To reset your password, click the following link:</p>
+                               <a href="{reset_url}">{reset_url}</a>
+                               <p>This link will expire in 1 hour.</p>
+            """
+            send_brevo_message(email, subject, html_content)
+            return jsonify({"response":"email sent"}), 200
+        else:
+            # TOTP not enabled: User must verify via email OTP first (handled by /auth/send-2fa and /auth/verify-2fa)
+            # After OTP verification, frontend will call this endpoint again to get reset link
+            # So we just send the reset link here via Brevo
+            token = serializer.dumps(email,salt='forgot-password')
+            reset_url = f"https://tup-ers-enhancement.vercel.app/auth/reset-password/{token}"
+            
+            subject = "Password Reset Request"
+            html_content = f"""<p>To reset your password, click the following link:</p>
+                               <a href="{reset_url}">{reset_url}</a>
+                               <p>This link will expire in 1 hour.</p>
+            """
+            send_brevo_message(email, subject, html_content)
+            return jsonify({"response":"reset link sent"}), 200
     except Exception as e:
         logging.error(traceback.format_exc())
         return jsonify({"error":"something went wrong"}), 500
@@ -356,7 +393,13 @@ def reset_password(token):
         if not user:
             return jsonify({"error":"user does not exist"}), 401
         
-        user.password = bcrypt.generate_password_hash(data.get('password')).decode('utf-8')
+        # Validate new password
+        new_password = data.get('password')
+        is_valid, message = validate_password(new_password)
+        if not is_valid:
+            return jsonify({"error": message}), 400
+        
+        user.password = bcrypt.generate_password_hash(new_password).decode('utf-8')
         db.session.commit()
         return jsonify({"response":"password successfully changes"}), 200
     except Exception as e:
@@ -379,6 +422,11 @@ def change_password_logged():
         
         if not user.check_password(old_password):
             return jsonify({'error':'Old password is incorrect'}), 401
+        
+        # Validate new password
+        is_valid, message = validate_password(new_password)
+        if not is_valid:
+            return jsonify({'error': message}), 400
         
         user.set_password(new_password)
         db.session.commit()
