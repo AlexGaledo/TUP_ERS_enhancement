@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
 from .config import Config
 from .extensions import db, migrate, bcrypt, mail
@@ -24,7 +24,13 @@ def create_app():
     @app.after_request
     def add_cors_headers(response):
         # Ensure preflight responses are correct
-        response.headers.setdefault('Access-Control-Allow-Origin', 'http://localhost:5173')
+        origin = request.headers.get('Origin')
+        allowed_origins = [
+            'http://localhost:5173',
+            'https://tup-ers-enhancement.vercel.app'
+        ]
+        if origin in allowed_origins:
+            response.headers['Access-Control-Allow-Origin'] = origin
         response.headers.setdefault('Access-Control-Allow-Credentials', 'true')
         response.headers.setdefault('Access-Control-Allow-Headers', 'Content-Type, Authorization')
         response.headers.setdefault('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')

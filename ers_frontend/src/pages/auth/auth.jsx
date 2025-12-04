@@ -169,7 +169,14 @@ export default function Auth() {
                             )}
 
                             <div className="form-actions">
-                                <a href="/auth/forget-password" className="forgot-password-link">Forgot Password?</a>
+                                <button 
+                                    type="button"
+                                    onClick={() => navigate('/auth/forget-password')}
+                                    className="forgot-password-link"
+                                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                                >
+                                    Forgot Password?
+                                </button>
                             </div>
 
                             <button 
