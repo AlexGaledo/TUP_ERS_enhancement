@@ -10,7 +10,8 @@ from ..config import Config
 from flask_jwt_extended import create_access_token
 from datetime import timedelta, datetime
 from flask_jwt_extended import jwt_required, get_jwt_identity
-
+import sib_api_v3_sdk
+from sib_api_v3_sdk.rest import ApiException
 from ..services.totp_service import TOTPService
 
 
@@ -78,10 +79,25 @@ def signin():
         data = request.get_json() or {}
         raw_tup = data.get('tup_id') or ''
         tup_key = raw_tup.lower()
+        totp_code = data.get('totp_code')  # Optional TOTP code
+        
         user = User.query.filter_by(tup_id=tup_key).first()
         
         if not user or not user.check_password(data.get('password')):
             return jsonify({'error':'invalid tup id or password'}), 401
+        
+        # If user has TOTP enabled, require verification
+        if user.totp_enabled:
+            if not totp_code:
+                return jsonify({
+                    "totp_required": True,
+                    "email": user.email,
+                    "message": "TOTP verification required"
+                }), 403
+            
+            # Verify TOTP code
+            if not TOTPService.verify_totp(user.totp_secret, totp_code):
+                return jsonify({'error': 'Invalid authenticator code'}), 401
         
         return jsonify({"id":user.id,"username":user.username,
                         "email":user.email,"birthday":user.birthday,
@@ -121,7 +137,7 @@ def _send_otp_email_via_resend(email: str, code: str) -> tuple[bool, str]:
         return False, str(e)
 
 
-#2 factor authentitcation(otp)
+#2 factor authentitcation(otp) smtp
 def getotp(email):
     user = User.query.filter_by(email=email).first()
     if not user:
@@ -159,6 +175,64 @@ def getotp(email):
         logging.error(traceback.format_exc())
         return jsonify({"error":"something went wrong"}), 500
 
+#resend
+def getotp_2(email):
+    import resend
+    resend.api_key = Config.RESEND_API_KEY
+
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return jsonify({"error":"user not found"}), 401
+    try:
+        token = Otp(email=email, code=str(uuid.uuid4().int)[:6], expires_at=datetime.utcnow() + timedelta(minutes=10))
+
+        token_existing = Otp.query.filter_by(email=email).first()
+        if token_existing:
+            db.session.delete(token_existing)
+            db.session.commit()
+
+        db.session.add(token)
+        db.session.commit() 
+
+        r = resend.Emails.send({
+        "from": "onboarding@resend.dev",
+        "to": email,
+        "subject": "Hello World",
+        "html": "<p>Congrats on sending your <strong>first email</strong>!</p>"
+        })
+        return jsonify({"response":"otp sent"}), 200
+    except Exception as e:
+        logging.error(traceback.format_exc())
+        return jsonify({"error":"something went wrong"}), 500
+
+#brevo
+def getotp_3(email):
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return jsonify({"error":"user not found"}), 401
+    try:
+        token = Otp(email=email, code=str(uuid.uuid4().int)[:6], expires_at=datetime.utcnow() + timedelta(minutes=10))
+
+        token_existing = Otp.query.filter_by(email=email).first()
+        if token_existing:
+            db.session.delete(token_existing)
+            db.session.commit()
+
+        db.session.add(token)
+        db.session.commit()
+    
+        subject = "Your OTP Code"
+        html_content = f"<p>Your OTP code is: <strong>{token.code}</strong>. It will expire in 10 minutes.</p>"
+        send_brevo_message(email, subject, html_content)
+        return jsonify({"response":"otp sent"}), 200
+    except ApiException as e:
+        logging.error(f"Brevo ApiException: {e}")
+        return jsonify({"error":"failed to send otp via brevo"}), 502
+    except Exception as e:
+        logging.error(traceback.format_exc())
+        return jsonify({"error":"something went wrong"}), 500
+
+
 
 @auth_bp.route('/send-2fa', methods=['POST', 'OPTIONS'])
 def sendotp():
@@ -169,7 +243,7 @@ def sendotp():
     email = (data.get('email') or '').strip().lower()
     if not email:
         return jsonify({"error": "email is required"}), 400
-    return getotp(email)
+    return getotp_3(email)
 
 
 @auth_bp.route('/verify-2fa',methods=['POST'])    
@@ -233,6 +307,28 @@ def check_totp_status():
         return jsonify({"error": "Something went wrong"}), 500
 
 
+#brevo send message
+def send_brevo_message(email, subject, html_content):
+    try:
+        configuration = sib_api_v3_sdk.Configuration()
+        configuration.api_key['api-key'] = Config.BREVO_API_KEY
+        api_instance = sib_api_v3_sdk.TransactionalEmailsApi(
+            sib_api_v3_sdk.ApiClient(configuration)
+        )
+        email_data = sib_api_v3_sdk.SendSmtpEmail(
+            sender={"name": "tup ers enhancement", "email": "group1.ers.recovery@gmail.com"},
+            to=[{"email": email}],
+            subject=subject,
+            html_content=html_content
+        )
+        response = api_instance.send_transac_email(email_data)
+        logging.info(f"Brevo email sent: {response}")
+        return True
+    except ApiException as e:
+        logging.error(f"Brevo ApiException: {e}")
+        return False
+    
+
 @auth_bp.route('/forgot-password',methods=['POST'])
 def change_password():
     try:
@@ -256,44 +352,30 @@ def change_password():
             if not TOTPService.verify_totp(user.totp_secret, totp_code):
                 return jsonify({"error": "Invalid TOTP code"}), 401
             
-            # TOTP verified, send reset link
+            # TOTP verified, send reset link via Brevo
             token = serializer.dumps(email,salt='forgot-password')
-            reset_url = f"http://localhost:5173/auth/reset-password/{token}" # hide sa production since ibang url na gamit
+            reset_url = f"https://tup-ers-enhancement.vercel.app/auth/reset-password/{token}"
 
-            msg = Message(
-                subject='Password Reset Link',
-                sender=Config.MAIL_USERNAME,
-                recipients=[email],
-            )
-            msg.html = f'<p>To reset your password, click the following link:</p><p><a href="{reset_url}">Reset Password</a></p><p>This link will expire in 1 hour.</p>'
-            
-            try:
-                mail.send(msg)
-            except Exception:
-                logging.error(f"Failed to send reset email: {traceback.format_exc()}")
-                return jsonify({"error":"unable to send email"}), 502
-                
+            subject = "Password Reset Request"
+            html_content = f"""<p>To reset your password, click the following link:</p>
+                               <a href="{reset_url}">{reset_url}</a>
+                               <p>This link will expire in 1 hour.</p>
+            """
+            send_brevo_message(email, subject, html_content)
             return jsonify({"response":"email sent"}), 200
         else:
             # TOTP not enabled: User must verify via email OTP first (handled by /auth/send-2fa and /auth/verify-2fa)
             # After OTP verification, frontend will call this endpoint again to get reset link
-            # So we just send the reset link here
+            # So we just send the reset link here via Brevo
             token = serializer.dumps(email,salt='forgot-password')
-            reset_url = f"http://localhost:5173/auth/reset-password/{token}"
+            reset_url = f"https://tup-ers-enhancement.vercel.app/auth/reset-password/{token}"
             
-            msg = Message(
-                subject='Password Reset Link',
-                sender=Config.MAIL_USERNAME,
-                recipients=[email],
-            )
-            msg.html = f'<p>To reset your password, click the following link:</p><p><a href="{reset_url}">Reset Password</a></p><p>This link will expire in 1 hour.</p>'
-            
-            try:
-                mail.send(msg)
-            except Exception:
-                logging.error(f"Failed to send reset email: {traceback.format_exc()}")
-                return jsonify({"error":"unable to send email"}), 502
-            
+            subject = "Password Reset Request"
+            html_content = f"""<p>To reset your password, click the following link:</p>
+                               <a href="{reset_url}">{reset_url}</a>
+                               <p>This link will expire in 1 hour.</p>
+            """
+            send_brevo_message(email, subject, html_content)
             return jsonify({"response":"reset link sent"}), 200
     except Exception as e:
         logging.error(traceback.format_exc())

@@ -49,7 +49,7 @@ class TOTPService:
         """
         qr = qrcode.QRCode(
             version=1,
-            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            error_correction=qrcode.constants.ERROR_CORRECT_L, # type: ignore
             box_size=10,
             border=4,
         )
@@ -60,7 +60,7 @@ class TOTPService:
         
         # Convert to base64
         buffer = io.BytesIO()
-        img.save(buffer, format='PNG')
+        img.save(buffer, format='PNG') # type: ignore
         buffer.seek(0)
         img_base64 = base64.b64encode(buffer.getvalue()).decode()
         

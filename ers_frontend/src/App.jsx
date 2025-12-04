@@ -26,9 +26,11 @@ import Profile from './pages/profile/profile.jsx';
 import GraduationApplication from './pages/graduation/GraduationApplication';
 import FacultyEvaluation from './pages/facultyEvaluation/FacultyEvaluation';
 import ResetPassword from './pages/auth/resetpassword.jsx';
+import ChatbotWidget from './components/chatbot/Chatbotwidget.jsx';
 
 function App() {
   return (
+    <>
     <Routes>
       <Route path="/auth" element={<AuthLayout />}>
         <Route index element={<Navigate to="login" replace />}/>
@@ -65,6 +67,9 @@ function App() {
       {/* Fallback for any unknown route outside /home */}
       <Route path="*" element={<Error404 />} />
     </Routes>
+    {/* Global chatbot widget fixed to corner, present on all pages */}
+    <ChatbotWidget />
+    </>
   );
 }
 

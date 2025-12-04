@@ -10,7 +10,7 @@ python-dotenv
 gunicorn
 google-genai
 psycopg2-binary
-
 pyotp
 qrcode[pil]
+sib_api_v3_sdk
 

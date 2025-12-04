@@ -16,6 +16,7 @@ function Message() {
     const [selectedIds, setSelectedIds] = useState([]);
     const [showMoreOptions, setShowMoreOptions] = useState(false);
     const [isRead, setIsRead] = useState([]);
+    const [isReplyMode, setIsReplyMode] = useState(false);
     const composeFormRef = useRef(null);
 
     const [trashMessages, setTrashMessages] = useState([
@@ -159,11 +160,14 @@ function Message() {
         
         setSentMessages(prev => [...prev, newMessage]);
         setComposeMessageVisible(false);
+        setSelectedMessage(null);
+        setIsReplyMode(false);
         e.target.reset();
     }
 
     const handleReply = () => {
         if (selectedMessage) {
+            setIsReplyMode(true);
             setComposeMessageVisible(true);
             setShowMessageContent(false);
         }
@@ -172,6 +176,8 @@ function Message() {
     const handleDraftSave = () => {
         if (!composeFormRef.current) {
             setComposeMessageVisible(false);
+            setSelectedMessage(null);
+            setIsReplyMode(false);
             return;
         }
         
@@ -182,6 +188,8 @@ function Message() {
         
         if (!recipient && !subject && !messageBody) {
             setComposeMessageVisible(false);
+            setSelectedMessage(null);
+            setIsReplyMode(false);
             return;
         }
         
@@ -195,6 +203,8 @@ function Message() {
         
         setDraftMessages(prev => [...prev, newDraft]);
         setComposeMessageVisible(false);
+        setSelectedMessage(null);
+        setIsReplyMode(false);
         composeFormRef.current.reset();
     }
 
@@ -202,7 +212,11 @@ function Message() {
         <div className="message-page" onClick={() => setShowMoreOptions(false)}>
             <div className='main-header'>
                 <h2>{messageContentPage}</h2>
-                <button className='compose-button' onClick={() => setComposeMessageVisible(true)}>
+                <button className='compose-button' onClick={() => {
+                    setSelectedMessage(null);
+                    setIsReplyMode(false);
+                    setComposeMessageVisible(true);
+                }}>
                     <img src={compose} alt="compose"/>
                     Compose
                 </button>
@@ -296,7 +310,7 @@ function Message() {
                 <div className='compose-message-modal'>
                     <div className='compose-message-content'>
                         <div>
-                            <h2>{selectedMessage ? `Reply to ${selectedMessage.sender}` : 'New Message'}</h2>
+                            <h2>{isReplyMode && selectedMessage ? `Reply to ${selectedMessage.sender}` : 'New Message'}</h2>
                             <button onClick={handleDraftSave}>Close</button>
                         </div>
                         <form ref={composeFormRef} onSubmit={handleSendMessage}>
@@ -304,8 +318,8 @@ function Message() {
                                 type="text" 
                                 name="recipient" 
                                 placeholder="To:" 
-                                defaultValue={selectedMessage?.sender || ''}
-                                readOnly={!!selectedMessage}
+                                defaultValue={isReplyMode && selectedMessage ? selectedMessage.sender : ''}
+                                readOnly={isReplyMode && !!selectedMessage}
                                 className='compose-input' 
                                 required
                             />
@@ -313,8 +327,8 @@ function Message() {
                                 type="text" 
                                 name="subject" 
                                 placeholder="Subject:" 
-                                defaultValue={selectedMessage ? `Re: ${selectedMessage.subject}` : ''}
-                                readOnly={!!selectedMessage}
+                                defaultValue={isReplyMode && selectedMessage ? `Re: ${selectedMessage.subject}` : ''}
+                                readOnly={isReplyMode && !!selectedMessage}
                                 className='compose-input'
                             />
                             <textarea 
