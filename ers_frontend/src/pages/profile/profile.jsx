@@ -123,7 +123,6 @@ const Profile = () => {
   };
 
   const handleOpenChangePassword = () => {
-    // hook this to modal / route later
     navigate('/auth/change-password');
   };
 
@@ -201,16 +200,22 @@ const Profile = () => {
     if (user && user.email) setEmail(user.email);
     if (user && user.birthday) {
       try {
-        const d = new Date(user.birthday)
+        const d = new Date(user.birthday);
         if (!isNaN(d.getTime())) {
-          const mm = String(d.getMonth() + 1).padStart(2, '0')
-          const dd = String(d.getDate()).padStart(2, '0')
-          const yyyy = String(d.getFullYear())
-          setBirthDate(`${mm} / ${dd} / ${yyyy}`)
+          const mm = String(d.getMonth() + 1).padStart(2, '0');
+          const dd = String(d.getDate()).padStart(2, '0');
+          const yyyy = String(d.getFullYear());
+          setBirthDate(`${mm} / ${dd} / ${yyyy}`);
         }
       } catch {}
     }
   }, [user]);
+
+  const renderStatic = value => (
+    <div className="pill-input">
+      {value || '—'}
+    </div>
+  );
 
   return (
     <div className="profile-page">
@@ -316,46 +321,22 @@ const Profile = () => {
                 <div className="profile-name-row">
                   <div className="field-group">
                     <label>Last Name</label>
-                    <input
-                      className="pill-input"
-                      type="text"
-                      value={lastName}
-                      onChange={e => setLastName(e.target.value)}
-                      placeholder="Enter your last name"
-                    />
+                    {renderStatic(lastName)}
                   </div>
                   <div className="field-group">
                     <label>First Name</label>
-                    <input
-                      className="pill-input"
-                      type="text"
-                      value={firstName}
-                      onChange={e => setFirstName(e.target.value)}
-                      placeholder="Enter your first name"
-                    />
+                    {renderStatic(firstName)}
                   </div>
                   <div className="field-group">
                     <label>Middle Name</label>
-                    <input
-                      className="pill-input"
-                      type="text"
-                      value={middleName}
-                      onChange={e => setMiddleName(e.target.value)}
-                      placeholder="Enter your middle name"
-                    />
+                    {renderStatic(middleName)}
                   </div>
                 </div>
 
                 <div className="profile-name-row">
                   <div className="field-group">
                     <label>Extension Name</label>
-                    <input
-                      className="pill-input"
-                      type="text"
-                      value={extensionName}
-                      onChange={e => setExtensionName(e.target.value)}
-                      placeholder="Enter extension name"
-                    />
+                    {renderStatic(extensionName)}
                   </div>
 
                   {/* Gender + change password block */}
@@ -363,26 +344,9 @@ const Profile = () => {
                     <label>Gender</label>
                     <div className="gender-block">
                       <div className="gender-row">
-                        <label className="gender-option">
-                          <input
-                            type="radio"
-                            name="gender"
-                            value="male"
-                            checked={gender === 'male'}
-                            onChange={() => setGender('male')}
-                          />
-                          <span>Male</span>
-                        </label>
-                        <label className="gender-option">
-                          <input
-                            type="radio"
-                            name="gender"
-                            value="female"
-                            checked={gender === 'female'}
-                            onChange={() => setGender('female')}
-                          />
-                          <span>Female</span>
-                        </label>
+                        <div className="pill-input">
+                          {gender || '—'}
+                        </div>
                       </div>
                       <button
                         type="button"
@@ -407,135 +371,59 @@ const Profile = () => {
               <div className="profile-grid">
                 <div className="field-group">
                   <label>Campus</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={campus}
-                    onChange={e => setCampus(e.target.value)}
-                    placeholder="Eg: TUP Manila, TUP Visayas, ..."
-                  />
+                  {renderStatic(campus)}
                 </div>
                 <div className="field-group">
                   <label>Department</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={department}
-                    onChange={e => setDepartment(e.target.value)}
-                    placeholder="Eg: College of Engineering, College of Science, ..."
-                  />
+                  {renderStatic(department)}
                 </div>
                 <div className="field-group">
                   <label>Course</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={course}
-                    onChange={e => setCourse(e.target.value)}
-                    placeholder="Eg: BS Computer Engineering, BS Information Technology, ..."
-                  />
+                  {renderStatic(course)}
                 </div>
 
                 <div className="field-group">
                   <label>Birth date</label>
-                  <input
-                    className="pill-input"
-                    type="date"
-                    value={birthDate}
-                    onChange={e => setBirthDate(e.target.value)}
-                  />
+                  {renderStatic(birthDate)}
                 </div>
                 <div className="field-group">
                   <label>Age</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={age}
-                    onChange={e => setAge(e.target.value)}
-                    placeholder="Enter your age"
-                  />
+                  {renderStatic(age)}
                 </div>
                 <div className="field-group">
                   <label>Email Address</label>
-                  <input
-                    className="pill-input"
-                    type="email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                  />
+                  {renderStatic(email)}
                 </div>
 
                 <div className="field-group">
                   <label>Birth place</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={birthPlace}
-                    onChange={e => setBirthPlace(e.target.value)}
-                    placeholder="Enter your birth place"
-                  />
+                  {renderStatic(birthPlace)}
                 </div>
                 <div className="field-group">
                   <label>Height</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={height}
-                    onChange={e => setHeight(e.target.value)}
-                    placeholder="Enter your height"
-                  />
+                  {renderStatic(height)}
                 </div>
                 <div className="field-group">
                   <label>Facebook</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={facebook}
-                    onChange={e => setFacebook(e.target.value)}
-                    placeholder="Enter your Facebook profile link"
-                  />
+                  {renderStatic(facebook)}
                 </div>
 
                 <div className="field-group">
                   <label>Citizenship</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={citizenship}
-                    onChange={e => setCitizenship(e.target.value)}
-                    placeholder="Eg: Filipino, American, ..."
-                  />
+                  {renderStatic(citizenship)}
                 </div>
                 <div className="field-group">
                   <label>Weight</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={weight}
-                    onChange={e => setWeight(e.target.value)}
-                    placeholder="Enter your weight"
-                  />
+                  {renderStatic(weight)}
                 </div>
                 <div className="field-group">
                   <label>Learner’s Reference Number</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={lrn}
-                    onChange={e => setLrn(e.target.value)}
-                    placeholder="Enter your LRN"
-                  />
+                  {renderStatic(lrn)}
                 </div>
 
                 <div className="field-group">
                   <label>Religion</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={religion}
-                    onChange={e => setReligion(e.target.value)}
-                    placeholder="Eg: Roman Catholic, Born Again, ..."
-                  />
+                  {renderStatic(religion)}
                 </div>
                 <div className="field-group">
                   <label>Civil Status</label>
@@ -544,8 +432,8 @@ const Profile = () => {
                     value={civilStatus}
                     onChange={e => setCivilStatus(e.target.value)}
                   >
-                    <option value="" disabled>
-                      Select civil status
+                    <option value="">
+                      {civilStatus || 'Select civil status'}
                     </option>
                     <option value="single">Single</option>
                     <option value="married">Married</option>
@@ -564,23 +452,11 @@ const Profile = () => {
               <div className="family-grid">
                 <div className="field-group">
                   <label>Name</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={fatherName}
-                    onChange={e => setFatherName(e.target.value)}
-                    placeholder = "Last Name, First Name MI."
-                  />
+                  {renderStatic(fatherName)}
                 </div>
                 <div className="field-group">
                   <label>Contact Number</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={fatherContact}
-                    onChange={e => setFatherContact(e.target.value)}
-                    placeholder = "09xx-xxx-xxxx"
-                  />
+                  {renderStatic(fatherContact)}
                 </div>
                 <div className="field-group">
                   <label>Highest Education</label>
@@ -589,7 +465,9 @@ const Profile = () => {
                     value={fatherEducation}
                     onChange={e => setFatherEducation(e.target.value)}
                   >
-                    <option value="">- select Highest Education -</option>
+                    <option value="">
+                      {fatherEducation || '- select Highest Education -'}
+                    </option>
                     <option value="elementary">Elementary</option>
                     <option value="highschool">Highschool</option>
                     <option value="undergrad">Undergraduate</option>
@@ -600,33 +478,15 @@ const Profile = () => {
                 </div>
                 <div className="field-group">
                   <label>Profession / Occupation</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={fatherOccupation}
-                    onChange={e => setFatherOccupation(e.target.value)}
-                    placeholder = "Eg: Engineer, Teacher, ..."
-                  />
+                  {renderStatic(fatherOccupation)}
                 </div>
                 <div className="field-group">
                   <label>Employer</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={fatherEmployer}
-                    onChange={e => setFatherEmployer(e.target.value)}
-                    placeholder = "Enter employer/company name"
-                  />
+                  {renderStatic(fatherEmployer)}
                 </div>
                 <div className="field-group">
                   <label>Employer Address</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={fatherEmployerAddress}
-                    onChange={e => setFatherEmployerAddress(e.target.value)}
-                    placeholder = "Enter employer/company address"
-                  />
+                  {renderStatic(fatherEmployerAddress)}
                 </div>
                 <div className="field-group">
                   <label>Income Bracket per month</label>
@@ -635,7 +495,9 @@ const Profile = () => {
                     value={fatherIncome}
                     onChange={e => setFatherIncome(e.target.value)}
                   >
-                    <option value="">- select salary -</option>
+                    <option value="">
+                      {fatherIncome || '- select salary -'}
+                    </option>
                     <option value="below_10k">Below 10,000</option>
                     <option value="above_10k">Above 10,000</option>
                     <option value="above_20k">Above 20,000</option>
@@ -652,23 +514,11 @@ const Profile = () => {
               <div className="family-grid">
                 <div className="field-group">
                   <label>Name</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={motherName}
-                    onChange={e => setMotherName(e.target.value)}
-                    placeholder = "Last Name, First Name MI."
-                  />
+                  {renderStatic(motherName)}
                 </div>
                 <div className="field-group">
                   <label>Contact Number</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={motherContact}
-                    onChange={e => setMotherContact(e.target.value)}
-                    placeholder = "09xx-xxx-xxxx"
-                  />
+                  {renderStatic(motherContact)}
                 </div>
                 <div className="field-group">
                   <label>Highest Education</label>
@@ -677,7 +527,9 @@ const Profile = () => {
                     value={motherEducation}
                     onChange={e => setMotherEducation(e.target.value)}
                   >
-                    <option value="">- select Highest Education -</option>
+                    <option value="">
+                      {motherEducation || '- select Highest Education -'}
+                    </option>
                     <option value="elementary">Elementary</option>
                     <option value="highschool">Highschool</option>
                     <option value="undergrad">Undergraduate</option>
@@ -688,33 +540,15 @@ const Profile = () => {
                 </div>
                 <div className="field-group">
                   <label>Profession / Occupation</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={motherOccupation}
-                    onChange={e => setMotherOccupation(e.target.value)}
-                    placeholder = "Eg: Engineer, Teacher, ..."
-                  />
+                  {renderStatic(motherOccupation)}
                 </div>
                 <div className="field-group">
                   <label>Employer</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={motherEmployer}
-                    onChange={e => setMotherEmployer(e.target.value)}
-                    placeholder = "Enter employer/company name"
-                  />
+                  {renderStatic(motherEmployer)}
                 </div>
                 <div className="field-group">
                   <label>Employer Address</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={motherEmployerAddress}
-                    onChange={e => setMotherEmployerAddress(e.target.value)}
-                    placeholder = "Enter employer/company address"
-                  />
+                  {renderStatic(motherEmployerAddress)}
                 </div>
                 <div className="field-group">
                   <label>Income Bracket per month</label>
@@ -723,7 +557,9 @@ const Profile = () => {
                     value={motherIncome}
                     onChange={e => setMotherIncome(e.target.value)}
                   >
-                    <option value="">- select salary -</option>
+                    <option value="">
+                      {motherIncome || '- select salary -'}
+                    </option>
                     <option value="below_10k">Below 10,000</option>
                     <option value="above_10k">Above 10,000</option>
                     <option value="above_20k">Above 20,000</option>
@@ -740,33 +576,15 @@ const Profile = () => {
               <div className="family-grid">
                 <div className="field-group">
                   <label>Name</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={guardianName}
-                    onChange={e => setGuardianName(e.target.value)}
-                    placeholder = "Last Name, First Name MI."
-                  />
+                  {renderStatic(guardianName)}
                 </div>
                 <div className="field-group">
                   <label>Complete Address</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={guardianAddress}
-                    onChange={e => setGuardianAddress(e.target.value)}
-                    placeholder = "Enter complete address"
-                  />
+                  {renderStatic(guardianAddress)}
                 </div>
                 <div className="field-group">
                   <label>Contact Number</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={guardianContact}
-                    onChange={e => setGuardianContact(e.target.value)}
-                    placeholder='09xx-xxx-xxxx'
-                  />
+                  {renderStatic(guardianContact)}
                 </div>
                 <div className="field-group">
                   <label>Highest Education</label>
@@ -775,7 +593,9 @@ const Profile = () => {
                     value={guardianEducation}
                     onChange={e => setGuardianEducation(e.target.value)}
                   >
-                    <option value="">- select Highest Education -</option>
+                    <option value="">
+                      {guardianEducation || '- select Highest Education -'}
+                    </option>
                     <option value="elementary">Elementary</option>
                     <option value="highschool">Highschool</option>
                     <option value="undergrad">Undergraduate</option>
@@ -786,43 +606,19 @@ const Profile = () => {
                 </div>
                 <div className="field-group">
                   <label>Profession / Occupation</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={guardianOccupation}
-                    onChange={e => setGuardianOccupation(e.target.value)}
-                    placeholder='Eg: Engineer, Teacher, ...'
-                  />
+                  {renderStatic(guardianOccupation)}
                 </div>
                 <div className="field-group">
                   <label>Employer</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={guardianEmployer}
-                    onChange={e => setGuardianEmployer(e.target.value)}
-                    placeholder='Enter employer/company name'
-                  />
+                  {renderStatic(guardianEmployer)}
                 </div>
                 <div className="field-group">
                   <label>Employer Address</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={guardianEmployerAddress}
-                    onChange={e => setGuardianEmployerAddress(e.target.value)}
-                    placeholder='Enter employer/company address'
-                  />
+                  {renderStatic(guardianEmployerAddress)}
                 </div>
                 <div className="field-group">
                   <label>Relationship</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={guardianRelationship}
-                    onChange={e => setGuardianRelationship(e.target.value)}
-                    placeholder='Eg: Uncle, Aunt, Cousin, ...'
-                  />
+                  {renderStatic(guardianRelationship)}
                 </div>
                 <div className="field-group">
                   <label>Income Bracket per month</label>
@@ -831,7 +627,9 @@ const Profile = () => {
                     value={guardianIncome}
                     onChange={e => setGuardianIncome(e.target.value)}
                   >
-                    <option value="">- select salary -</option>
+                    <option value="">
+                      {guardianIncome || '- select salary -'}
+                    </option>
                     <option value="below_10k">Below 10,000</option>
                     <option value="above_10k">Above 10,000</option>
                     <option value="above_20k">Above 20,000</option>
@@ -852,7 +650,9 @@ const Profile = () => {
                     value={siblingsCount}
                     onChange={e => setSiblingsCount(e.target.value)}
                   >
-                    <option value="">- select sibling -</option>
+                    <option value="">
+                      {siblingsCount || '- select sibling -'}
+                    </option>
                     <option value="only_child">Only child</option>
                     <option value="1_2">1–2</option>
                     <option value="3_plus">3 or more</option>
@@ -865,7 +665,9 @@ const Profile = () => {
                     value={yearlyIncome}
                     onChange={e => setYearlyIncome(e.target.value)}
                   >
-                    <option value="">Not more than 100k</option>
+                    <option value="">
+                      {yearlyIncome || 'Not more than 100k'}
+                    </option>
                     <option value="lt_200k">Not more than 200k</option>
                     <option value="lt_500k">Not more than 500k</option>
                     <option value="gt_500k">More than 500k</option>
@@ -896,35 +698,17 @@ const Profile = () => {
 
                 <div className="field-group">
                   <label>School Last Attended</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={schoolLastAttended}
-                    onChange={e => setSchoolLastAttended(e.target.value)}
-                    placeholder="School name"
-                  />
+                  {renderStatic(schoolLastAttended)}
                 </div>
 
                 <div className="field-group">
                   <label>School Address</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={schoolAddress}
-                    onChange={e => setSchoolAddress(e.target.value)}
-                    placeholder="School address"
-                  />
+                  {renderStatic(schoolAddress)}
                 </div>
 
                 <div className="field-group">
                   <label>Course / Program</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={courseProgram}
-                    onChange={e => setCourseProgram(e.target.value)}
-                    placeholder="Course / Program"
-                  />
+                  {renderStatic(courseProgram)}
                 </div>
 
                 <div className="field-group">
@@ -933,6 +717,7 @@ const Profile = () => {
                     className="pill-select"
                     value={major}
                     onChange={e => setMajor(e.target.value)}
+                    
                   >
                     <option value="STEM">STEM</option>
                     <option value="ABM">ABM</option>
@@ -948,6 +733,7 @@ const Profile = () => {
                     className="pill-select"
                     value={honor}
                     onChange={e => setHonor(e.target.value)}
+                    
                   >
                     <option value="with_honor">With Honor</option>
                     <option value="with_high_honor">With High Honor</option>
@@ -962,6 +748,7 @@ const Profile = () => {
                     className="pill-select"
                     value={honorDistinction}
                     onChange={e => setHonorDistinction(e.target.value)}
+                    
                   >
                     <option value="none">None</option>
                     <option value="valedictorian">Valedictorian</option>
@@ -976,6 +763,7 @@ const Profile = () => {
                     className="pill-select"
                     value={yearGraduated}
                     onChange={e => setYearGraduated(e.target.value)}
+                    
                   >
                     <option value="2025">2025</option>
                     <option value="2024">2024</option>
@@ -998,6 +786,7 @@ const Profile = () => {
                       name="curriculumCategory"
                       checked={curriculumCategory === 'k12'}
                       onChange={() => setCurriculumCategory('k12')}
+                      disabled
                     />
                     <span>K–12</span>
                   </label>
@@ -1007,6 +796,7 @@ const Profile = () => {
                       name="curriculumCategory"
                       checked={curriculumCategory === 'old'}
                       onChange={() => setCurriculumCategory('old')}
+                      disabled
                     />
                     <span>Old Curriculum</span>
                   </label>
@@ -1016,6 +806,7 @@ const Profile = () => {
                       name="curriculumCategory"
                       checked={curriculumCategory === 'college_bg'}
                       onChange={() => setCurriculumCategory('college_bg')}
+                      disabled
                     />
                     <span>With College Background</span>
                   </label>
@@ -1027,48 +818,23 @@ const Profile = () => {
                   <h3 className="education-subject-heading">Math</h3>
                   <div className="field-group">
                     <label>Basic Calculus</label>
-                    <input
-                      className="pill-input"
-                      type="text"
-                      value={basicCalculus}
-                      onChange={e => setBasicCalculus(e.target.value)}
-                    />
+                    {renderStatic(basicCalculus)}
                   </div>
                   <div className="field-group">
                     <label>Pre-Calculus</label>
-                    <input
-                      className="pill-input"
-                      type="text"
-                      value={preCalculus}
-                      onChange={e => setPreCalculus(e.target.value)}
-                    />
+                    {renderStatic(preCalculus)}
                   </div>
                   <div className="field-group">
                     <label>General Math</label>
-                    <input
-                      className="pill-input"
-                      type="text"
-                      value={generalMath}
-                      onChange={e => setGeneralMath(e.target.value)}
-                    />
+                    {renderStatic(generalMath)}
                   </div>
                   <div className="field-group">
                     <label>Probability &amp; Statistics</label>
-                    <input
-                      className="pill-input"
-                      type="text"
-                      value={probStat}
-                      onChange={e => setProbStat(e.target.value)}
-                    />
+                    {renderStatic(probStat)}
                   </div>
                   <div className="field-group">
                     <label>Solid Geometry</label>
-                    <input
-                      className="pill-input"
-                      type="text"
-                      value={solidGeometry}
-                      onChange={e => setSolidGeometry(e.target.value)}
-                    />
+                    {renderStatic(solidGeometry)}
                   </div>
                 </div>
 
@@ -1076,39 +842,19 @@ const Profile = () => {
                   <h3 className="education-subject-heading">Science</h3>
                   <div className="field-group">
                     <label>Gen. Chemistry I</label>
-                    <input
-                      className="pill-input"
-                      type="text"
-                      value={genChem1}
-                      onChange={e => setGenChem1(e.target.value)}
-                    />
+                    {renderStatic(genChem1)}
                   </div>
                   <div className="field-group">
                     <label>Gen. Chemistry II</label>
-                    <input
-                      className="pill-input"
-                      type="text"
-                      value={genChem2}
-                      onChange={e => setGenChem2(e.target.value)}
-                    />
+                    {renderStatic(genChem2)}
                   </div>
                   <div className="field-group">
                     <label>Gen. Physics I</label>
-                    <input
-                      className="pill-input"
-                      type="text"
-                      value={genPhysics1}
-                      onChange={e => setGenPhysics1(e.target.value)}
-                    />
+                    {renderStatic(genPhysics1)}
                   </div>
                   <div className="field-group">
                     <label>Biology</label>
-                    <input
-                      className="pill-input"
-                      type="text"
-                      value={biology}
-                      onChange={e => setBiology(e.target.value)}
-                    />
+                    {renderStatic(biology)}
                   </div>
                 </div>
 
@@ -1116,39 +862,19 @@ const Profile = () => {
                   <h3 className="education-subject-heading">English</h3>
                   <div className="field-group">
                     <label>Reading and Writing</label>
-                    <input
-                      className="pill-input"
-                      type="text"
-                      value={readingWriting}
-                      onChange={e => setReadingWriting(e.target.value)}
-                    />
+                    {renderStatic(readingWriting)}
                   </div>
                   <div className="field-group">
                     <label>Oral Communication</label>
-                    <input
-                      className="pill-input"
-                      type="text"
-                      value={oralComm}
-                      onChange={e => setOralComm(e.target.value)}
-                    />
+                    {renderStatic(oralComm)}
                   </div>
                   <div className="field-group">
                     <label>English for Analytics</label>
-                    <input
-                      className="pill-input"
-                      type="text"
-                      value={englishAnalytics}
-                      onChange={e => setEnglishAnalytics(e.target.value)}
-                    />
+                    {renderStatic(englishAnalytics)}
                   </div>
                   <div className="field-group">
                     <label>English Efficiency</label>
-                    <input
-                      className="pill-input"
-                      type="text"
-                      value={englishEfficiency}
-                      onChange={e => setEnglishEfficiency(e.target.value)}
-                    />
+                    {renderStatic(englishEfficiency)}
                   </div>
                 </div>
               </div>
@@ -1160,6 +886,7 @@ const Profile = () => {
                     className="pill-select"
                     value={track}
                     onChange={e => setTrack(e.target.value)}
+                    
                   >
                     <option value="STEM">
                       Science, Technology, Engineering and Mathematics (STEM)
@@ -1190,129 +917,57 @@ const Profile = () => {
               <div className="employment-grid employment-grid-top">
                 <div className="field-group">
                   <label>Name of Company</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={companyName}
-                    onChange={e => setCompanyName(e.target.value)}
-                    placeholder='Eg: ABC Corporation'
-                  />
+                  {renderStatic(companyName)}
                 </div>
                 <div className="field-group">
                   <label>Position</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={companyPosition}
-                    onChange={e => setCompanyPosition(e.target.value)}
-                    placeholder="Eg: Manager, Supervisor, ..."
-                  />
+                  {renderStatic(companyPosition)}
                 </div>
                 <div className="field-group">
                   <label>Inclusive Dates</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={inclusiveDates}
-                    onChange={e => setInclusiveDates(e.target.value)}
-                    placeholder="Eg: 2022–2024"
-                  />
+                  {renderStatic(inclusiveDates)}
                 </div>
               </div>
 
               <div className="employment-grid employment-grid-middle">
                 <div className="field-group">
                   <label>Duration (Years / Months)</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={duration}
-                    onChange={e => setDuration(e.target.value)}
-                    placeholder='Eg: 2 years 3 months'
-                  />
+                  {renderStatic(duration)}
                 </div>
                 <div className="field-group">
                   <label>Title Awards</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={titleAwards}
-                    onChange={e => setTitleAwards(e.target.value)}
-                    placeholder='Eg: Blackbelt Certified, ...'
-                  />
+                  {renderStatic(titleAwards)}
                 </div>
                 <div className="field-group">
                   <label>Sponsor</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={sponsor}
-                    onChange={e => setSponsor(e.target.value)}
-                    placeholder='Eg: Company Name, Organization, ...'
-                  />
+                  {renderStatic(sponsor)}
                 </div>
                 <div className="field-group">
                   <label>Date Awarded</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={dateAwarded}
-                    onChange={e => setDateAwarded(e.target.value)}
-                    placeholder="MM / DD / YYYY"
-                  />
+                  {renderStatic(dateAwarded)}
                 </div>
               </div>
 
               <div className="employment-grid employment-grid-bottom">
                 <div className="field-group">
                   <label>Name</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={refName}
-                    onChange={e => setRefName(e.target.value)}
-                    placeholder='Last Name, First Name MI.'
-                  />
+                  {renderStatic(refName)}
                 </div>
                 <div className="field-group">
                   <label>Position</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={refPosition}
-                    onChange={e => setRefPosition(e.target.value)}
-                    placeholder="Eg: Manager, Supervisor, ..."
-                  />
+                  {renderStatic(refPosition)}
                 </div>
                 <div className="field-group">
                   <label>Company</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={refCompany}
-                    onChange={e => setRefCompany(e.target.value)}
-                    placeholder='Eg: ABC Corporation'
-                  />
+                  {renderStatic(refCompany)}
                 </div>
                 <div className="field-group">
                   <label>City</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={refCity}
-                    onChange={e => setRefCity(e.target.value)}
-                    placeholder='Eg: Manila, Quezon City, ...'
-                  />
+                  {renderStatic(refCity)}
                 </div>
                 <div className="field-group">
                   <label>Contact Number</label>
-                  <input
-                    className="pill-input"
-                    type="text"
-                    value={refContact}
-                    onChange={e => setRefContact(e.target.value)}
-                    placeholder='09xx-xxx-xxxx'
-                  />
+                  {renderStatic(refContact)}
                 </div>
               </div>
 
