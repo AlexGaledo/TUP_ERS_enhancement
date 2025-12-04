@@ -4,6 +4,7 @@ import logo from '../../assets/tup_logo.png';
 import { useMessageModal } from '../../context/MessageModal';
 import backend from '../../api/axios.jsx';
 import { useUser } from '../../context/UserContext.jsx';
+import { validatePassword } from '../../utils/passwordValidation';
 
 export default function ChangePass() {
     const [oldPassword, setOldPassword] = useState('');
@@ -16,6 +17,14 @@ export default function ChangePass() {
     const openOtp = async (e) => {
         e.preventDefault();
         if (!oldPassword || !newPassword || !confirmPassword) return;
+        
+        // Validate password strength BEFORE checking match or sending OTP
+        const validation = validatePassword(newPassword);
+        if (!validation.isValid) {
+            showMessage({ title: 'Invalid Password', message: validation.message, type: 'warning', autoCloseMs: 3000 });
+            return;
+        }
+        
         if (newPassword !== confirmPassword) {
             showMessage({ title: 'Password mismatch', message: 'New passwords do not match.', type: 'warning', autoCloseMs: 2500 });
             return;

@@ -19,14 +19,7 @@ auth_bp = Blueprint('auth_bp',__name__)
 
 
 def validate_password(password):
-    """
-    Validate password meets requirements:
-    - At least 8 characters
-    - At least one lowercase letter
-    - At least one uppercase letter
-    - At least one digit
-    - At least one special character
-    """
+
     if len(password) < 8:
         return False, "Password must be at least 8 characters long"
     if not re.search(r'[a-z]', password):
