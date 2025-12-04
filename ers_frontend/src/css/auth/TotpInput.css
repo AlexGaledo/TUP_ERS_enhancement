@@ -1,0 +1,135 @@
+/* TOTP Input Component Styles */
+
+.totp-input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #800000 0%, #a00000 100%);
+  padding: 20px;
+}
+
+.totp-input-card {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 450px;
+  width: 100%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.totp-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.totp-header h3 {
+  margin: 0 0 12px 0;
+  color: #333;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.totp-header p {
+  margin: 0;
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.totp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.totp-code-input {
+  width: 100%;
+  padding: 16px;
+  font-size: 2rem;
+  text-align: center;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  letter-spacing: 12px;
+  font-family: 'Courier New', monospace;
+  transition: border-color 0.3s ease;
+}
+
+.totp-code-input:focus {
+  outline: none;
+  border-color: #800000;
+}
+
+.totp-code-input::placeholder {
+  color: #ccc;
+  letter-spacing: 8px;
+}
+
+.error-message {
+  padding: 12px;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.totp-submit-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: #800000;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.totp-submit-btn:hover:not(:disabled) {
+  background-color: #660000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(128, 0, 0, 0.3);
+}
+
+.totp-submit-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.totp-help {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.totp-help p {
+  margin: 8px 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.help-text {
+  color: #800000;
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .totp-input-card {
+    padding: 28px 20px;
+  }
+
+  .totp-header h3 {
+    font-size: 1.5rem;
+  }
+
+  .totp-code-input {
+    font-size: 1.5rem;
+    letter-spacing: 8px;
+  }
+}
