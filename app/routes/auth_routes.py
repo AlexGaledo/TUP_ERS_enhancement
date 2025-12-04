@@ -57,10 +57,25 @@ def signin():
         data = request.get_json() or {}
         raw_tup = data.get('tup_id') or ''
         tup_key = raw_tup.lower()
+        totp_code = data.get('totp_code')  # Optional TOTP code
+        
         user = User.query.filter_by(tup_id=tup_key).first()
         
         if not user or not user.check_password(data.get('password')):
             return jsonify({'error':'invalid tup id or password'}), 401
+        
+        # If user has TOTP enabled, require verification
+        if user.totp_enabled:
+            if not totp_code:
+                return jsonify({
+                    "totp_required": True,
+                    "email": user.email,
+                    "message": "TOTP verification required"
+                }), 403
+            
+            # Verify TOTP code
+            if not TOTPService.verify_totp(user.totp_secret, totp_code):
+                return jsonify({'error': 'Invalid authenticator code'}), 401
         
         return jsonify({"id":user.id,"username":user.username,
                         "email":user.email,"birthday":user.birthday,
