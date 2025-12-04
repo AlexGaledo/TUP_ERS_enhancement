@@ -22,6 +22,7 @@ def chatbot():
         
         return jsonify({'response':response_message}), 200
     except Exception as e:
+        logging.error(traceback.format_exc())
         return jsonify({'error': str(e)}), 500
     
 @user_bp.route('/retrieve-info',methods=['POST'])

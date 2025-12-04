@@ -14,5 +14,6 @@ class Config():
     MAIL_USERNAME = os.getenv('support_email')
     MAIL_PASSWORD = os.getenv('support_email_password')
     sexpress = os.getenv('express_url')
+    GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 
 
