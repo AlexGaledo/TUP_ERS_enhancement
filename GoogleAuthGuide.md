@@ -1,0 +1,123 @@
+# Google Authenticator (TOTP) Implementation Guide
+
+## Overview
+
+This implementation adds Google Authenticator (Time-based One-Time Password) support to the TUP ERS application for enhanced account security.
+
+## Features Implemented
+
+### Backend (Flask)
+
+1. **New Database Fields** (`app/database/models.py`)
+
+   - `totp_secret`: Stores the user's TOTP secret key
+   - `totp_enabled`: Boolean flag to indicate if TOTP is active
+
+2. **TOTP Service** (`app/services/totp_service.py`)
+
+   - Generate TOTP secrets
+   - Create QR codes for easy setup
+   - Verify TOTP codes with time drift tolerance
+w
+3. **API Routes** (`app/routes/auth_routes.py`)
+   - `POST /auth/totp/setup` - Generate QR code and secret (requires JWT)
+   - `POST /auth/totp/enable` - Verify and enable TOTP (requires JWT)
+   - `POST /auth/totp/disable` - Disable TOTP (requires JWT + password + TOTP code)
+   - `GET /auth/totp/status` - Check if TOTP is enabled (requires JWT)
+   - `POST /auth/totp/verify` - Verify TOTP during password reset
+   - `POST /auth/forgot-password` - Updated to require TOTP if enabled
+
+### Frontend (React)
+
+1. **GoogleAuthenticator Component** (`src/components/GoogleAuthenticator.jsx`)
+
+   - Enable/disable authenticator
+   - Display QR code for setup
+   - Manual entry code option
+   - Verify codes
+
+2. **Updated Forgot Password** (`src/pages/auth/forgetpass.jsx`)
+   - TOTP input field when required
+   - Automatic detection of TOTP-enabled accounts
+
+
+## Usage Flow
+
+### Enabling Google Authenticator
+
+1. **User clicks "Enable Authenticator"** in their profile
+2. **System generates** a TOTP secret and QR code
+3. **User scans QR code** with Google Authenticator app (or enters manually)
+4. **User enters 6-digit code** from app to verify setup
+5. **System enables TOTP** for the account
+
+### Using TOTP During Password Reset
+
+1. **User requests password reset** via forgot password page
+2. **If TOTP is enabled**, system prompts for authenticator code
+3. **User enters code** from their authenticator app
+4. **System verifies TOTP** before sending reset email
+5. **Reset link sent** to user's email
+
+### Disabling Google Authenticator
+
+1. **User clicks to disable** in profile
+2. **User enters password** for confirmation
+3. **User enters current TOTP code** for verification
+4. **System disables TOTP** and removes secret
+
+## Security Features
+
+- **Time drift tolerance**: Accepts codes within ±30 seconds
+- **Secret encryption**: Secrets stored securely in database
+- **Password verification**: Required when disabling TOTP
+- **JWT authentication**: All TOTP endpoints require valid JWT token
+- **Forgot password protection**: TOTP required if enabled
+
+## API Endpoints Reference
+
+| Endpoint                | Method | Auth | Description                         |
+| ----------------------- | ------ | ---- | ----------------------------------- |
+| `/auth/totp/setup`      | POST   | JWT  | Generate QR code                    |
+| `/auth/totp/enable`     | POST   | JWT  | Enable TOTP                         |
+| `/auth/totp/disable`    | POST   | JWT  | Disable TOTP                        |
+| `/auth/totp/status`     | GET    | JWT  | Check TOTP status                   |
+| `/auth/totp/verify`     | POST   | None | Verify TOTP (password reset)        |
+| `/auth/forgot-password` | POST   | None | Request password reset (TOTP aware) |
+
+## Testing
+
+### Test Enable Flow
+
+1. Login to the application
+2. Navigate to Profile page
+3. Click "Enable Authenticator"
+4. Scan QR code with Google Authenticator
+5. Enter the 6-digit code
+6. Verify it says "enabled successfully"
+
+### Test Password Reset Flow
+
+1. Enable TOTP on an account
+2. Logout
+3. Go to "Forgot Password"
+4. Enter email
+5. Verify it prompts for TOTP code
+6. Enter code from authenticator
+7. Check email for reset link
+
+### Test Disable Flow
+
+1. In Profile, scroll to authenticator section
+2. Enter your password
+3. Enter current TOTP code
+4. Click "Disable Authenticator"
+5. Verify TOTP is disabled
+
+## Dependencies Added
+
+**Python (requirements.txt):**
+
+- `pyotp` - TOTP generation and verification
+- `qrcode[pil]` - QR code generation with PIL support
+

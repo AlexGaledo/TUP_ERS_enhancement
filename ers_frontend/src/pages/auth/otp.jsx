@@ -93,6 +93,12 @@ export default function Otp({ onCancel, onVerified }) {
             const res = await backend.post(`/auth/verify-2fa`, { email, otp: String(otp) })
             console.log(`sent corresponding details to the backend = ${email}, ${otp}:`)
             if (res.status >= 200 && res.status < 300) {
+                // Store the access token from the response
+                if (res.data?.access_token) {
+                    localStorage.setItem('access_token', res.data.access_token)
+                    console.log('Access token stored successfully')
+                }
+                
                 showMessage({
                     title: 'OTP verified',
                     message: 'You have been successfully verified.',
