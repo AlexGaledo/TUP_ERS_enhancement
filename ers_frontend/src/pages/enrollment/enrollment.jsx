@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import "../../css/enrollment/enrollment.css";
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
+import { useUser } from "../../context/UserContext";
 
 function Enrollment() {
     const [enrolledSubjects, setEnrolledSubjects] = useState([
@@ -58,7 +59,7 @@ function Enrollment() {
                 <div className='student-info-grid'>
                     <div className='info-item'>
                         <h3>Student Name:</h3>
-                        <span>Ford Torion</span>
+                        <span>{useUser()?.personalInfo?.firstname || 'First'} {useUser()?.personalInfo?.lastname || 'Last'}</span>
                     </div>
                     
                     <div className='info-item'>
@@ -83,7 +84,7 @@ function Enrollment() {
                     
                     <div className='info-item'>
                         <h3>Student Number:</h3>
-                        <span>TUPM - 23 - 1690</span>
+                        <span>{useUser()?.user?.tup_id.toUpperCase() || 'N/A' || 'First'}</span>
                     </div>
 
                     <div className='info-item'>
