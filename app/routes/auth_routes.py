@@ -10,7 +10,8 @@ from ..config import Config
 from flask_jwt_extended import create_access_token
 from datetime import timedelta, datetime
 from flask_jwt_extended import jwt_required, get_jwt_identity
-
+import sib_api_v3_sdk
+from sib_api_v3_sdk.rest import ApiException
 from ..services.totp_service import TOTPService
 
 
@@ -115,7 +116,7 @@ def _send_otp_email_via_resend(email: str, code: str) -> tuple[bool, str]:
         return False, str(e)
 
 
-#2 factor authentitcation(otp)
+#2 factor authentitcation(otp) smtp
 def getotp(email):
     user = User.query.filter_by(email=email).first()
     if not user:
@@ -153,6 +154,77 @@ def getotp(email):
         logging.error(traceback.format_exc())
         return jsonify({"error":"something went wrong"}), 500
 
+#resend
+def getotp_2(email):
+    import resend
+    resend.api_key = Config.RESEND_API_KEY
+
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return jsonify({"error":"user not found"}), 401
+    try:
+        token = Otp(email=email, code=str(uuid.uuid4().int)[:6], expires_at=datetime.utcnow() + timedelta(minutes=10))
+
+        token_existing = Otp.query.filter_by(email=email).first()
+        if token_existing:
+            db.session.delete(token_existing)
+            db.session.commit()
+
+        db.session.add(token)
+        db.session.commit() 
+
+        r = resend.Emails.send({
+        "from": "onboarding@resend.dev",
+        "to": email,
+        "subject": "Hello World",
+        "html": "<p>Congrats on sending your <strong>first email</strong>!</p>"
+        })
+        return jsonify({"response":"otp sent"}), 200
+    except Exception as e:
+        logging.error(traceback.format_exc())
+        return jsonify({"error":"something went wrong"}), 500
+
+#brevo
+def getotp_3(email):
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return jsonify({"error":"user not found"}), 401
+    try:
+        token = Otp(email=email, code=str(uuid.uuid4().int)[:6], expires_at=datetime.utcnow() + timedelta(minutes=10))
+
+        token_existing = Otp.query.filter_by(email=email).first()
+        if token_existing:
+            db.session.delete(token_existing)
+            db.session.commit()
+
+        db.session.add(token)
+        db.session.commit()
+    
+        
+        configuration = sib_api_v3_sdk.Configuration()
+        configuration.api_key['api-key'] = Config.BREVO_API_KEY
+
+        api_instance = sib_api_v3_sdk.TransactionalEmailsApi(
+            sib_api_v3_sdk.ApiClient(configuration)
+        )
+
+        email_data = sib_api_v3_sdk.SendSmtpEmail(
+            sender={"name": "tup ers enhancement", "email": "group1.ers.recovery@gmail.com"},
+            to=[{"email": email}],
+            subject="Your OTP Code",
+            html_content=f"<h1>Your OTP is: {token.code}</h1>"
+        )
+        response = api_instance.send_transac_email(email_data)
+        logging.info(f"Brevo email sent: {response}")
+        return jsonify({"response":"otp sent"}), 200
+    except ApiException as e:
+        logging.error(f"Brevo ApiException: {e}")
+        return jsonify({"error":"failed to send otp via brevo"}), 502
+    except Exception as e:
+        logging.error(traceback.format_exc())
+        return jsonify({"error":"something went wrong"}), 500
+
+
 
 @auth_bp.route('/send-2fa', methods=['POST', 'OPTIONS'])
 def sendotp():
@@ -163,7 +235,7 @@ def sendotp():
     email = (data.get('email') or '').strip().lower()
     if not email:
         return jsonify({"error": "email is required"}), 400
-    return getotp(email)
+    return getotp_3(email)
 
 
 @auth_bp.route('/verify-2fa',methods=['POST'])    
