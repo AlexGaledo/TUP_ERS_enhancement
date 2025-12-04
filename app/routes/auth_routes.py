@@ -200,22 +200,9 @@ def getotp_3(email):
         db.session.add(token)
         db.session.commit()
     
-        
-        configuration = sib_api_v3_sdk.Configuration()
-        configuration.api_key['api-key'] = Config.BREVO_API_KEY
-
-        api_instance = sib_api_v3_sdk.TransactionalEmailsApi(
-            sib_api_v3_sdk.ApiClient(configuration)
-        )
-
-        email_data = sib_api_v3_sdk.SendSmtpEmail(
-            sender={"name": "tup ers enhancement", "email": "group1.ers.recovery@gmail.com"},
-            to=[{"email": email}],
-            subject="Your OTP Code",
-            html_content=f"<h1>Your OTP is: {token.code}</h1>"
-        )
-        response = api_instance.send_transac_email(email_data)
-        logging.info(f"Brevo email sent: {response}")
+        subject = "Your OTP Code"
+        html_content = f"<p>Your OTP code is: <strong>{token.code}</strong>. It will expire in 10 minutes.</p>"
+        send_brevo_message(email, subject, html_content)
         return jsonify({"response":"otp sent"}), 200
     except ApiException as e:
         logging.error(f"Brevo ApiException: {e}")
@@ -299,6 +286,28 @@ def check_totp_status():
         return jsonify({"error": "Something went wrong"}), 500
 
 
+#brevo send message
+def send_brevo_message(email, subject, html_content):
+    try:
+        configuration = sib_api_v3_sdk.Configuration()
+        configuration.api_key['api-key'] = Config.BREVO_API_KEY
+        api_instance = sib_api_v3_sdk.TransactionalEmailsApi(
+            sib_api_v3_sdk.ApiClient(configuration)
+        )
+        email_data = sib_api_v3_sdk.SendSmtpEmail(
+            sender={"name": "tup ers enhancement", "email": "group1.ers.recovery@gmail.com"},
+            to=[{"email": email}],
+            subject=subject,
+            html_content=html_content
+        )
+        response = api_instance.send_transac_email(email_data)
+        logging.info(f"Brevo email sent: {response}")
+        return True
+    except ApiException as e:
+        logging.error(f"Brevo ApiException: {e}")
+        return False
+    
+
 @auth_bp.route('/forgot-password',methods=['POST'])
 def change_password():
     try:
@@ -323,16 +332,13 @@ def change_password():
                 return jsonify({"error": "Invalid TOTP code"}), 401
         
         token = serializer.dumps(email,salt='forgot-password')
-        reset_url = f"http://localhost:5173/auth/reset-password/{token}" # hide sa production since ibang url na gamit
+        reset_url = f"https://tup-ers-enhancement.vercel.app/auth/reset-password/{token}" # hide sa production since ibang url na gamit
 
-        msg = Message(
-            subject='reset password',
-            sender=Config.MAIL_USERNAME,
-            recipients=[email],
-        )
-
-        msg.html = f'<p>To reset your password, click the following link:</p><p><a href="{reset_url}">Phishing Link</a></p><p>This link will expire in 1 hour.</p>'
-        mail.send(msg)
+        subject = "Password Reset Request"
+        html_content = f"""<p>To reset your password, click the following link:</p>
+                           <a href="{reset_url}">{reset_url}</a>
+        """
+        send_brevo_message(email, subject, html_content)
         return jsonify({"response":"email sent"}), 200
     except Exception as e:
         logging.error(traceback.format_exc())
