@@ -15,6 +15,7 @@ class User(db.Model):
     tup_id = db.Column(db.String(36), unique=True, nullable=False)
     totp_secret = db.Column(db.String(32), nullable=True)
     totp_enabled = db.Column(db.Boolean, default=False, nullable=False)
+    profile_url = db.Column(db.String(255), nullable=True)
     
 
     def __init__(self,username,password,email,birthday,tup_id):
