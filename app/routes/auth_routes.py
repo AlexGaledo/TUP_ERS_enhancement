@@ -101,6 +101,7 @@ def signin():
         
         return jsonify({"id":user.id,"username":user.username,
                         "email":user.email,"birthday":user.birthday,
+                        "profile_url":user.profile_url,
                         "tup_id":user.tup_id}), 200
     
     except Exception as e:
