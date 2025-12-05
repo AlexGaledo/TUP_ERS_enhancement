@@ -6,7 +6,7 @@ import '../../css/auth.css'
 import logo from '../../assets/tup_logo.png'
 import backend from '../../api/axios.jsx'
 
-export default function Otp({ onCancel, onVerified }) {
+export default function Otp({ onCancel, onVerified, style }) {
     const [otp, setOtp] = useState('')
     const [disabled, setDisabled] = useState(false)
     const [timer, setTimer] = useState(0)
@@ -136,6 +136,7 @@ export default function Otp({ onCancel, onVerified }) {
         left: 0,
         zIndex: 1000,
         backgroundColor: 'var(--bg-color)',
+        ...style
     } : {};
 
     return (
