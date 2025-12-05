@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../../css/auth.css';
 import logo from '../../assets/tup_logo.png';
 import { useMessageModal } from '../../context/MessageModal';
@@ -126,7 +127,7 @@ export default function ChangePass() {
                             <button type="submit" className="login-btn">Verify</button>
                             
                             <div className="form-actions" style={{ justifyContent: 'center', marginTop: '1rem' }}>
-                                <a href="/auth" className="forgot-password-link">Back to Profile</a>
+                                <Link to="/profile" className="forgot-password-link">Back to Profile</Link>
                             </div>
                         </form>
                     </div>
