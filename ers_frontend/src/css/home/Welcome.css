@@ -469,6 +469,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
+    flex-wrap: wrap;
 }
 
 .goals-header h1 {
@@ -659,6 +660,9 @@
     .home-tab-container {
         flex: 1 1 28%;
         min-width: 200px;
+    }
+    .goals-header h1 {
+        font-size: 1.6rem;
     }
 }
 

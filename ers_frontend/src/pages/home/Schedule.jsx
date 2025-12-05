@@ -1,15 +1,15 @@
 import "../../css/home/Schedule.css";
 
 export const scheduleData = [
-    { code: "CS373-M", units: 3, desc: "Parallel and Distributed Computing", faculty: "AUSTRIA, RONN KEVIN J.", schedule: "Wed 11:00PM - 02:00PM", room: "ONLINE", modality: "ONLINE", day: "Wednesday" },
     { code: "CS351L-M", units: 1, desc: "Software Engineering 1, Laboratory", faculty: "MONTESINES, DOLORES L.", schedule: "Wed 05:00PM - 08:00PM", room: "TBA", modality: "F2F", day: "Wednesday" },
     { code: "CS352-M", units: 2, desc: "Software Engineering 1, Lecture", faculty: "MONTESINES, DOLORES L.", schedule: "Tue 07:00PM - 08:00PM", room: "324", modality: "F2F", day: "Tuesday" },
-    { code: "CC311L-M", units: 1, desc: "Web Development, Laboratory", faculty: "CRUZ, EDWARD N.", schedule: "Tue 03:00PM - 05:00PM", room: "326", modality: "F2F", day: "Tuesday" },
-    { code: "CC312-M", units: 2, desc: "Web Development, Lecture", faculty: "CRUZ, EDWARD N.", schedule: "Fri 01:00PM - 04:00PM", room: "326", modality: "F2F", day: "Friday" },
-    { code: "CSE1-M", units: 3, desc: "CS Professional Elective 1", faculty: "FABREGAS, VAL PATRICK F.", schedule: "Sat 12:00PM - 03:00PM", room: "324", modality: "F2F", day: "Saturday" },
-    { code: "CSE2-M", units: 3, desc: "CS Professional Elective 2", faculty: "ONGCO, GIRALYN R.", schedule: "Fri 09:00AM - 12:00PM", room: "TBA", modality: "F2F", day: "Friday" },
-    { code: "CS333-M", units: 3, desc: "Data Analytics", faculty: "LEE, JAN EILBERT LIM", schedule: "Thu 05:00PM - 08:00PM", room: "ONLINE", modality: "ONLINE", day: "Thursday" },
+    { code: "CC311L-M", units: 1, desc: "Web Development, Laboratory", faculty: "CRUZ, EDWARD N.", schedule: "Thu 09:00AM - 12:00PM", room: "326", modality: "F2F", day: "Thursday" },
+    { code: "CC312-M", units: 2, desc: "Web Development, Lecture", faculty: "CRUZ, EDWARD N.", schedule: "Tue 03:00PM - 05:00PM", room: "326", modality: "F2F", day: "Tuesday" },
+    { code: "CS333-M", units: 3, desc: "Data Analytics", faculty: "LEE, JAN EILBERT LIM", schedule: "Fri 09:0AM - 12:00PM", room: "TBA", modality: "F2F", day: "Friday" },
+    { code: "CSE1-M", units: 3, desc: "CS Professional Elective 1", faculty: "FABREGAS, VAL PATRICK F.", schedule: "Fri 01:00PM - 04:00PM", room: "326", modality: "F2F", day: "Friday" },
+    { code: "CSE2-M", units: 3, desc: "CS Professional Elective 2", faculty: "ONGCO, GIRALYN R.", schedule: "Sat 12:00PM - 3:00PM", room: "324", modality: "F2F", day: "Saturday" },
     { code: "CS313-M", units: 3, desc: "Information Assurance and Security", faculty: "NARISMA, MICHAEL L.", schedule: "Thu 05:00PM - 08:00PM", room: "ONLINE", modality: "ONLINE", day: "Thursday" },
+    { code: "CS373-M", units: 3, desc: "Parallel and Distributed Computing", faculty: "AUSTRIA, RONN KEVIN J.", schedule: "Wed 11:00PM - 02:00PM", room: "ONLINE", modality: "ONLINE", day: "Wednesday" }
 ];
 
 export default function Schedule() {
