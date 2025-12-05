@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useMessageModal } from '../../context/MessageModal'
+import { useUser } from '../../context/UserContext'
 import '../../css/auth.css'
 import logo from '../../assets/tup_logo.png'
 import backend from '../../api/axios.jsx'
@@ -12,6 +13,7 @@ export default function Otp({ onCancel, onVerified }) {
     const intervalRef = useRef(null)
     const navigate = useNavigate()
     const { showMessage } = useMessageModal() || { showMessage: () => {} }
+    const { verifyOtp, cancelAuth } = useUser() || { verifyOtp: () => {}, cancelAuth: () => {} }
 
     useEffect(() => {
         return () => {
@@ -68,7 +70,7 @@ export default function Otp({ onCancel, onVerified }) {
         }
     }
 
-    const verifyOtp = async () => { 
+    const handleVerifyOtp = async () => { 
         const email = localStorage.getItem('email_for_verification')
         console.log(`retrieved email from local storage: ${email} and otp: ${otp}`)
         if (!email) {
@@ -95,7 +97,7 @@ export default function Otp({ onCancel, onVerified }) {
             if (res.status >= 200 && res.status < 300) {
                 // Store the access token from the response
                 if (res.data?.access_token) {
-                    localStorage.setItem('access_token', res.data.access_token)
+                    verifyOtp(res.data.access_token)
                     console.log('Access token stored successfully')
                 }
                 
@@ -165,7 +167,7 @@ export default function Otp({ onCancel, onVerified }) {
                             className="login-form"
                             onSubmit={(e) => {
                                 e.preventDefault()
-                                verifyOtp()
+                                handleVerifyOtp()
                             }}
                         >
                             <div className="input-group">
@@ -203,25 +205,23 @@ export default function Otp({ onCancel, onVerified }) {
                                 </button>
                             </div>
 
-                            {onCancel && (
-                                <button
-                                    type="button"
-                                    onClick={onCancel}
-                                    style={{
-                                        background: 'transparent',
-                                        color: 'var(--text-light)',
-                                        border: 'none',
-                                        padding: '.5rem',
-                                        cursor: 'pointer',
-                                        marginTop: '1rem',
-                                        fontSize: '0.9rem',
-                                        width: '100%',
-                                        textDecoration: 'underline'
-                                    }}
-                                >
-                                    Cancel
-                                </button>
-                            )}
+                            <button
+                                type="button"
+                                onClick={onCancel || cancelAuth}
+                                style={{
+                                    background: 'transparent',
+                                    color: 'var(--text-light)',
+                                    border: 'none',
+                                    padding: '.5rem',
+                                    cursor: 'pointer',
+                                    marginTop: '1rem',
+                                    fontSize: '0.9rem',
+                                    width: '100%',
+                                    textDecoration: 'underline'
+                                }}
+                            >
+                                {onCancel ? 'Cancel' : 'Back to Login'}
+                            </button>
                         </form>
                     </div>
                 </div>

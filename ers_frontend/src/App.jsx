@@ -27,6 +27,7 @@ import GraduationApplication from './pages/graduation/GraduationApplication';
 import FacultyEvaluation from './pages/facultyEvaluation/FacultyEvaluation';
 import ResetPassword from './pages/auth/resetpassword.jsx';
 import ChatbotWidget from './components/chatbot/Chatbotwidget.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 function App() {
   return (
@@ -41,29 +42,30 @@ function App() {
         <Route path="otp" element={<Otp />} />
       </Route>
     
-      <Route path="/" element={<MainLayout />}>
-        <Route index element={<Navigate to="home" replace />}/>
-        <Route path="profile" element={<Profile />} />
-        <Route path="home" element={<HomeLayout />}>
-          <Route index element={<Navigate to="welcome" replace />} />
-          <Route path="welcome" element={<Welcome />} />
-          <Route path="announcement" element={<Announcement />} />
-          <Route path="schedule" element={<Schedule />} />
-          <Route path="grades" element={<Grades />} />
-          <Route path="calendar" element={<Calendar />} />
-          <Route path="curriculum" element={<Curriculum />} />
-        </Route>
-        
-        <Route path="graduation-application" element={<GraduationApplication />} />
-        <Route path="faculty-evaluation" element={<FacultyEvaluation />} />
-        <Route path="message" element={<Message />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<Navigate to="home" replace />}/>
+          <Route path="profile" element={<Profile />} />
+          <Route path="home" element={<HomeLayout />}>
+            <Route index element={<Navigate to="welcome" replace />} />
+            <Route path="welcome" element={<Welcome />} />
+            <Route path="announcement" element={<Announcement />} />
+            <Route path="schedule" element={<Schedule />} />
+            <Route path="grades" element={<Grades />} />
+            <Route path="calendar" element={<Calendar />} />
+            <Route path="curriculum" element={<Curriculum />} />
+          </Route>
+          
+          <Route path="graduation-application" element={<GraduationApplication />} />
+          <Route path="faculty-evaluation" element={<FacultyEvaluation />} />
+          <Route path="message" element={<Message />} />
 
-        <Route path="enrollment" element={<Enrollment />}>
-          <Route path="assessment" element={<Assessment />} />  
+          <Route path="enrollment" element={<Enrollment />}>
+            <Route path="assessment" element={<Assessment />} />  
+          </Route>
         </Route>
-
-        
       </Route>
+
       {/* Fallback for any unknown route outside /home */}
       <Route path="*" element={<Error404 />} />
     </Routes>

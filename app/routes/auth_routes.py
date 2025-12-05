@@ -176,34 +176,34 @@ def getotp(email):
         return jsonify({"error":"something went wrong"}), 500
 
 #resend
-def getotp_2(email):
-    import resend
-    resend.api_key = Config.RESEND_API_KEY
+# def getotp_2(email):
+#     import resend
+#     resend.api_key = Config.RESEND_API_KEY
 
-    user = User.query.filter_by(email=email).first()
-    if not user:
-        return jsonify({"error":"user not found"}), 401
-    try:
-        token = Otp(email=email, code=str(uuid.uuid4().int)[:6], expires_at=datetime.utcnow() + timedelta(minutes=10))
+#     user = User.query.filter_by(email=email).first()
+#     if not user:
+#         return jsonify({"error":"user not found"}), 401
+#     try:
+#         token = Otp(email=email, code=str(uuid.uuid4().int)[:6], expires_at=datetime.utcnow() + timedelta(minutes=10))
 
-        token_existing = Otp.query.filter_by(email=email).first()
-        if token_existing:
-            db.session.delete(token_existing)
-            db.session.commit()
+#         token_existing = Otp.query.filter_by(email=email).first()
+#         if token_existing:
+#             db.session.delete(token_existing)
+#             db.session.commit()
 
-        db.session.add(token)
-        db.session.commit() 
+#         db.session.add(token)
+#         db.session.commit() 
 
-        r = resend.Emails.send({
-        "from": "onboarding@resend.dev",
-        "to": email,
-        "subject": "Hello World",
-        "html": "<p>Congrats on sending your <strong>first email</strong>!</p>"
-        })
-        return jsonify({"response":"otp sent"}), 200
-    except Exception as e:
-        logging.error(traceback.format_exc())
-        return jsonify({"error":"something went wrong"}), 500
+#         r = resend.Emails.send({
+#         "from": "onboarding@resend.dev",
+#         "to": email,
+#         "subject": "Hello World",
+#         "html": "<p>Congrats on sending your <strong>first email</strong>!</p>"
+#         })
+#         return jsonify({"response":"otp sent"}), 200
+#     except Exception as e:
+#         logging.error(traceback.format_exc())
+#         return jsonify({"error":"something went wrong"}), 500
 
 #brevo
 def getotp_3(email):
