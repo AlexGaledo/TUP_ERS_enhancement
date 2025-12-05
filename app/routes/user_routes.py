@@ -74,7 +74,8 @@ def retrieve_info():
                 'citizenship': personalInfo_data.citizenship if personalInfo_data else None,
                 'religion': personalInfo_data.religion if personalInfo_data else None,
                 'civil_status': personalInfo_data.civil_status if personalInfo_data else None,
-                'lrn': personalInfo_data.lrn if personalInfo_data else None
+                'lrn': personalInfo_data.lrn if personalInfo_data else None,
+                'profile_url': user.profile_url if user else None
         }
 
         family_background = {
