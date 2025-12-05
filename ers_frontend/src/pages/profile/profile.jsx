@@ -15,7 +15,7 @@ const Profile = () => {
   const [loadedOnce, setLoadedOnce] = useState(false);
 
   // Profile picture state
-  const [profileImage, setProfileImage] = useState(null);
+  const [profileImage, setProfileImage] = useState('https://obetgakxquaetbfkcuqq.supabase.co/storage/v1/object/public/uploads/irwenpf.jpg');
 
   // Personal info state
   const [lastName, setLastName] = useState('');
@@ -145,6 +145,7 @@ const Profile = () => {
   // Populate personal info state when fetched
   useEffect(() => {
     if (!personalInfo) return;
+    setProfileImage(personalInfo.profile_url || 'https://obetgakxquaetbfkcuqq.supabase.co/storage/v1/object/public/uploads/irwenpf.jpg');
     setFirstName(personalInfo.firstname || '');
     setLastName(personalInfo.lastname || '');
     setMiddleName(personalInfo.middlename || '');
