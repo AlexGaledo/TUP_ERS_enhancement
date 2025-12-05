@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../../css/auth.css';
 import logo from '../../assets/tup_logo.png';
 import { useMessageModal } from '../../context/MessageModal';
@@ -14,6 +14,7 @@ export default function ChangePass() {
     const [showOtp, setShowOtp] = useState(false);
     const { showMessage } = useMessageModal() || { showMessage: () => {} };
     const { user } = useUser() || { user: null };
+    const navigate = useNavigate();
 
     const openOtp = async (e) => {
         e.preventDefault();
@@ -56,6 +57,7 @@ export default function ChangePass() {
             if (response.status === 200) {
                 showMessage({ title: 'Success', message: `${response.data?.response}`, type: 'success', autoCloseMs: 2500 });
                 setShowOtp(false);
+                navigate('/profile');
             }
         } catch (error) {
             showMessage({ title: 'Error', message: `${error.response?.data?.error || 'Failed to change password.'}`, type: 'error', autoCloseMs: 2500 });
@@ -63,7 +65,7 @@ export default function ChangePass() {
     };
 
     return (
-        <div className="login-page">
+        <div className="login-page change-password">
             <div className="login-background-shapes">
                 <div className="shape shape-1"></div>
                 <div className="shape shape-2"></div>
@@ -135,7 +137,11 @@ export default function ChangePass() {
             </div>
 
             {showOtp && (
-                <OtpPopup onCancel={closeOtp} onVerified={handleOtpVerified} />
+                <OtpPopup 
+                    onCancel={closeOtp} 
+                    onVerified={handleOtpVerified} 
+                    style={{ backgroundColor: 'rgb(255, 220, 220)' }}
+                />
             )}
         </div>
     );
@@ -143,6 +149,6 @@ export default function ChangePass() {
 
 // Lightweight wrapper to reuse central OTP component
 import OtpComponent from './otp.jsx';
-function OtpPopup({ onCancel, onVerified }) {
-    return <OtpComponent onCancel={onCancel} onVerified={onVerified} />;
+function OtpPopup({ onCancel, onVerified, style }) {
+    return <OtpComponent onCancel={onCancel} onVerified={onVerified} style={style} />;
 }
