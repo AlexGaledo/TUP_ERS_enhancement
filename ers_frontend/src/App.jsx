@@ -37,12 +37,12 @@ function App() {
         <Route index element={<Navigate to="login" replace />}/>
         <Route path="login" element={<Auth />} />
         <Route path="forget-password" element={<ResetPage />} />
-        <Route path="change-password" element={<ChangePass />} />
         <Route path="reset-password/:token" element={<ResetPassword/>} />
         <Route path="otp" element={<Otp />} />
       </Route>
     
       <Route element={<ProtectedRoute />}>
+        <Route path="/change-password" element={<ChangePass />} />
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Navigate to="home" replace />}/>
           <Route path="profile" element={<Profile />} />

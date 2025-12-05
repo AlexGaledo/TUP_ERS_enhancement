@@ -123,7 +123,7 @@ const Profile = () => {
   };
 
   const handleOpenChangePassword = () => {
-    navigate('/auth/change-password');
+    navigate('/change-password');
   };
 
   // Fetch user info on mount / user change
