@@ -123,7 +123,7 @@ const Profile = () => {
   };
 
   const handleOpenChangePassword = () => {
-    navigate('/auth/change-password');
+    navigate('/change-password');
   };
 
   // Fetch user info on mount / user change
@@ -313,6 +313,13 @@ const Profile = () => {
                         Email: <strong>{user.email}</strong>
                       </div>
                     )}
+                      <button
+                          type="button"
+                          className="profile-change-password-btn"
+                          onClick={handleOpenChangePassword}
+                        >
+                          Change password
+                      </button>
                   </div>
                 )}
 
@@ -348,13 +355,6 @@ const Profile = () => {
                           {gender || '—'}
                         </div>
                       </div>
-                      <button
-                        type="button"
-                        className="profile-change-password-btn"
-                        onClick={handleOpenChangePassword}
-                      >
-                        Change password
-                      </button>
                     </div>
                   </div>
                 </div>

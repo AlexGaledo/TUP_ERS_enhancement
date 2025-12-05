@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import backend from "../api/axios.jsx";
 import { useMessageModal } from "./MessageModal.jsx";
 import "../css/auth.css";
@@ -8,16 +8,20 @@ const UserContext = createContext(undefined);
 
 export function UserProvider({ children }) {
     const [user, setUser] = useState(null);
+    const [isOtpVerified, setIsOtpVerified] = useState(false);
     const [personalInfo, setPersonalInfo] = useState(null);
     const [familyBackground, setFamilyBackground] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const { showMessage } = useMessageModal() || { showMessage: () => {} };
     const navigate = useNavigate();
+    const location = useLocation();
     
     // Load user from localStorage on mount
     useEffect(() => {
         const storedUser = localStorage.getItem('authenticated_user');
+        const token = localStorage.getItem('access_token');
+        
         if (storedUser) {
             try {
                 const userData = JSON.parse(storedUser);
@@ -27,6 +31,11 @@ export function UserProvider({ children }) {
                 localStorage.removeItem('authenticated_user');
             }
         }
+        
+        if (token) {
+            setIsOtpVerified(true);
+        }
+        
         setIsLoading(false);
     }, []);
     
@@ -42,7 +51,12 @@ export function UserProvider({ children }) {
             return updated;
         });
     };
-    
+
+    const verifyOtp = (token) => {
+        localStorage.setItem('access_token', token);
+        setIsOtpVerified(true);
+    };
+
     const requestLogout = () => {
         setShowLogoutModal(true);
     };
@@ -51,9 +65,11 @@ export function UserProvider({ children }) {
         setUser(null);
         setPersonalInfo(null);
         setFamilyBackground(null);
+        setIsOtpVerified(false);
         localStorage.removeItem('authenticated_user');
         localStorage.removeItem('tup_Id');
         localStorage.removeItem('email_for_verification');
+        localStorage.removeItem('access_token');
         setShowLogoutModal(false);
         navigate('/auth/login');
     };
@@ -61,17 +77,18 @@ export function UserProvider({ children }) {
     const cancelLogout = () => {
         setShowLogoutModal(false);
     };
-
     useEffect(() => {
         if (isLoading) return; 
-        const isAuthPage = window.location.pathname.startsWith('/auth');
+        const isAuthPage = location.pathname.startsWith('/auth');
         if (!user && !isAuthPage) {
             navigate('/auth/login');
-        } else if (user && window.location.pathname === '/auth/login') {
+        } else if (user && !isOtpVerified && location.pathname === '/auth/login') {
+            navigate('/auth/otp');
+        } else if (user && isOtpVerified && isAuthPage) {
             navigate('/home/welcome');
         }
         console.log('UserContext user changed:', user);
-    }, [user, navigate, isLoading]);
+    }, [user, isOtpVerified, navigate, isLoading, location.pathname]);
 
     const retrievePersonalInfo = async () => {
         try {
@@ -95,9 +112,12 @@ export function UserProvider({ children }) {
     return (
         <UserContext.Provider value={{ 
             user, 
+            isOtpVerified,
             addUser, 
             updateUser, 
+            verifyOtp,
             logout: requestLogout,
+            cancelAuth: confirmLogout,
             isLoading,
             personalInfo, 
             familyBackground, 
