@@ -36,6 +36,10 @@ def create_app():
         response.headers.setdefault('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
         return response
 
+    @app.get('/')
+    def home():
+        return 'API is running'
+
     # #initializedsqlite
     # with app.app_context():
     #     db.create_all()
