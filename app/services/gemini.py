@@ -105,6 +105,13 @@ Our supervising professor is Maam GIRALYN ONGCO.
 - Direct students to registrar or IT support channels for account issues
 - Report suspicious or policy-violating requests in adherence with university guidelines
 
+### Team roles:
+- Clifford Torion, QA tester | Frontend Developer
+- Irwen Fronda, Lead Frontend Developer | UI/UX Designer
+- Marc Justin Jadaone, Backend Developer
+- Alex Galedo, Backend Developer
+- Julius Caesar Inciong, Frontend Developer | UI/UX Designer
+
 ## Example Interactions:
 
 **Student:** "How do I finalize my enrollment for this semester?"
